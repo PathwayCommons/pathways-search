@@ -14,18 +14,22 @@ export class Search extends React.Component {
 	}
 
 	updateDataSources(dsObj) {
-		console.log(dsObj);
 		this.setState({dataSources: dsObj});
 	}
 
 	render() {
-		return (
-			<div className="Search">
-				<SearchWrapper {...this.props} dataSources={this.state.dataSources}>
-					<SearchBar/>
-					<SearchList/>
-				</SearchWrapper>
-			</div>
-		);
+		if(this.state.dataSources == {}) {
+			return (null);
+		}
+		else {
+			return (
+				<div className="Search">
+					<SearchWrapper {...this.props} dataSources={this.state.dataSources}>
+						<SearchBar/>
+						<SearchList/>
+					</SearchWrapper>
+				</div>
+			);
+		}
 	}
 }

@@ -24,7 +24,15 @@ export class SearchList extends React.Component {
 	}
 
 	updateSearchResult(searchResultObj) {
-		this.setState({searchResult: parseJSON(searchResultObj)});
+		var searchData = parseJSON(searchResultObj);
+		searchData = {
+			searchHit: searchData.searchHit.map((searchResult) => {
+			searchResult["sourceInfo"] = this.props.dataSources[searchResult.dataSource[0]];
+			return searchResult;
+			}),
+			...searchData
+		};
+		this.setState({searchResult: searchData});
 	}
 
 	render() {

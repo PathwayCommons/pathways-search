@@ -19,6 +19,7 @@ export class SearchItem extends React.Component {
 						<div className="uri">{data.uri}</div>
 					</div>
 					<div className="subtext">
+						<div className="source">Source: {data.sourceInfo.name}</div>
 						<div className="size">Number of Interactions: {data.size}</div>
 						<div className="class">Class: {data.biopaxClass}</div>
 					</div>
