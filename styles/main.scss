@@ -1,0 +1,19 @@
+// Load normalize style
+@import '~normalize-scss/sass/normalize/_import-now.scss';
+
+// Load all bootstrap sass styles, setting variable to true to solve webpack bug
+// https://github.com/webpack/webpack/issues/1789
+$bootstrap-sass-asset-helper: true;
+@import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+
+// Load variables
+@import './sass/variables.scss';
+
+@import './sass/general.scss';
+
+// Load all custom scss files
+@import './sass/components/Header.scss';
+@import './sass/components/Footer.scss';
+
+@import './sass/search/SearchItem.scss';
+@import './sass/search/SearchBar.scss';

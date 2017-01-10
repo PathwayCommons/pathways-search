@@ -1,0 +1,13 @@
+.SearchBar {
+	$barHeight: 60px;
+
+	height: $barHeight;
+	line-height: $barHeight;
+	padding-left: 10%;
+	padding-right: 10%;
+	background-color: $darkBlue;
+
+	input {
+		display: inline-block;
+	}
+}

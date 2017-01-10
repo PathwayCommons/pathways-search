@@ -1,0 +1,32 @@
+.SearchItem {
+	padding: 20px 10px;
+
+	.src-thumbnail-container {
+		display: table;
+		height: 100px;
+
+		.src-thumbnail {
+			display: table-cell;
+			vertical-align: middle;
+			text-align: center;
+		}
+
+		img {
+			max-height: 80px;
+			max-width: 80%;
+		}
+	}
+
+	.header {
+		.title {
+			font-weight: 700;
+			font-size: 14px;
+		}
+
+		padding-bottom: 20px;
+	}
+
+	.subtext {
+		font-style: italic;
+	}
+}
