@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormGroup, FormControl} from 'react-bootstrap';
+import {FormGroup, InputGroup, FormControl, Button} from 'react-bootstrap';
 
 export class SearchBar extends React.Component {
 	constructor(props) {
@@ -28,7 +28,14 @@ export class SearchBar extends React.Component {
 	render() {
 		return (
 			<div className="SearchBar">
-					<FormControl type="text" defaultValue={this.props.searchTerm} onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)}/>
+				<FormGroup>
+					<InputGroup>
+						<FormControl type="text" defaultValue={this.props.searchTerm} onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)}/>
+						<InputGroup.Button>
+							<Button>Filters</Button>
+						</InputGroup.Button>
+					</InputGroup>
+				</FormGroup>
 			</div>
 		);
 	}
