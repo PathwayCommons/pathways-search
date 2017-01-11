@@ -4,6 +4,7 @@ import {Router, Route, Redirect, hashHistory} from 'react-router';
 
 import {Page} from './components/Page.jsx';
 import {Search} from './search/Search.jsx';
+import {Pathway} from './pathway/Pathway.jsx';
 
 export class App extends React.Component {
 	constructor(props) {
@@ -16,6 +17,7 @@ export class App extends React.Component {
 				<Route component={Page}>
 					<Redirect from="/" to="/search"/>
 					<Route path="/search" component={Search}/>
+					<Route path="/pathway" component={Pathway}/>
 				</Route>
 			</Router>
 		);

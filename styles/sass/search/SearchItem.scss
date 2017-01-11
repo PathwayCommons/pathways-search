@@ -1,5 +1,10 @@
 .SearchItem {
-	padding: 20px 10px;
+	padding: 15px 5px;
+	border: 5px solid transparent;
+
+	a {
+		color: black;
+	}
 
 	.src-thumbnail-container {
 		display: table;
@@ -28,5 +33,14 @@
 
 	.subtext {
 		font-style: italic;
+	}
+}
+
+.SearchItem:hover {
+	border: 5px solid transparent;
+	cursor: pointer;
+
+	div {
+		color: $lightBlue;
 	}
 }

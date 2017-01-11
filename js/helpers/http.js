@@ -4,10 +4,16 @@ export let PCUrl = "http://www.pathwaycommons.org/pc2/";
 
 export let httpGetAsync = (url, callback) => {
 	var http = new XMLHttpRequest();
-	http.onreadystatechange = () => {
-		if (http.readyState == 4 && http.status == 200)
-			callback(http.responseText);
-	}
+	http.responseType = "text";
+	http.onload = function() {
+		if (http.readyState === http.DONE) {
+			if (http.status === 200) {
+				callback(http.responseText);
+			} else {
+				callback(null);
+			}
+		}
+	};
 	http.open("GET", url, true);
 	http.send(null);
 }
