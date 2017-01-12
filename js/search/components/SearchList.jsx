@@ -8,18 +8,18 @@ export class SearchList extends React.Component {
 		this.state = {
 			searchResult: {}
 		}
-		this.getSearchResult(this.props.searchTerm);
+		this.getSearchResult(this.props.searchTerm, this.props.filter);
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if(this.props.searchTerm != nextProps.searchTerm) {
-			this.getSearchResult(nextProps.searchTerm);
+		if(this.props.searchTerm != nextProps.searchTerm || this.props.filter != nextProps.filter) {
+			this.getSearchResult(nextProps.searchTerm, this.props.filter);
 		}
 	}
 
 	getSearchResult(searchTerm) {
 		if(searchTerm) {
-			httpGetAsync(getSearchQueryURL(searchTerm), (responseText) => this.updateSearchResult(responseText));
+			httpGetAsync(getSearchQueryURL(searchTerm, this.props.filter), (responseText) => this.updateSearchResult(responseText));
 		}
 	}
 
@@ -27,8 +27,8 @@ export class SearchList extends React.Component {
 		var searchData = parseJSON(searchResultObj);
 		searchData = {
 			searchHit: searchData.searchHit.map((searchResult) => {
-			searchResult["sourceInfo"] = this.props.dataSources[searchResult.dataSource[0]];
-			return searchResult;
+				searchResult["sourceInfo"] = this.props.dataSources[searchResult.dataSource[0]];
+				return searchResult;
 			}),
 			...searchData
 		};

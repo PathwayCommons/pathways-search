@@ -1,4 +1,5 @@
 import {attempt} from 'lodash';
+import {stringify as queryStringify} from 'query-string';
 
 export let PCUrl = "http://www.pathwaycommons.org/pc2/";
 
@@ -18,8 +19,13 @@ export let httpGetAsync = (url, callback) => {
 	http.send(null);
 }
 
-export let getSearchQueryURL = (query) => {
-	return PCUrl + 'search.json?type=pathway&user=pc2pathways&q=' + encodeURIComponent(query);
+export let getSearchQueryURL = (query, filter) => {
+	var queryArr = {
+		user: "pc2pathways",
+		q: encodeURIComponent(query),
+		...filter
+	}
+	return PCUrl + 'search.json?' + queryStringify(queryArr);
 }
 
 export let getPathwayURL = (uri, dataFormat) => {

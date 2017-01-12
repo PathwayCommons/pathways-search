@@ -14,6 +14,7 @@
     "classnames": "^2.2.5",
     "lodash": "^4.17.4",
     "normalize-scss": "^6.0.0",
+    "query-string": "^4.3.0",
     "react": "^15.4.1",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.1",

@@ -1,17 +1,21 @@
 import React from 'react';
 import {isEmpty} from 'lodash';
+import {parseJSON} from './../../helpers/http.js';
 
 export class SearchWrapper extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			filter: {},
-		}
 	}
 
 	updateFilter(filterObject) {
 		if(!isEmpty(filterObject)) {
-			this.setState({filter: filterObject});
+			this.props.router.push({
+				pathname: this.props.location.pathname,
+				query: {
+					...this.props.location.query,
+					filter: encodeURIComponent(JSON.stringify(filterObject))
+				}
+			});
 		}
 	}
 
@@ -20,9 +24,10 @@ export class SearchWrapper extends React.Component {
 			this.props.router.push({
 				pathname: this.props.location.pathname,
 				query: {
+					...this.props.location.query,
 					searchTerm: searchString
 				}
-			});	
+			});
 		}
 	}
 
@@ -34,7 +39,7 @@ export class SearchWrapper extends React.Component {
 					updateSearchTerm: (searchString) => this.updateSearchTerm(searchString),
 					updateFilter: (filterObject) => this.updateFilter(filterObject),
 					searchTerm: this.props.location.query.searchTerm,
-					filter: this.state.filter
+					filter: parseJSON(decodeURIComponent(this.props.location.query.filter))
 				}))}
 			</div>
 		);
