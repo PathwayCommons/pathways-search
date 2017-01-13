@@ -19,7 +19,8 @@
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.1",
     "react-router": "^3.0.0",
-    "sbgnml-to-cytoscape": "^1.1.0"
+    "sbgnml-to-cytoscape": "^1.1.0",
+    "tmp-sbgn": "file:///Users/manfredcheung/sbgnviz-js"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
