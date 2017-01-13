@@ -1,4 +1,5 @@
 import React from 'react';
+import {isEqual, isEmpty} from 'lodash';
 import {httpGetAsync, getSearchQueryURL, parseJSON} from './../../helpers/http.js';
 import {SearchItem} from './SearchItem.jsx';
 
@@ -12,14 +13,15 @@ export class SearchList extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if(this.props.searchTerm != nextProps.searchTerm || this.props.filter != nextProps.filter) {
-			this.getSearchResult(nextProps.searchTerm, this.props.filter);
+		if((!isEqual(this.props.searchTerm, nextProps.searchTerm) || !isEqual(this.props.filter, nextProps.filter)) && (!isEmpty(this.props.dataSources))) {
+			this.getSearchResult(nextProps.searchTerm, nextProps.filter);
 		}
 	}
 
-	getSearchResult(searchTerm) {
+	getSearchResult(searchTerm, filter) {
 		if(searchTerm) {
-			httpGetAsync(getSearchQueryURL(searchTerm, this.props.filter), (responseText) => this.updateSearchResult(responseText));
+			httpGetAsync(getSearchQueryURL(searchTerm, filter), (responseText) =>
+				this.updateSearchResult(responseText));
 		}
 	}
 
