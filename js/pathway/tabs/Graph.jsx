@@ -8,7 +8,8 @@ export class Graph extends React.Component {
 		super(props);
 		this.state = {
 			graphId: this.props.id || Math.floor(Math.random() * Math.pow(10, 8)) + 1,
-			graphInstance: {}
+			graphInstance: {},
+			graphRendered: false
 		}
 	}
 
@@ -19,19 +20,18 @@ export class Graph extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		console.log(nextProps.pathwayData);
 		this.checkRenderGraph(nextProps.pathwayData);
 		return true;
 	}
 
 	checkRenderGraph(pathwayData) {
-		if(!isEmpty(pathwayData)) {
+		if(!isEmpty(pathwayData) && (!this.state.graphRendered)) {
+			this.setState({graphRendered: true});
 			this.renderGraph(this.state.graphInstance, pathwayData);
 		}
 	}
 
 	renderGraph(cy, cyGraph) {
-		console.log("RENDERGRAPH");
 		cy.startBatch();
 		cy.remove('*');
 		cy.add(cyGraph);
@@ -61,9 +61,9 @@ export class Graph extends React.Component {
 	render() {
 		return (
 			<div
-				className={classNames("Graph", (this.props.hidden ? "hidden" : ""))}
+				className={classNames("Graph", (this.props.hidden ? "visibilityHidden" : ""))}
 				id={this.state.graphId}
-				style={{width:'100vw', height:'80vh'}}
+				style={{width:'100vw', height:'75vh'}}
 			/>
 		);
 	}
