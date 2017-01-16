@@ -6,14 +6,14 @@ export class SearchBar extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			searchTerm: this.props.searchTerm || "",
+			q: this.props.query.q || "",
 			showFilterMenu: false
 		}
 	}
 
 	updateTerm() {
-		if (this.state.searchTerm != this.props.searchTerm) {
-			this.props.updateSearchTerm(this.state.searchTerm);
+		if (this.state.q != this.props.query.q) {
+			this.props.updateSearchArg({q: this.state.q});
 		}
 	}
 
@@ -24,7 +24,7 @@ export class SearchBar extends React.Component {
 	}
 
 	onChange(e) {
-		this.setState({searchTerm: e.target.value});
+		this.setState({q: e.target.value});
 	}
 
 	toggleFilterMenu(state) {
@@ -38,7 +38,7 @@ export class SearchBar extends React.Component {
 			<div className="SearchBar">
 				<FormGroup>
 					<InputGroup>
-						<FormControl type="text" defaultValue={this.props.searchTerm} onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)}/>
+						<FormControl type="text" defaultValue={this.props.query.q} onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)}/>
 						<InputGroup.Button>
 							<Button onClick={() => this.toggleFilterMenu()}>Filter</Button>
 						</InputGroup.Button>

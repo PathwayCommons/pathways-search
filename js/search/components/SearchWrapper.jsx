@@ -1,5 +1,5 @@
 import React from 'react';
-import {isEmpty} from 'lodash';
+import {isEmpty, isArray} from 'lodash';
 import {parseJSON} from './../../helpers/http.js';
 
 export class SearchWrapper extends React.Component {
@@ -7,39 +7,39 @@ export class SearchWrapper extends React.Component {
 		super(props);
 	}
 
-	updateFilter(filterObject) {
-		if(!isEmpty(filterObject)) {
-			this.props.router.push({
-				pathname: this.props.location.pathname,
-				query: {
-					...this.props.location.query,
-					filter: encodeURIComponent(JSON.stringify(filterObject))
-				}
-			});
-		}
+	updateSearchArg(updateObject) {
+		this.props.router.push({
+			pathname: this.props.location.pathname,
+			query: this.filterUpdate(updateObject)
+		});
 	}
 
-	updateSearchTerm(searchString) {
-		if(searchString != "") {
-			this.props.router.push({
-				pathname: this.props.location.pathname,
-				query: {
-					...this.props.location.query,
-					searchTerm: searchString
-				}
-			});
+	filterUpdate(updateObject) {
+		var output = {};
+		for(var property in updateObject) {
+			if(isArray(updateObject[property])) {
+				output[property] = [];
+				Object.assign(output[property], this.filterUpdate(updateObject[property]));
+			}
+			else if(updateObject[property] != "") {
+				output[property] = updateObject[property];
+			}
 		}
+
+		if(this.props.location.query.page == output.page) {
+			delete output.page;
+		}
+		return output;
 	}
 
 	render() {
+		var query = this.props.location.query;
 		return (
 			<div className="SearchWrapper">
 				{React.Children.map(this.props.children, (child) => React.cloneElement(child, {
 					...this.props,
-					updateSearchTerm: (searchString) => this.updateSearchTerm(searchString),
-					updateFilter: (filterObject) => this.updateFilter(filterObject),
-					searchTerm: this.props.location.query.searchTerm,
-					filter: parseJSON(decodeURIComponent(this.props.location.query.filter))
+					updateSearchArg: (object) => this.updateSearchArg(object),
+					query: query,
 				}))}
 			</div>
 		);

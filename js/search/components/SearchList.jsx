@@ -1,5 +1,7 @@
 import React from 'react';
+import {Pagination} from 'react-bootstrap';
 import {isEqual, isEmpty} from 'lodash';
+import classNames from 'classnames';
 import {httpGetAsync, getSearchQueryURL, parseJSON} from './../../helpers/http.js';
 import {SearchItem} from './SearchItem.jsx';
 
@@ -9,18 +11,17 @@ export class SearchList extends React.Component {
 		this.state = {
 			searchResult: {}
 		}
-		this.getSearchResult(this.props.searchTerm, this.props.filter);
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if((!isEqual(this.props.searchTerm, nextProps.searchTerm) || !isEqual(this.props.filter, nextProps.filter)) && (!isEmpty(this.props.dataSources))) {
-			this.getSearchResult(nextProps.searchTerm, nextProps.filter);
+		if((!isEqual(this.props.query, nextProps.query) && (!isEmpty(this.props.dataSources))) || (isEmpty(this.props.dataSources) && !isEmpty(nextProps.dataSources))) {
+			this.getSearchResult(nextProps.query);
 		}
 	}
 
-	getSearchResult(searchTerm, filter) {
-		if(searchTerm) {
-			httpGetAsync(getSearchQueryURL(searchTerm, filter), (responseText) =>
+	getSearchResult(query) {
+		if(!isEmpty(query)) {
+			httpGetAsync(getSearchQueryURL(query), (responseText) =>
 				this.updateSearchResult(responseText));
 		}
 	}
@@ -37,13 +38,36 @@ export class SearchList extends React.Component {
 		this.setState({searchResult: searchData});
 	}
 
+	handleSelect(e) {
+		this.props.updateSearchArg({
+			...this.props.query,
+			page: (e - 1).toString()
+		});
+		scroll(0,0);
+	}
+
 	render() {
-		var hitList = this.state.searchResult.searchHit || [];
+		var searchData = this.state.searchResult;
+		var hitList = searchData.searchHit || [];
 		return (
 			<div className="SearchList">
 				{hitList.map((item, index) => {
 					return <SearchItem key={index} dataSources={this.props.dataSources} data={item}/>;
 				})}
+				<div className={classNames("paginationContainer", "text-center", hitList.length == 0 ? "hidden" : "")}>
+					<Pagination
+						prev
+						next
+						first
+						last
+						ellipsis
+						boundaryLinks
+						items={Math.ceil(searchData.numHits / searchData.maxHitsPerPage)}
+						maxButtons={5}
+						activePage={parseInt(this.props.query.page) + 1 || 1}
+						onSelect={(e) => this.handleSelect(e)}
+					/>
+				</div>
 			</div>
 		);
 	}

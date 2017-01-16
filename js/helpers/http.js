@@ -19,12 +19,7 @@ export let httpGetAsync = (url, callback) => {
 	http.send(null);
 }
 
-export let getSearchQueryURL = (query, filter) => {
-	var queryArr = {
-		user: "pc2pathways",
-		q: encodeURIComponent(query),
-		...filter
-	}
+export let getSearchQueryURL = (queryArr) => {
 	return PCUrl + 'search.json?' + queryStringify(queryArr);
 }
 
@@ -34,6 +29,7 @@ export let getPathwayURL = (uri, dataFormat) => {
 
 export let getLogoURL = (dataSources, dsUriOrName) => {
 	var base = "img/datasources/";
+	dsUriOrName = dsUriOrName || "";
 	for (var key in dataSources) {
 		var ds = dataSources[key];
 		if (ds.uri == dsUriOrName || ds.name.toLowerCase() == dsUriOrName.toLowerCase()) {
