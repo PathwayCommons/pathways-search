@@ -41,11 +41,12 @@ export class Pathway extends React.Component {
 	}
 
 	render() {
-		var active = this.props.location.query.active || "Summary";
+		var active = this.props.location.query.active || "Graph";
 		if(this.state.pathwayData) {
 			return(
 				<div className="Pathway">
 					<Nav activeKey={active} onSelect={(e) => this.handleSelect(e)} bsStyle="tabs">
+						{/*
 						<NavItem eventKey="Summary">
 							Summary
 						</NavItem>
@@ -58,6 +59,7 @@ export class Pathway extends React.Component {
 						<NavItem eventKey="Downloads">
 							Downloads
 						</NavItem>
+						*/}
 						<NavItem eventKey="Graph">
 							Graph
 						</NavItem>
