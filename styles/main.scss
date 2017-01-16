@@ -14,6 +14,7 @@ $bootstrap-sass-asset-helper: true;
 // Load all custom scss files
 @import './sass/components/Header.scss';
 @import './sass/components/Footer.scss';
+@import './sass/components/Page.scss';
 
 @import './sass/search/SearchItem.scss';
 @import './sass/search/SearchBar.scss';

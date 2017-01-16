@@ -1,0 +1,14 @@
+// Must come before Page.scss
+$footerHeight: 80px;
+
+.Footer {
+	position: absolute;
+	height: $footerHeight;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 1rem;
+	background-color: $darkBlue;
+	color: $white;
+	text-align: center;
+}
