@@ -10,7 +10,8 @@ export class Graph extends React.Component {
 		this.state = {
 			graphId: this.props.id || Math.floor(Math.random() * Math.pow(10, 8)) + 1,
 			graphInstance: {},
-			graphRendered: false
+			graphRendered: false,
+			graphEmpty: false
 		}
 	}
 
@@ -26,8 +27,20 @@ export class Graph extends React.Component {
 	}
 
 	checkRenderGraph(pathwayData) {
+		if(this.checkEmptyGraph(pathwayData)) {
+			this.state.graphEmpty = true;
+		}
 		if(!isEmpty(pathwayData) && (!this.state.graphRendered)) {
 			this.renderGraph(this.state.graphInstance, pathwayData);
+		}
+	}
+
+	checkEmptyGraph(pathwayData) {
+		if(!isEmpty(pathwayData) && (pathwayData.nodes.length == 0)) {
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 
@@ -60,14 +73,21 @@ export class Graph extends React.Component {
 	};
 
 	render() {
-		return (
-			<div
-				className={classNames("Graph", (this.props.hidden ? "visibilityHidden" : ""))}
-				id={this.state.graphId}
-				style={{width:'100vw', height:'75vh'}}
-			>
-				<Spinner hidden={this.state.graphRendered}/>
-			</div>
-		);
+		if(!this.state.graphEmpty) {
+			return(
+				<div
+					className={classNames("Graph", (this.props.hidden ? "visibilityHidden" : ""))}
+					id={this.state.graphId}
+					style={{width:'100vw', height:'75vh'}}
+				>
+					<Spinner hidden={this.state.graphRendered}/>
+				</div>
+			);
+		}
+		else {
+			return(
+				<div className={"Graph no-data"}>No Paths Found</div>
+			);
+		}
 	}
 }

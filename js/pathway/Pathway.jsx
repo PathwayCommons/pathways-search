@@ -26,7 +26,7 @@ export class Pathway extends React.Component {
 			this.setState({pathwayData: convert(pathwayString)});
 		}
 		catch(e) {
-			this.props.router.replace("/");
+			console.error(e);
 		}
 	}
 
