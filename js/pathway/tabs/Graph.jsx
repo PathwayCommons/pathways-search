@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {isEmpty} from 'lodash';
 import SBGNViz from 'tmp-sbgn';
+import {Spinner} from '../../components/Spinner.jsx';
 
 export class Graph extends React.Component {
 	constructor(props) {
@@ -26,12 +27,12 @@ export class Graph extends React.Component {
 
 	checkRenderGraph(pathwayData) {
 		if(!isEmpty(pathwayData) && (!this.state.graphRendered)) {
-			this.setState({graphRendered: true});
 			this.renderGraph(this.state.graphInstance, pathwayData);
 		}
 	}
 
 	renderGraph(cy, cyGraph) {
+		this.state.graphRendered = true;
 		cy.startBatch();
 		cy.remove('*');
 		cy.add(cyGraph);
@@ -64,7 +65,9 @@ export class Graph extends React.Component {
 				className={classNames("Graph", (this.props.hidden ? "visibilityHidden" : ""))}
 				id={this.state.graphId}
 				style={{width:'100vw', height:'75vh'}}
-			/>
+			>
+				<Spinner hidden={this.state.graphRendered}/>
+			</div>
 		);
 	}
 }

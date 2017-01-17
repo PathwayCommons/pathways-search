@@ -6,6 +6,9 @@
 $bootstrap-sass-asset-helper: true;
 @import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 
+// Load spinner styles
+@import '~spinkit/scss/spinners/9-cube-grid.scss';
+
 // Load variables
 @import './sass/variables.scss';
 
@@ -15,6 +18,7 @@ $bootstrap-sass-asset-helper: true;
 @import './sass/components/Header.scss';
 @import './sass/components/Footer.scss';
 @import './sass/components/Page.scss';
+@import './sass/components/Spinner.scss';
 
 @import './sass/search/SearchItem.scss';
 @import './sass/search/SearchBar.scss';

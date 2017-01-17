@@ -59,10 +59,10 @@ export class Pathway extends React.Component {
 						<NavItem eventKey="Downloads">
 							Downloads
 						</NavItem>
-						*/}
 						<NavItem eventKey="Graph">
 							Graph
 						</NavItem>
+						*/}
 					</Nav>
 					<Summary hidden={"Summary" != active}/>
 					<Interactions hidden={"Interactions" != active}/>
