@@ -11,7 +11,7 @@ export class Header extends React.Component {
 		return (
 			<div className="Header clearfix">
 				<Col xs={3} className="title">
-					{this.getPathTitle(this.props.location.pathname)}
+					Search
 				</Col>
 				<Col xs={6} className="subtitle pull-right">
 					Pathway Commons
