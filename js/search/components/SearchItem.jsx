@@ -18,7 +18,7 @@ export class SearchItem extends React.Component {
 					<Col xs={9}>
 						<div className="header">
 							<div className="title">{data.name}</div>
-							<div className="uri">{data.uri}</div>
+							<div className="uri">{data.name ? "" : data.uri}</div>
 						</div>
 						<div className="subtext">
 							<div className="source">Source: {data.sourceInfo.name}</div>
