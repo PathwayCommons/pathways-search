@@ -94,7 +94,9 @@ export class Graph extends React.Component {
 							Download Image
 						</div>
 					</div>
-					<Spinner hidden={this.state.graphRendered}/>
+					<div className="SpinnerContainer">
+						<Spinner hidden={this.state.graphRendered}/>
+					</div>
 					<div
 						className={this.props.hidden ? "visibilityHidden" : ""}
 						id={this.state.graphId}
