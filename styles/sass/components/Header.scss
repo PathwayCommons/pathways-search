@@ -12,9 +12,13 @@
 
 	.subtitle {
 		height: $headerHeight;
-		padding-top: $headerHeight / 4;
-		padding-bottom: $headerHeight / 4;
-		line-height: $headerHeight / 4;
+		line-height: $headerHeight;
 		text-align: center;
+		font-size: 16px;
+
+		a {
+			color: $black;
+			text-decoration: none;
+		}
 	}
 }

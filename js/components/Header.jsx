@@ -14,9 +14,9 @@ export class Header extends React.Component {
 					Search
 				</Col>
 				<Col xs={6} className="subtitle pull-right">
-					Pathway Commons
-					<br/>
-					Access Point
+					<a href="//www.pathwaycommons.org">
+						Pathway Commons
+					</a>
 				</Col>
 			</div>
 		);
