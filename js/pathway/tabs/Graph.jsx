@@ -72,15 +72,34 @@ export class Graph extends React.Component {
 		cy.style().update();
 	};
 
+	exportImage() {
+		if(!isEmpty(this.state.graphInstance)) {
+			var imgString = this.state.graphInstance.png();
+			imgString = (imgString.replace(/^data:image\/[^;]/, 'data:application/octet-stream'));
+
+			var link = document.createElement('a');
+			link.download = "Graph" + this.state.graphId + ".png";
+			link.href = imgString;
+			link.click();
+			link.parentNode.removeChild(link);
+		}
+	}
+
 	render() {
 		if(!this.state.graphEmpty) {
 			return(
-				<div
-					className={classNames("Graph", (this.props.hidden ? "visibilityHidden" : ""))}
-					id={this.state.graphId}
-					style={{width:'100vw', height:'75vh'}}
-				>
+				<div className="Graph">
+					<div className="GraphMenu">
+						<div className="GraphMenuItem" onClick={() => this.exportImage()}>
+							Download Image
+						</div>
+					</div>
 					<Spinner hidden={this.state.graphRendered}/>
+					<div
+						className={this.props.hidden ? "visibilityHidden" : ""}
+						id={this.state.graphId}
+						style={{width:'100vw', height:'76vh'}}
+					/>
 				</div>
 			);
 		}
