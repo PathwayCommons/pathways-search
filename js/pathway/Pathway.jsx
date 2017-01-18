@@ -45,6 +45,9 @@ export class Pathway extends React.Component {
 		if(this.state.pathwayData) {
 			return(
 				<div className="Pathway">
+					<div className="name">
+						{this.props.location.query.name || ""}
+					</div>
 					<Nav activeKey={active} onSelect={(e) => this.handleSelect(e)} bsStyle="tabs">
 						{/*
 						<NavItem eventKey="Summary">
