@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import {isEmpty} from 'lodash';
 import SBGNViz from 'tmp-sbgn';
 import {Spinner} from '../../components/Spinner.jsx';
+import {base64toBlob} from '../../helpers/http.js';
 
 export class Graph extends React.Component {
 	constructor(props) {
@@ -74,14 +75,15 @@ export class Graph extends React.Component {
 
 	exportImage() {
 		if(!isEmpty(this.state.graphInstance)) {
-			var imgString = this.state.graphInstance.png();
-			imgString = (imgString.replace(/^data:image\/[^;]/, 'data:application/octet-stream'));
-
+			var imgString = this.state.graphInstance.png({scale: 10});
+			imgString = imgString.substring(imgString.indexOf(",") + 1);
+			var blob = base64toBlob(imgString, "image/png");
+			var url  = window.URL.createObjectURL(blob);
 			var link = document.createElement('a');
 			link.download = "Graph" + this.state.graphId + ".png";
-			link.href = imgString;
+			link.href = url;
+			link.target = "_blank";
 			link.click();
-			link.parentNode.removeChild(link);
 		}
 	}
 
