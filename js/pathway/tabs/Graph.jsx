@@ -83,11 +83,20 @@ export class Graph extends React.Component {
 		}
 	}
 
+	resetImage() {
+		if(!isEmpty(this.props.pathwayData)) {
+			this.renderGraph(this.state.graphInstance, this.props.pathwayData);
+		}
+	}
+
 	render() {
 		if(!this.state.graphEmpty) {
 			return(
 				<div className={classNames("Graph", this.props.hidden ? "visibilityHidden" : "")}>
 					<div className="GraphMenu">
+						<div className="GraphMenuItem" onClick={() => this.resetImage()}>
+							Reset
+						</div>
 						<div className="GraphMenuItem" onClick={() => this.exportImage()}>
 							Download Image
 						</div>
