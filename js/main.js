@@ -4,5 +4,5 @@ import {App} from './App.js';
 
 import styles from '!style-loader!css-loader!sass-loader!../styles/main.scss';
 
-console.log("RENDER START");
+console.log("DEVELOPMENT BUILD");
 ReactDOM.render(<App/>, document.getElementById('container'));

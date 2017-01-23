@@ -4,15 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --config webpack.prod.config.js -p",
+    "watch": "webpack-dev-server --inline --content-base public/",
+    "start": "http-server",
+
+    "prestart": "npm run build"
   },
-  "author": "",
+  "author": "Manfred Cheung @ UofT",
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^3.3.7",
     "bootstrap-sass": "^3.3.7",
     "classnames": "^2.2.5",
     "file-saver": "^1.3.3",
+    "http-server": "^0.9.0",
     "lodash": "^4.17.4",
     "normalize-scss": "^6.0.0",
     "query-string": "^4.3.0",
@@ -34,8 +39,10 @@
     "file-loader": "^0.9.0",
     "node-sass": "^4.1.1",
     "sass-loader": "^4.1.1",
+    "strip-loader": "^0.1.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.14.0"
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2"
   }
 }
