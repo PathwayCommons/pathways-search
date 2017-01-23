@@ -113,7 +113,9 @@ export class Graph extends React.Component {
 		}
 		else {
 			return(
-				<div className={"Graph no-data"}>No Paths Found</div>
+				<div className={classNames("Graph", "no-data", this.props.hidden ? "visibilityHidden" : "")}>
+					No Paths Found
+				</div>
 			);
 		}
 	}

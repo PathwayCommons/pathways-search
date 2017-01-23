@@ -23,7 +23,13 @@ export class Interactions extends React.Component {
 			);
 		}
 		else {
-			return null;
+			return(
+				<div className={classNames("Interactions", (this.props.hidden ? "hidden" : ""))}>
+					<div className="interactionsHeader">
+						No Interactions
+					</div>
+				</div>
+			);
 		}
 	}
 }

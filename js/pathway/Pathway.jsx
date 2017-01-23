@@ -27,7 +27,9 @@ export class Pathway extends React.Component {
 			path: "Pathway/pathwayComponent:Interaction/participant*/displayName"
 		};
 		httpGetAsync(getTraversalURL(urlInteraction), (responseText) => {
-			this.setState({interactionParticipants: parseJSON(responseText).traverseEntry[0].value});
+			if(responseText !== null) {
+				this.setState({interactionParticipants: parseJSON(responseText).traverseEntry[0].value});
+			}
 		});
 
 		var urlName = {
