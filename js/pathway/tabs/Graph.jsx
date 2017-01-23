@@ -86,7 +86,7 @@ export class Graph extends React.Component {
 	render() {
 		if(!this.state.graphEmpty) {
 			return(
-				<div className="Graph">
+				<div className={classNames("Graph", this.props.hidden ? "visibilityHidden" : "")}>
 					<div className="GraphMenu">
 						<div className="GraphMenuItem" onClick={() => this.exportImage()}>
 							Download Image
@@ -96,7 +96,6 @@ export class Graph extends React.Component {
 						<Spinner hidden={this.state.graphRendered}/>
 					</div>
 					<div
-						className={this.props.hidden ? "visibilityHidden" : ""}
 						id={this.state.graphId}
 						style={{width:'100vw', height:'76vh'}}
 					/>

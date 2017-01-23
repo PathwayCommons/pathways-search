@@ -9,7 +9,7 @@ export class SearchItem extends React.Component {
 		var data = this.props.data;
 		return (
 			<div className="SearchItem clearfix">
-				<Link to={{pathname: "/pathway", query: {uri: data.uri, name: data.name}}} target="_blank">
+				<Link to={{pathname: "/pathway", query: {uri: data.uri}}} target="_blank">
 					<Col xs={3} className="src-thumbnail-container">
 						<div className="src-thumbnail">
 							<Image src={getLogoURL(this.props.dataSources, data.dataSource[0])}/>

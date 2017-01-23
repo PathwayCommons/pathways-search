@@ -27,6 +27,10 @@ export let getPathwayURL = (uri, dataFormat) => {
 	return PCUrl + 'get?format=' + dataFormat + '&user=pc2pathways&uri=' + encodeURIComponent(uri);
 }
 
+export let getTraversalURL = (queryArr) => {
+	return PCUrl + 'traverse.json?' + queryStringify(queryArr);
+}
+
 export let getLogoURL = (dataSources, dsUriOrName) => {
 	var base = "img/datasources/";
 	dsUriOrName = dsUriOrName || "";
