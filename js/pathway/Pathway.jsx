@@ -32,10 +32,10 @@ export class Pathway extends React.Component {
 
 		var urlName = {
 			uri: this.props.location.query.uri,
-			path: "Named/name"
+			path: "Named/displayName"
 		};
 		httpGetAsync(getTraversalURL(urlName), (responseText) => {
-			this.setState({name: parseJSON(responseText).traverseEntry[0].value[0]});
+			this.setState({name: parseJSON(responseText).traverseEntry[0].value.pop()});
 		});
 	}
 
