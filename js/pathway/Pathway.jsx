@@ -65,7 +65,7 @@ export class Pathway extends React.Component {
 		if(this.state.pathwayData && this.state.interactionParticipants) {
 			return(
 				<div className="Pathway">
-					<div className="name">
+					<div className="name jumbotron">
 						{this.state.name}
 					</div>
 					<Nav activeKey={active} onSelect={(e) => this.handleSelect(e)} bsStyle="tabs">

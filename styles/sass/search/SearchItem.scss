@@ -1,6 +1,5 @@
 .SearchItem {
 	padding: 15px 5px;
-	border: 5px solid transparent;
 	overflow: hidden;
 
 	a {
@@ -23,22 +22,19 @@
 		}
 	}
 
-	.header {
-		.title {
-			font-weight: 700;
-			font-size: 14px;
+	.subtext {
+		p {
+			margin: 7px 0px;
+			line-height: 0px;
 		}
 
-		padding-bottom: 20px;
-	}
-
-	.subtext {
-		font-style: italic;
+		small {
+			line-height: 1;
+		}
 	}
 }
 
 .SearchItem:hover {
-	border: 5px solid transparent;
 	cursor: pointer;
 
 	div {

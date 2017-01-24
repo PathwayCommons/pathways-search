@@ -35,6 +35,14 @@ module.exports = {
 				loaders: ['style-loader', 'css-loader', 'sass-loader']
 			},
 			{
+				test: /\.(eot|svg|ttf|woff|woff2)$/,
+				loader: 'file?name=public/fonts/[name].[ext]'
+			},
+			{
+				test: /\.png$/,
+				loader: 'url-loader'
+			},
+			{
 				test: [/\.js$/, /\.es6$/],
 				exclude: /node_modules/,
 				loader: webpackStripLoader.loader('console.log')

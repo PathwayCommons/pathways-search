@@ -56,8 +56,6 @@ export class SearchList extends React.Component {
 				})}
 				<div className={classNames("paginationContainer", "text-center", hitList.length == 0 ? "hidden" : "")}>
 					<Pagination
-						prev
-						next
 						first
 						last
 						ellipsis

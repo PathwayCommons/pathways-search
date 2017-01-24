@@ -7,9 +7,9 @@ export class Footer extends React.Component {
 
 	render() {
 		return (
-			<div className="Footer clearfix">
+			<footer className="Footer clearfix">
 				University of Toronto - 2017
-			</div>
+			</footer>
 		);
 	}
 }

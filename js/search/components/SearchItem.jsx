@@ -17,13 +17,19 @@ export class SearchItem extends React.Component {
 					</Col>
 					<Col xs={9}>
 						<div className="header">
-							<div className="title">{data.name}</div>
-							<div className="uri">{data.name ? "" : data.uri}</div>
+							<p className="title"><strong>{data.name}</strong></p>
+							<p className="uri">{data.name ? "" : data.uri}</p>
 						</div>
 						<div className="subtext">
-							<div className="source">Source: {data.sourceInfo.name}</div>
-							<div className="class">Class: {data.biopaxClass}</div>
-							<div className="size">{data.size != null ? "Number of Interactions:" + data.size : ""}</div>
+							<p>
+								<small className="source">Source: <i>{data.sourceInfo.name}</i></small>
+							</p>
+							<p>
+								<small className="class">Class: {data.biopaxClass}</small><br/>
+							</p>
+							<p>
+								<small className="size">{data.size != null ? "Number of Interactions: " + data.size : ""}</small>
+							</p>
 						</div>
 					</Col>
 				</Link>

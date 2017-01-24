@@ -1,24 +1,11 @@
 .Header {
-	$headerHeight: 70px;
-	height: $headerHeight;
+	margin: 2px 0px;
 
-	.title {
-		height: $headerHeight;
-		padding: 5px 20px;
-		font-size: 40px;
-		font-weight: 100;
-		color: $darkBlue;
-	}
+	.navbar-brand, a {
+		color: $white;
 
-	.subtitle {
-		height: $headerHeight;
-		line-height: $headerHeight;
-		text-align: center;
-		font-size: 16px;
-
-		a {
-			color: $black;
-			text-decoration: none;
+		&:hover {
+			color: $turquoise;
 		}
 	}
 }

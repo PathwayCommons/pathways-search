@@ -1,17 +1,12 @@
-// Load normalize style
-@import '~normalize-scss/sass/normalize/_import-now.scss';
-
-// Load all bootstrap sass styles, setting variable to true to solve webpack bug
-// https://github.com/webpack/webpack/issues/1789
-$bootstrap-sass-asset-helper: true;
-@import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
-
 // Load spinner styles
 @import '~spinkit/scss/spinners/9-cube-grid.scss';
 
+// Load theme css files and theme dependencies
+@import '../vendor/Flat-UI/dist/css/vendor/bootstrap/css/bootstrap.min.css';
+@import '../vendor/Flat-UI/dist/css/flat-ui.min.css';
+
 // Load variables
 @import './sass/variables.scss';
-
 @import './sass/general.scss';
 
 // Load all custom scss files

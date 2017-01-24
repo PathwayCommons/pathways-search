@@ -35,7 +35,7 @@ export class SearchBar extends React.Component {
 
 	render() {
 		return (
-			<div className="SearchBar">
+			<div className="SearchBar jumbotron">
 				<FormGroup>
 					<InputGroup>
 						<FormControl type="text" defaultValue={this.props.query.q} onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)}/>

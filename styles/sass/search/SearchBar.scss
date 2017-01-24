@@ -1,6 +1,9 @@
 .SearchBar {
 	$barHeight: 60px;
-	height: $barHeight;
 	padding: $barHeight/4 10%;
-	background-color: $darkBlue;
+	border-radius: 6px;
+
+	.form-group {
+		margin: 0px;
+	}
 }

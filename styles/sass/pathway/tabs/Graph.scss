@@ -12,11 +12,20 @@
 		right: 0;
 	}
 
-	.GraphMenu {
+	.graphMenuContainer {
+		position: absolute;
+		left: 0;
+		right: 0;
 	}
 
-	.GraphMenuItem {
+	.graphMenu {
+		position: relative;
+		z-index: 10;
+	}
+
+	.graphMenuItem {
 		display: inline-block;
+		float: right;
 		padding: 3px 20px;
 		background-color: $lightGrey;
 		cursor: pointer;

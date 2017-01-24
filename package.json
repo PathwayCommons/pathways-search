@@ -5,21 +5,18 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.prod.config.js -p",
-    "watch": "webpack-dev-server --inline --content-base public/",
+    "watch": "webpack-dev-server --inline --content-base public/ -d",
     "start": "http-server",
-
     "prestart": "npm run build"
   },
   "author": "Manfred Cheung @ UofT",
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "bootstrap-sass": "^3.3.7",
     "classnames": "^2.2.5",
     "file-saver": "^1.3.3",
     "http-server": "^0.9.0",
     "lodash": "^4.17.4",
-    "normalize-scss": "^6.0.0",
     "query-string": "^4.3.0",
     "react": "^15.4.1",
     "react-bootstrap": "^0.30.7",

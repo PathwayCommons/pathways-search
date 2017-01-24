@@ -9,15 +9,21 @@ export class Header extends React.Component {
 
 	render() {
 		return (
-			<div className="Header clearfix">
-				<Col xs={3} className="title">
-					Search
-				</Col>
-				<Col xs={6} className="subtitle pull-right">
-					<a href="//www.pathwaycommons.org">
-						Pathway Commons
+			<div className="Header navbar navbar-inverse clearfix">
+				<div className="navbar-brand">
+					<a href="/">
+						Search
 					</a>
-				</Col>
+				</div>
+				<div className="navbar-collapse collapse">
+					<ul className="nav navbar-nav navbar-right">
+						<li>
+							<a href="//www.pathwaycommons.org">
+								Pathway Commons
+							</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		);
 	}
