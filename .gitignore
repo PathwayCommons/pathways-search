@@ -1,4 +1,5 @@
 *node_modules/
+*public/fonts/
 *.DS_Store
 *.js.map
 bundle.js
