@@ -18,18 +18,13 @@ export class Search extends React.Component {
 	}
 
 	render() {
-		if(this.state.dataSources == {}) {
-			return (null);
-		}
-		else {
-			return (
-				<div className="Search">
-					<SearchWrapper {...this.props} dataSources={this.state.dataSources}>
-						<SearchBar/>
-						<SearchList/>
-					</SearchWrapper>
-				</div>
-			);
-		}
+		return (
+			<div className="Search">
+				<SearchWrapper {...this.props} dataSources={this.state.dataSources}>
+					<SearchBar/>
+					<SearchList/>
+				</SearchWrapper>
+			</div>
+		);
 	}
 }
