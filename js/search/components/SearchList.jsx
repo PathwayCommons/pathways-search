@@ -75,7 +75,7 @@ export class SearchList extends React.Component {
 				</div>
 			);
 		}
-		else {
+		else if(searchData === null) {
 			return (
 				<div className="SearchList">
 					<div className="noSearchResults">
@@ -83,6 +83,9 @@ export class SearchList extends React.Component {
 					</div>
 				</div>
 			);
+		}
+		else {
+			return null;
 		}
 	}
 }
