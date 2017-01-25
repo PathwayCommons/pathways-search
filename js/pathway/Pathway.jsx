@@ -76,12 +76,12 @@ export class Pathway extends React.Component {
 						<NavItem eventKey="Publications">
 							Publications
 						</NavItem>
-						<NavItem eventKey="Downloads">
-							Downloads
-						</NavItem>
 						*/}
 						<NavItem eventKey="Interactions">
 							Interactions
+						</NavItem>
+						<NavItem eventKey="Downloads">
+							Downloads
 						</NavItem>
 						<NavItem eventKey="Graph">
 							Graph
@@ -90,7 +90,7 @@ export class Pathway extends React.Component {
 					<Summary hidden={"Summary" != active}/>
 					<Interactions hidden={"Interactions" != active} interactionParticipants={this.state.interactionParticipants}/>
 					<Publications hidden={"Publications" != active}/>
-					<Downloads hidden={"Downloads" != active}/>
+					<Downloads hidden={"Downloads" != active} {...this.props} name={this.state.name}/>
 					<Graph hidden={"Graph" != active} pathwayData={this.state.pathwayData}/>
 				</div>
 			);
