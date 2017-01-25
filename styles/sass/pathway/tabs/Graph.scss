@@ -21,6 +21,10 @@
 	.graphMenu {
 		position: relative;
 		z-index: 10;
+
+		@media screen and (max-width: $screen-sm-max) {
+			display: none;
+		}
 	}
 
 	.graphMenuItem {
