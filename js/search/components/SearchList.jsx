@@ -52,7 +52,9 @@ export class SearchList extends React.Component {
 		return (
 			<div className="SearchList">
 				{hitList.map((item, index) => {
-					return <SearchItem key={index} dataSources={this.props.dataSources} data={item}/>;
+					if(item.size > 0) {
+						return(<SearchItem key={index} dataSources={this.props.dataSources} data={item}/>);
+					}
 				})}
 				<div className={classNames("paginationContainer", "text-center", hitList.length == 0 ? "hidden" : "")}>
 					<Pagination
