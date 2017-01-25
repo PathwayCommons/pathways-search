@@ -95,9 +95,6 @@ export class Graph extends React.Component {
 				<div className={classNames("Graph", this.props.hidden ? "visibilityHidden" : "")}>
 					<div className="graphMenuContainer">
 						<div className="graphMenu">
-							<div className="graphMenuItem" onClick={() => this.resetImage()}>
-								Reset
-							</div>
 							<div className="graphMenuItem" onClick={() => this.exportImage()}>
 								Download Image
 							</div>
