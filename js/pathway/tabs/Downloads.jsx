@@ -10,7 +10,7 @@ export class Downloads extends React.Component {
 		const FILENAME_CUTOFF = 20;
 		var filename = this.props.name || "pathway";
 		filename = filename.substr(0, filename.length < FILENAME_CUTOFF ? filename.length : FILENAME_CUTOFF).replace(/ /g, "_");
-		httpGetAsync(getPathwayURL(this.props.location.query.uri, format), (responseText) => {
+		httpGetAsync(getPathwayURL(this.props.uri, format), (responseText) => {
 			saveAs(new File([responseText], filename + "." + file_ext, {type: "text/plain;charset=utf-8"}));
 		});
 	}

@@ -15,21 +15,11 @@ export class Pathway extends React.Component {
 		super(props);
 		this.state = {
 			pathwayData: {},
-			interactionParticipants: {},
 			name: ""
 		}
+
 		httpGetAsync(getPathwayURL(this.props.location.query.uri, "SBGN"), (responseText) => {
 			this.updatePathwayData(responseText);
-		});
-
-		var urlInteraction = {
-			uri: this.props.location.query.uri,
-			path: "Pathway/pathwayComponent:Interaction/participant*/displayName"
-		};
-		httpGetAsync(getTraversalURL(urlInteraction), (responseText) => {
-			if(responseText !== null) {
-				this.setState({interactionParticipants: parseJSON(responseText).traverseEntry[0].value});
-			}
 		});
 
 		var urlName = {
@@ -62,7 +52,7 @@ export class Pathway extends React.Component {
 
 	render() {
 		var active = this.props.location.query.active || "Graph";
-		if(this.state.pathwayData && this.state.interactionParticipants) {
+		if(this.state.pathwayData) {
 			return(
 				<div className="Pathway">
 					<div className="name jumbotron">
@@ -88,9 +78,9 @@ export class Pathway extends React.Component {
 						</NavItem>
 					</Nav>
 					<Summary hidden={"Summary" != active}/>
-					<Interactions hidden={"Interactions" != active} interactionParticipants={this.state.interactionParticipants}/>
+					<Interactions hidden={"Interactions" != active} uri={this.props.location.query.uri}/>
 					<Publications hidden={"Publications" != active}/>
-					<Downloads hidden={"Downloads" != active} {...this.props} name={this.state.name}/>
+					<Downloads hidden={"Downloads" != active} uri={this.props.location.query.uri} name={this.state.name}/>
 					<Graph hidden={"Graph" != active} pathwayData={this.state.pathwayData}/>
 				</div>
 			);
