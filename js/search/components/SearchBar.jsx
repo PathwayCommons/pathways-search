@@ -26,6 +26,7 @@ export class SearchBar extends React.Component {
 	submit(e) {
 		if (e.which == 13) {
 			this.updateTerm();
+			e.target.blur();
 		}
 	}
 
