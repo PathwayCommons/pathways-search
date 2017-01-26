@@ -5,6 +5,11 @@ import classNames from 'classnames';
 import {httpGetAsync, getSearchQueryURL, parseJSON} from './../../helpers/http.js';
 import {SearchItem} from './SearchItem.jsx';
 
+// SearchList
+// Prop Dependencies ::
+// - query
+// - dataSources
+// - updateSearchArg(updateObject)
 export class SearchList extends React.Component {
 	constructor(props) {
 		super(props);
@@ -13,6 +18,7 @@ export class SearchList extends React.Component {
 		}
 	}
 
+	// If query prop or dataSource is changed then re-render
 	componentWillReceiveProps(nextProps) {
 		if((!isEqual(this.props.query, nextProps.query) && (!isEmpty(this.props.dataSources))) || (isEmpty(this.props.dataSources) && !isEmpty(nextProps.dataSources))) {
 			this.getSearchResult(nextProps.query);
@@ -26,9 +32,11 @@ export class SearchList extends React.Component {
 		}
 	}
 
+	// Handle JSON string returned from search request
 	updateSearchResult(searchResultObj) {
 		var searchData = parseJSON(searchResultObj);
 		if(searchData) {
+			// Process searchData to add extra properties from dataSources
 			searchData = {
 				searchHit: searchData.searchHit.map((searchResult) => {
 					searchResult["sourceInfo"] = this.props.dataSources[searchResult.dataSource[0]];
@@ -40,7 +48,9 @@ export class SearchList extends React.Component {
 		this.setState({searchResult: searchData});
 	}
 
+	// Handle page switch from Pagination
 	handleSelect(e) {
+		// Pagination starts numbering from 1 but server starts number from 0, compensate for difference by subtracting 1
 		this.props.updateSearchArg({
 			...this.props.query,
 			page: (e - 1).toString()
@@ -51,6 +61,7 @@ export class SearchList extends React.Component {
 	render() {
 		var searchData = this.state.searchResult;
 
+		// Only load populated searchlist if searchData is populated
 		if(!isEmpty(searchData)) {
 			var hitList = searchData.searchHit;
 			return (
@@ -75,6 +86,7 @@ export class SearchList extends React.Component {
 				</div>
 			);
 		}
+		// If searchData is null this indicates no search results were found
 		else if(searchData === null) {
 			return (
 				<div className="SearchList">
@@ -84,6 +96,7 @@ export class SearchList extends React.Component {
 				</div>
 			);
 		}
+		// Otherwise assume page is still loading and display nothing
 		else {
 			return null;
 		}

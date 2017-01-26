@@ -10,6 +10,10 @@ import {Publications} from './tabs/Publications.jsx';
 import {Downloads} from './tabs/Downloads.jsx';
 import {Graph} from './tabs/Graph.jsx';
 
+// Pathway
+// Prop Dependencies ::
+// - router
+// - location
 export class Pathway extends React.Component {
 	constructor(props) {
 		super(props);

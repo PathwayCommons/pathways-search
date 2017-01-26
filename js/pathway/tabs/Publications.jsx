@@ -1,6 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
+// Publications
+// Prop Dependencies ::
+// none
 export class Publications extends React.Component {
 	render() {
 		return(

@@ -2,6 +2,12 @@ import React from 'react';
 import {FormGroup, InputGroup, FormControl, Button, Modal} from 'react-bootstrap';
 import {SearchFilter} from './SearchFilter.jsx';
 
+// SearchBar
+// Prop Dependencies ::
+// - query
+// - updateSearchArg(updateObject)
+
+// Note: Spread operator used to provide props to SearchFilter, therefore SearchBar also adopts SearchFilter dependencies in addition to those provided above
 export class SearchBar extends React.Component {
 	constructor(props) {
 		super(props);

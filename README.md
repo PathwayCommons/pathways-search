@@ -17,11 +17,14 @@ Follow the steps below to download and install application
 
 This project uses npm as a build tool. In all applicable cases, the website is served at address 0.0.0.0 on port 8080. The following commands are available:
 
-#####build
+####document
+Run ```npm run document``` to generate documentation and place resulting html files in the docs folder
+
+####build
 Run ```npm run build``` to do a production build of the application and output the result to the public folder.
 
-#####watch
+####watch
 Run ```npm run watch``` to do a development build of the application using auto file watch and browser reloading. Note: This does not update the public folder with the development build.
 
-#####start
+####start
 Run ```npm run start``` to do a production build of the application, output result to the public folder, and serve using http-server.

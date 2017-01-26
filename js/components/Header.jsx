@@ -1,6 +1,9 @@
 import React from 'react';
 import {Col} from 'react-bootstrap';
 
+// Header
+// Prop Dependencies ::
+// none
 export class Header extends React.Component {
 	getPathTitle(titleString) {
 		var lastPath = titleString.substring(titleString.lastIndexOf("/"), titleString.length).replace("/", "");

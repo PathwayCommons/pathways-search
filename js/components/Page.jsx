@@ -3,19 +3,18 @@ import classNames from 'classnames';
 import {Header} from './Header.jsx';
 import {Footer} from './Footer.jsx';
 
+// Page
+// Prop Dependencies ::
+// none
 export class Page extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
 	render() {
 		return (
 			<div className={classNames("Page", this.props.className)}>
-				<Header {...this.props}/>
+				<Header/>
 				<div className="Content">
 					{this.props.children}
 				</div>
-				<Footer {...this.props}/>
+				<Footer/>
 			</div>
 		);
 	}

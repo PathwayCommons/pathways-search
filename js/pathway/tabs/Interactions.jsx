@@ -3,6 +3,9 @@ import classNames from 'classnames';
 import {httpGetAsync, getTraversalURL, parseJSON} from '../../helpers/http.js';
 import {isEmpty} from 'lodash';
 
+// Interactions
+// Prop Dependencies ::
+// - uri
 export class Interactions extends React.Component {
 	constructor(props) {
 		super(props);

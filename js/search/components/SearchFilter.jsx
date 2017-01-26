@@ -3,11 +3,17 @@ import {FormGroup, InputGroup, FormControl, ControlLabel, Button} from 'react-bo
 import {map, filter, isEmpty, clone} from 'lodash';
 import {BioPaxClass} from "../../helpers/pc2.js";
 
+// Determines which prop are valid filter props as opposed to other properties like page or query
 const filterPropList = [
 	"type",
 	"datasource"
 ]
 
+// SearchFilter
+// Prop Dependencies ::
+// - query
+// - dataSources
+// - updateSearchArg(updateObject)
 export class SearchFilter extends React.Component {
 	constructor(props) {
 		super(props);

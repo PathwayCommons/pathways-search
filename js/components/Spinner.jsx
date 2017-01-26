@@ -1,6 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
+// Spinner
+// Prop Dependencies ::
+// none
 export class Spinner extends React.Component {
 	render() {
 		return (

@@ -4,6 +4,11 @@ import {Link} from 'react-router';
 
 import {getLogoURL} from './../../helpers/http.js';
 
+// SearchList
+// This component is only meant to be called by SearchList
+// Prop Dependencies ::
+// - data
+// - dataSources
 export class SearchItem extends React.Component {
 	render() {
 		var data = this.props.data;

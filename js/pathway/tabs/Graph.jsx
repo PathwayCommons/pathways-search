@@ -6,6 +6,9 @@ import {Spinner} from '../../components/Spinner.jsx';
 import {base64toBlob} from '../../helpers/http.js';
 import {saveAs} from 'file-saver';
 
+// Graph
+// Prop Dependencies ::
+// - pathwayData
 export class Graph extends React.Component {
 	constructor(props) {
 		super(props);
@@ -37,6 +40,7 @@ export class Graph extends React.Component {
 		}
 	}
 
+	// Checks if graph data returned has any nodes
 	checkEmptyGraph(pathwayData) {
 		if(!isEmpty(pathwayData) && (pathwayData.nodes.length == 0)) {
 			return true;
@@ -46,6 +50,7 @@ export class Graph extends React.Component {
 		}
 	}
 
+	// Graph rendering is not tracked by React
 	renderGraph(cy, cyGraph) {
 		this.state.graphRendered = true;
 		cy.startBatch();

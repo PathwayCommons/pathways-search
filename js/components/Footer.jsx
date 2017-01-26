@@ -1,10 +1,9 @@
 import React from 'react';
 
+// Footer
+// Prop Dependencies ::
+// none
 export class Footer extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
 	render() {
 		return (
 			<footer className="Footer clearfix">

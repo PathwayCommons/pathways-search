@@ -5,6 +5,10 @@ import {saveAs} from 'file-saver';
 import {httpGetAsync, getPathwayURL} from '../../helpers/http.js';
 import {getDataFormats} from '../../helpers/pc2.js';
 
+// Downloads
+// Prop Dependencies ::
+// - name
+// - uri
 export class Downloads extends React.Component {
 	initiateDownload(format, file_ext) {
 		const FILENAME_CUTOFF = 20;

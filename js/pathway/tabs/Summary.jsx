@@ -1,6 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
+// Summary
+// Prop Dependencies ::
+// none
 export class Summary extends React.Component {
 	render() {
 		return(

@@ -2,11 +2,11 @@ import React from 'react';
 import {isEmpty, isArray} from 'lodash';
 import {parseJSON} from './../../helpers/http.js';
 
+// SearchWrapper
+// Prop Dependencies ::
+// - router
+// - location
 export class SearchWrapper extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
 	updateSearchArg(updateObject) {
 		this.props.router.push({
 			pathname: this.props.location.pathname,
@@ -14,18 +14,22 @@ export class SearchWrapper extends React.Component {
 		});
 	}
 
+	// Handles updates and changes to the search query
 	filterUpdate(updateObject) {
 		var output = {};
 		for(var property in updateObject) {
+			// Use recursion to handle properties that are arrays
 			if(isArray(updateObject[property])) {
 				output[property] = [];
 				Object.assign(output[property], this.filterUpdate(updateObject[property]));
 			}
+			// If property is not an empty string add it to output object
 			else if(updateObject[property] != "") {
 				output[property] = updateObject[property];
 			}
 		}
 
+		// If the page property is the same in old and new, assume some other property has changed, therefore delete page property to go back to page 1
 		if(this.props.location.query.page == output.page) {
 			delete output.page;
 		}
@@ -33,13 +37,12 @@ export class SearchWrapper extends React.Component {
 	}
 
 	render() {
-		var query = this.props.location.query;
 		return (
 			<div className="SearchWrapper">
 				{React.Children.map(this.props.children, (child) => React.cloneElement(child, {
 					...this.props,
 					updateSearchArg: (object) => this.updateSearchArg(object),
-					query: query,
+					query: this.props.location.query
 				}))}
 			</div>
 		);
