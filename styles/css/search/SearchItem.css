@@ -2,33 +2,33 @@
 	padding: 15px 5px;
 	overflow: hidden;
 
-	a {
-		color: black;
+	& a {
+		color: var(--black);
 	}
 
-	.src-thumbnail-container {
+	& .src-thumbnail-container {
 		display: table;
 		height: 100px;
 
-		.src-thumbnail {
+		& .src-thumbnail {
 			display: table-cell;
 			vertical-align: middle;
 			text-align: center;
 		}
 
-		img {
+		& img {
 			max-height: 80px;
 			max-width: 80%;
 		}
 	}
 
-	.subtext {
-		p {
+	& .subtext {
+		& p {
 			margin: 7px 0px;
 			line-height: 0px;
 		}
 
-		small {
+		& small {
 			line-height: 1;
 		}
 	}
@@ -37,7 +37,7 @@
 .SearchItem:hover {
 	cursor: pointer;
 
-	div {
-		color: $lightBlue;
+	& div {
+		color: var(--lightBlue);
 	}
 }

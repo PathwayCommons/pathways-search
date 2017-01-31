@@ -31,8 +31,8 @@ module.exports = {
 				}
 			},
 			{
-				test: /\.scss$/,
-				loaders: ['style-loader', 'css-loader', 'sass-loader']
+				test: /\.css$/,
+				loaders: ['style-loader', 'css-loader', 'postcss-loader']
 			},
 			{
 				test: /\.(eot|svg|ttf|woff|woff2)$/,
@@ -48,5 +48,5 @@ module.exports = {
 				loader: webpackStripLoader.loader('console.log')
 			}
 		]
-	},
+	}
 };

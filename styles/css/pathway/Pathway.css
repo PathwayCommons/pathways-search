@@ -1,12 +1,12 @@
 .Pathway {
-	.name {
+	& .name {
 		padding: 0px;
 		padding-left: 10%;
 		margin-bottom: 2px;
 		text-transform: capitalize;
 	}
 
-	.nav-tabs {
+	& .nav-tabs {
 		margin-bottom: 1px;
 	}
 }

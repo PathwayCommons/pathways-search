@@ -1,0 +1,8 @@
+.Page {
+	min-height: 100vh;
+	position: relative;
+
+	& .Content {
+		padding-bottom: var(--footerHeight);
+	}
+}

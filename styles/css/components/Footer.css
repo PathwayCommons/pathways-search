@@ -1,21 +1,18 @@
-// Must come before Page.scss
-$footerHeight: 40px;
-
 .Footer {
 	position: absolute;
-	height: $footerHeight;
+	height: var(--footerHeight);
 	right: 0;
 	bottom: 0;
 	left: 0;
 	padding: 1rem 10%;
 	text-align: center;
 
-	.footerButton {
+	& .footerButton {
 		float: left;
 		padding: 0px 15px;
 	}
 
-	.footerText {
+	& .footerText {
 		float: right;
 	}
 }

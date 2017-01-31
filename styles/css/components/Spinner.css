@@ -1,0 +1,7 @@
+.Spinner {
+	background-color: var(--white);
+
+	& .sk-cube {
+		background-color: var(--darkGreen);
+	}
+}

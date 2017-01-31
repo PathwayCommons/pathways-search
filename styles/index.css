@@ -1,0 +1,24 @@
+/* Load spinner styles */
+@import 'spinkit/css/spinners/9-cube-grid.css';
+
+/* Load theme css files and theme dependencies */
+@import 'designmodo-flat-ui/dist/css/vendor/bootstrap/css/bootstrap.min.css';
+@import 'designmodo-flat-ui/dist/css/flat-ui.min.css';
+
+/* Load variables */
+@import './css/variables.css';
+@import './css/general.css';
+
+/* Load all custom scss files */
+@import './css/components/Header.css';
+@import './css/components/Footer.css';
+@import './css/components/Page.css';
+@import './css/components/Spinner.css';
+
+@import './css/search/SearchList.css';
+@import './css/search/SearchItem.css';
+@import './css/search/SearchBar.css';
+
+@import './css/pathway/Pathway.css';
+@import './css/pathway/tabs/Graph.css';
+@import './css/pathway/tabs/Interactions.css';

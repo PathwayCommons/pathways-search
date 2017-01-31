@@ -1,0 +1,11 @@
+.Header {
+	margin-bottom: 1px;
+
+	& .navbar-brand, & a {
+		color: var(--white);
+
+		& :hover {
+			color: var(--turquoise);
+		}
+	}
+}
