@@ -1,6 +1,5 @@
 .Footer {
 	position: absolute;
-	height: var(--footerHeight);
 	right: 0;
 	bottom: 0;
 	left: 0;

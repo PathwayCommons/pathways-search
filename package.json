@@ -22,9 +22,9 @@
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.1",
     "react-router": "^3.0.0",
+    "sbgn-renderer": "^0.1.0",
     "sbgnml-to-cytoscape": "^1.1.1",
-    "spinkit": "^1.2.5",
-    "tmp-sbgn": "file:///Users/manfredcheung/sbgnviz-js"
+    "spinkit": "^1.2.5"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
