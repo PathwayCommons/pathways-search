@@ -1,4 +1,4 @@
-import {attempt} from 'lodash';
+import attempt from 'lodash/attempt';
 import {stringify as queryStringify} from 'query-string';
 
 export let PCUrl = "http://www.pathwaycommons.org/pc2/";

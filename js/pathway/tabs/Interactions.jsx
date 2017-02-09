@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import {httpGetAsync, getTraversalURL, parseJSON} from '../../helpers/http.js';
-import {isEmpty} from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 // Interactions
 // Prop Dependencies ::

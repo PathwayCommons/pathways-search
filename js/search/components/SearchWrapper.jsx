@@ -1,5 +1,6 @@
 import React from 'react';
-import {isEmpty, isArray} from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isArray from 'lodash/isArray';
 import {parseJSON} from './../../helpers/http.js';
 
 // SearchWrapper

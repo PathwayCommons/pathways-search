@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import {isEmpty} from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import SBGNViz from 'tmp-sbgn';
 import {Spinner} from '../../components/Spinner.jsx';
 import {base64toBlob} from '../../helpers/http.js';

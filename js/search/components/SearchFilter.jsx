@@ -1,6 +1,9 @@
 import React from 'react';
 import {FormGroup, InputGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
-import {map, filter, isEmpty, clone} from 'lodash';
+import map from 'lodash/map';
+import filter from 'lodash/filter';
+import isEmpty from 'lodash/isEmpty';
+import clone from 'lodash/clone';
 import {BioPaxClass} from "../../helpers/pc2.js";
 
 // Determines which prop are valid filter props as opposed to other properties like page or query

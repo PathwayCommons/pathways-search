@@ -1,6 +1,7 @@
 import React from 'react';
 import {Pagination} from 'react-bootstrap';
-import {isEqual, isEmpty} from 'lodash';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
 import {httpGetAsync, getSearchQueryURL, parseJSON} from './../../helpers/http.js';
 import {SearchItem} from './SearchItem.jsx';
