@@ -4,6 +4,7 @@ import {Nav, NavItem} from 'react-bootstrap';
 import convert from 'sbgnml-to-cytoscape';
 import {httpGetAsync, getPathwayURL, getTraversalURL, parseJSON} from './../helpers/http.js';
 
+import {ErrorMessage} from '../components/ErrorMessage.jsx';
 import {Summary} from './tabs/Summary.jsx';
 import {Interactions} from './tabs/Interactions.jsx';
 import {Publications} from './tabs/Publications.jsx';
@@ -37,11 +38,12 @@ export class Pathway extends React.Component {
 
 	updatePathwayData(pathwayString) {
 		try {
-			this.setState({pathwayData: convert(pathwayString)});
+			pathwayString = convert(pathwayString);
 		}
 		catch(e) {
-			console.error(e);
+			pathwayString = null;
 		}
+		this.setState({pathwayData: pathwayString});
 	}
 
 	handleSelect(eventKey) {
@@ -87,6 +89,13 @@ export class Pathway extends React.Component {
 					<Downloads hidden={"Downloads" != active} uri={this.props.location.query.uri} name={this.state.name}/>
 					<Graph hidden={"Graph" != active} pathwayData={this.state.pathwayData}/>
 				</div>
+			);
+		}
+		else if(this.state.pathwayData === null) {
+			return (
+				<ErrorMessage className="Pathway">
+					Invalid URI
+				</ErrorMessage>
 			);
 		}
 		else {

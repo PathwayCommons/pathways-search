@@ -2,9 +2,10 @@ import React from 'react';
 import classNames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import SBGNViz from 'sbgn-renderer';
+import {saveAs} from 'file-saver';
 import {Spinner} from '../../components/Spinner.jsx';
 import {base64toBlob} from '../../helpers/http.js';
-import {saveAs} from 'file-saver';
+import {ErrorMessage} from '../../components/ErrorMessage.jsx';
 
 // Graph
 // Prop Dependencies ::
@@ -117,9 +118,9 @@ export class Graph extends React.Component {
 		}
 		else {
 			return(
-				<div className={classNames("Graph", "no-data", this.props.hidden ? "visibilityHidden" : "")}>
+				<ErrorMessage className={classNames("Graph", this.props.hidden ? "visibilityHidden" : "")}>
 					No Paths Found
-				</div>
+				</ErrorMessage>
 			);
 		}
 	}

@@ -1,10 +1,4 @@
 .Graph {
-	& .no-data {
-		margin: 25vh auto;
-		text-align: center;
-		font-size: 20px;
-	}
-
 	& .SpinnerContainer {
 		position: absolute;
 		margin: auto;
