@@ -79,7 +79,7 @@ export class SearchList extends React.Component {
 							ellipsis
 							boundaryLinks
 							items={Math.ceil(searchData.numHits / searchData.maxHitsPerPage)}
-							maxButtons={5}
+							maxButtons={3}
 							activePage={parseInt(this.props.query.page) + 1 || 1}
 							onSelect={(e) => this.handleSelect(e)}
 						/>
