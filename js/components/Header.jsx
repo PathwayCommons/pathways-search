@@ -1,5 +1,6 @@
 import React from 'react';
-import {Col} from 'react-bootstrap';
+import {Link} from 'react-router';
+import {hardReload} from '../main.js';
 
 // Header
 // Prop Dependencies ::
@@ -14,9 +15,9 @@ export class Header extends React.Component {
 		return (
 			<div className="Header navbar navbar-inverse clearfix">
 				<div className="navbar-brand">
-					<a href="/">
+					<Link to={{pathname: "/"}} onClick={() => hardReload()}>
 						Search
-					</a>
+					</Link>
 				</div>
 				<div className="navbar-collapse collapse">
 					<ul className="nav navbar-nav navbar-right">
