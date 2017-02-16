@@ -13,6 +13,10 @@ export class SearchWrapper extends React.Component {
 			pathname: this.props.location.pathname,
 			query: this.filterUpdate(updateObject)
 		});
+		if(this.props.embed === true) {
+			var openUrl = window.location.href.replace("/" + this.props.params.embed, "");
+			window.open(openUrl, "Pathway Commons Search");
+		}
 	}
 
 	// Handles updates and changes to the search query

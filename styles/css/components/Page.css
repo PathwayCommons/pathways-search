@@ -6,3 +6,11 @@
 		padding-bottom: var(--footerHeight);
 	}
 }
+
+.Page.iframe {
+	min-height: inherit;
+
+	& .Content {
+		padding-bottom: 0;
+	}
+}

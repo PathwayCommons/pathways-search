@@ -12,23 +12,25 @@ export class Header extends React.Component {
 	}
 
 	render() {
-		return (
-			<div className="Header navbar navbar-inverse clearfix">
-				<div className="navbar-brand">
-					<Link to={{pathname: "/"}} onClick={() => hardReload()}>
-						Search
-					</Link>
+		return (this.props.hidden !== true)
+			? <div className="Header navbar navbar-inverse clearfix">
+					<div className="navbar-brand">
+						<Link to={{
+							pathname: "/"
+						}} onClick={() => hardReload()}>
+							Search
+						</Link>
+					</div>
+					<div className="navbar-collapse collapse">
+						<ul className="nav navbar-nav navbar-right">
+							<li>
+								<a href="//www.pathwaycommons.org">
+									Pathway Commons
+								</a>
+							</li>
+						</ul>
+					</div>
 				</div>
-				<div className="navbar-collapse collapse">
-					<ul className="nav navbar-nav navbar-right">
-						<li>
-							<a href="//www.pathwaycommons.org">
-								Pathway Commons
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		);
+			: null;
 	}
 }

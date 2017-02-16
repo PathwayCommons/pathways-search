@@ -82,6 +82,14 @@
 				}
 			}
 			</style>
+			<script>
+				var Imbed = window.location.href.indexOf("/embed") !== -1;
+				if (Imbed) {
+					var styleEl = document.createElement('style');
+					document.getElementById("container").appendChild(styleEl);
+					styleEl.sheet.insertRule(".sk-cube-grid { display: none }", 0);
+				}
+			</script>
 			<div class="sk-cube-grid">
 				<div class="sk-cube sk-cube1"></div>
 				<div class="sk-cube sk-cube2"></div>

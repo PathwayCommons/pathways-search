@@ -1,6 +1,7 @@
 .SearchBar {
 	padding: calc(60px / 4) 10%;
 	border-radius: 6px;
+	margin: 0px;
 
 	& .form-group {
 		margin: 0px;
