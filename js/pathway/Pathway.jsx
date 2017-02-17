@@ -86,7 +86,7 @@ export class Pathway extends React.Component {
 					<Summary hidden={"Summary" != active}/>
 					<Interactions hidden={"Interactions" != active} uri={this.props.location.query.uri}/>
 					<Publications hidden={"Publications" != active}/>
-					<Downloads hidden={"Downloads" != active} uri={this.props.location.query.uri} name={this.state.name}/>
+					<Downloads hidden={"Downloads" != active} uri={this.props.location.query.uri} name={this.state.name} pathwayData={this.state.pathwayData}/>
 					<Graph hidden={"Graph" != active} pathwayData={this.state.pathwayData}/>
 				</div>
 			);
