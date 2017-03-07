@@ -8,6 +8,24 @@
 		width: 100%;
 	}
 
+	& .modal {
+		position: relative;
+	}
+
+	& a {
+		cursor: pointer;
+	}
+
+	& .text {
+		line-height: 20px;
+		color: var(--darkGrey);
+	}
+
+	& .subtext {
+		font-size: 12px;
+		color: var(--darkGrey);
+	}
+
 	/* Flat-UI mobile view css fix */
 	& .pagination {
 		padding: 0;
