@@ -1,13 +1,13 @@
 import React from 'react';
-import {FormGroup, InputGroup, FormControl, Button, Modal} from 'react-bootstrap';
-import {SearchFilter} from './SearchFilter.jsx';
+import {Col, FormGroup, InputGroup, FormControl, Button, Modal, Glyphicon} from 'react-bootstrap';
+import {SearchOptions} from './SearchOptions.jsx';
 
 // SearchBar
 // Prop Dependencies ::
 // - query
 // - updateSearchArg(updateObject)
 
-// Note: Spread operator used to provide props to SearchFilter, therefore SearchBar also adopts SearchFilter dependencies in addition to those provided above
+// Note: Spread operator used to provide props to SearchOptions, therefore SearchBar also adopts SearchOptions dependencies in addition to those provided above
 export class SearchBar extends React.Component {
 	constructor(props) {
 		super(props);
@@ -42,22 +42,27 @@ export class SearchBar extends React.Component {
 
 	render() {
 		return (
-			<div className="SearchBar jumbotron">
-				<FormGroup>
-					<InputGroup>
-						<FormControl type="text" defaultValue={this.props.query.q} onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)}/>
-						<InputGroup.Button>
-							<Button onClick={() => this.updateTerm()}>Search</Button>
-						</InputGroup.Button>
-					</InputGroup>
-				</FormGroup>
+			<div className="SearchBar jumbotron clearfix">
+				<Col xs={10} sm={11}>
+					<FormGroup>
+						<InputGroup>
+							<FormControl type="text" defaultValue={this.props.query.q} placeholder="Search pathway by name, a list of gene names or type a URI" onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)}/>
+							<InputGroup.Button>
+								<Button onClick={() => this.updateTerm()}>Search</Button>
+							</InputGroup.Button>
+						</InputGroup>
+					</FormGroup>
+				</Col>
+				<Col xs={2} sm={1}>
+					<Glyphicon glyph="cog" onClick={() => this.toggleFilterMenu(true)}/>
+				</Col>
 
 				<Modal show={this.state.showFilterMenu} onHide={() => this.toggleFilterMenu(false)}>
 					<Modal.Header closeButton>
-						<Modal.Title>Filter Settings</Modal.Title>
+						<Modal.Title>Advanced Search</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
-						<SearchFilter {...this.props}/>
+						<SearchOptions {...this.props}/>
 					</Modal.Body>
 					<Modal.Footer>
 						<Button onClick={() => this.toggleFilterMenu(false)}>Close</Button>

@@ -6,4 +6,10 @@
 	& .form-group {
 		margin: 0px;
 	}
+
+	& .glyphicon {
+		line-height: 42px;
+		font-size: 26px;
+		cursor: pointer;
+	}
 }

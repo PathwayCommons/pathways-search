@@ -12,12 +12,12 @@ const filterPropList = [
 	"datasource"
 ]
 
-// SearchFilter
+// SearchOptions
 // Prop Dependencies ::
 // - query
 // - dataSources
 // - updateSearchArg(updateObject)
-export class SearchFilter extends React.Component {
+export class SearchOptions extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -49,18 +49,8 @@ export class SearchFilter extends React.Component {
 
 	render() {
 		return(
-			<div className="SearchFilter">
+			<div className="SearchOptions">
 				<FormGroup>
-					<ControlLabel>
-						Class Type
-					</ControlLabel>
-					<FormControl componentClass="select" defaultValue={this.props.query.type} onChange={(e) => this.updateFilter("type", e.target.value)}>
-						<option value={""}>All</option>
-						{BioPaxClass.map((value, index) => {
-							return(<option value={value} key={index}>{value}</option>);
-						})}
-					</FormControl>
-					<br/>
 					<ControlLabel>
 						Data Source
 					</ControlLabel>
