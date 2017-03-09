@@ -3,10 +3,11 @@ import localForage from 'localforage';
 import {Link} from 'react-router';
 import Toggle from 'react-toggle'
 import {hardReload} from '../main.js';
+import {HelpTooltip} from './HelpTooltip.jsx';
 
 // Header
 // Prop Dependencies ::
-// none
+// help
 export class Header extends React.Component {
 	constructor(props) {
 		super(props);
@@ -43,6 +44,9 @@ export class Header extends React.Component {
 									Help
 									<Toggle icons={false} checked={this.props.help}/>
 								</a>
+								<HelpTooltip show={this.props.help} title="Help Switch">
+									Toggle help on or off. Click on individual tips to close.
+								</HelpTooltip>
 							</li>
 						</ul>
 					</div>

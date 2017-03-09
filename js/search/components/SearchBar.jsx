@@ -1,11 +1,13 @@
 import React from 'react';
 import {Col, FormGroup, InputGroup, FormControl, Button, Modal, Glyphicon} from 'react-bootstrap';
 import {SearchOptions} from './SearchOptions.jsx';
+import {HelpTooltip} from './../../components/HelpTooltip.jsx';
 
 // SearchBar
 // Prop Dependencies ::
 // - query
 // - updateSearchArg(updateObject)
+// - help
 
 // Note: Spread operator used to provide props to SearchOptions, therefore SearchBar also adopts SearchOptions dependencies in addition to those provided above
 export class SearchBar extends React.Component {
@@ -52,9 +54,15 @@ export class SearchBar extends React.Component {
 							</InputGroup.Button>
 						</InputGroup>
 					</FormGroup>
+					<HelpTooltip show={this.props.help} title="Search Bar">
+						Enter a list of symbols or names associated with the pathway you are looking for. Click the "Search" button to start the search when ready.
+					</HelpTooltip>
 				</Col>
 				<Col xs={2} sm={1}>
 					<Glyphicon glyph="cog" onClick={() => this.toggleFilterMenu(true)}/>
+					<HelpTooltip show={this.props.help} title="Search Options" placement="left" positionTop="-80px" positionLeft="-280px">
+						Access advanced search options to further refine your search.
+					</HelpTooltip>
 				</Col>
 
 				<Modal show={this.state.showFilterMenu} onHide={() => this.toggleFilterMenu(false)}>
