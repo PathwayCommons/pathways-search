@@ -7,15 +7,36 @@ import {Footer} from './Footer.jsx';
 // Prop Dependencies ::
 // - params
 export class Page extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			embed: (this.props.params.embed === "embed"),
+			help: false
+		};
+	}
+
+	updateGlobal(key, value) {
+		if(key !== "updateGlobal") {
+			this.setState({[key] : value});
+		}
+	}
+
+	getAllGlobals() {
+		return this.state;
+	}
+
 	render() {
-		var embedBahaviour = (this.props.params.embed === "embed");
+		var globalObject = Object.assign({
+			updateGlobal: (key, value) => this.updateGlobal(key, value)
+		}, this.getAllGlobals());
+
 		return (
-			<div className={classNames("Page", embedBahaviour ? "iframe" : "", this.props.className)}>
-				<Header hidden={embedBahaviour}/>
-				<div className={embedBahaviour ? "" : "Content"}>
-					{this.props.children}
+			<div className={classNames("Page", this.state.embed ? "iframe" : "", this.props.className)}>
+				<Header hidden={this.state.embed} {...globalObject}/>
+				<div className={this.state.embed ? "" : "Content"}>
+					{React.Children.map(this.props.children, (child) => React.cloneElement(child, globalObject))}
 				</div>
-				<Footer hidden={embedBahaviour}/>
+				<Footer hidden={this.state.embed} {...globalObject}/>
 			</div>
 		);
 	}

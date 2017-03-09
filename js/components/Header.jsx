@@ -10,17 +10,14 @@ import {hardReload} from '../main.js';
 export class Header extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			help: false
-		};
 		localForage.getItem("help").then(state => this.toggleHelp(state || false));
 	}
 
 	toggleHelp(boolVal) {
 		if(typeof boolVal !== "boolean") {
-			boolVal = !this.state.help;
+			boolVal = !this.props.help;
 		}
-		this.setState({help: boolVal});
+		this.props.updateGlobal("help", boolVal);
 		localForage.setItem("help", boolVal);
 	}
 
@@ -44,7 +41,7 @@ export class Header extends React.Component {
 							<li>
 								<a onClick={e => this.toggleHelp()}>
 									Help
-									<Toggle icons={false} checked={this.state.help}/>
+									<Toggle icons={false} checked={this.props.help}/>
 								</a>
 							</li>
 						</ul>
