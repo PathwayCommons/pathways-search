@@ -1,11 +1,29 @@
 import React from 'react';
+import localForage from 'localforage';
 import {Link} from 'react-router';
+import Toggle from 'react-toggle'
 import {hardReload} from '../main.js';
 
 // Header
 // Prop Dependencies ::
 // none
 export class Header extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			help: false
+		};
+		localForage.getItem("help").then(state => this.toggleHelp(state || false));
+	}
+
+	toggleHelp(boolVal) {
+		if(typeof boolVal !== "boolean") {
+			boolVal = !this.state.help;
+		}
+		this.setState({help: boolVal});
+		localForage.setItem("help", boolVal);
+	}
+
 	getPathTitle(titleString) {
 		var lastPath = titleString.substring(titleString.lastIndexOf("/"), titleString.length).replace("/", "");
 		return lastPath.charAt(0).toUpperCase() + lastPath.slice(1);
@@ -24,8 +42,9 @@ export class Header extends React.Component {
 					<div className="navbar-collapse collapse">
 						<ul className="nav navbar-nav navbar-right">
 							<li>
-								<a href="//www.pathwaycommons.org">
-									Pathway Commons
+								<a onClick={e => this.toggleHelp()}>
+									Help
+									<Toggle icons={false} checked={this.state.help}/>
 								</a>
 							</li>
 						</ul>

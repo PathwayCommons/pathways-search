@@ -8,4 +8,13 @@
 			color: var(--turquoise);
 		}
 	}
+
+	& li * {
+		vertical-align: middle;
+		cursor: pointer;
+	}
+
+	& .react-toggle {
+		margin-left: 15px;
+	}
 }

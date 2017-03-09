@@ -5,6 +5,9 @@
 @import 'designmodo-flat-ui/dist/css/vendor/bootstrap/css/bootstrap.min.css';
 @import 'designmodo-flat-ui/dist/css/flat-ui.min.css';
 
+/* Load react component css files */
+@import 'react-toggle/style.css';
+
 /* Load variables */
 @import './css/variables.css';
 @import './css/general.css';
