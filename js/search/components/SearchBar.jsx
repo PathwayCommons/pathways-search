@@ -55,13 +55,13 @@ export class SearchBar extends React.Component {
 						</InputGroup>
 					</FormGroup>
 					<HelpTooltip show={this.props.help} title="Search Bar">
-						Enter a list of symbols or names associated with the pathway you are looking for. Click the "Search" button to start the search when ready.
+						Enter a keyword, phrase, gene name or gene id. Separate multiple items by clicking "Enter" after each. Submit the query by clicking the "Search" button.
 					</HelpTooltip>
 				</Col>
 				<Col xs={2} sm={1}>
 					<Glyphicon glyph="cog" onClick={() => this.toggleFilterMenu(true)}/>
-					<HelpTooltip show={this.props.help} title="Search Options" placement="left" positionTop="-80px" positionLeft="-280px">
-						Access advanced search options to further refine your search.
+					<HelpTooltip show={this.props.help} title="Search Options" placement="left" positionTop="-110px" positionLeft="-280px">
+						This menu provides a way to refine your search results. For example, filter the results by database or order by pathway size.
 					</HelpTooltip>
 				</Col>
 

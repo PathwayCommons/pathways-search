@@ -98,17 +98,11 @@ export class SearchList extends React.Component {
 
 						<Modal.Body>
 							<div className="text">
-								Find and view pathways within Pathway Commons*.
-							</div>
-							<div className="text">
-								Search by pathway name or a list of genes.
-							</div>
-							<div className="text">
-								View pathways directly by typing its URI.
+								Find and view pathways that are archived by Pathway Commons. You can access the collection of metabolic pathways, signalling pathways and gene regulatory networks sourced from <a href="http://www.pathwaycommons.org/pc2/datasources">public pathway databases</a>.
 							</div>
 							<br/>
 							<div className="subtext">
-								*Pathway Commons houses human metabolic, signalling and gene regulatory pathways along with genetic and molecular interactions.
+								<a href="https://www.ncbi.nlm.nih.gov/pubmed/21071392">Pathway Commons, a web resource for biological pathway data.</a> Cerami E et al. Nucleic Acids Research (2011).
 							</div>
 						</Modal.Body>
 						<Modal.Footer>
