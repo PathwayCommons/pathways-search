@@ -1,16 +1,8 @@
 .Page {
 	min-height: 100vh;
 	position: relative;
-
-	& .Content {
-		padding-bottom: var(--footerHeight);
-	}
 }
 
 .Page.iframe {
 	min-height: inherit;
-
-	& .Content {
-		padding-bottom: 0;
-	}
 }

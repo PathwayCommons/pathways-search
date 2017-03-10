@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import {Header} from './Header.jsx';
-import {Footer} from './Footer.jsx';
 
 // Page
 // Prop Dependencies ::
@@ -36,7 +35,6 @@ export class Page extends React.Component {
 				<div className={this.state.embed ? "" : "Content"}>
 					{React.Children.map(this.props.children, (child) => React.cloneElement(child, globalObject))}
 				</div>
-				<Footer hidden={this.state.embed} {...globalObject}/>
 			</div>
 		);
 	}
