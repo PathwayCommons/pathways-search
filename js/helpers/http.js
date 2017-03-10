@@ -32,12 +32,11 @@ export let getTraversalURL = (queryArr) => {
 }
 
 export let getLogoURL = (dataSources, dsUriOrName) => {
-	var base = "img/datasources/";
 	dsUriOrName = dsUriOrName || "";
 	for (var key in dataSources) {
 		var ds = dataSources[key];
 		if (ds.uri == dsUriOrName || ds.name.toLowerCase() == dsUriOrName.toLowerCase()) {
-			return base + ds.id + '.png';
+			return ds.icon;
 		}
 	}
 }
@@ -54,7 +53,8 @@ export let loadDataSources = (callback) => {
 				uri: ds.uri,
 				name: name,
 				description: ds.description,
-				type: ds.type
+				type: ds.type,
+				icon: ds.iconUrl
 			};
 		});
 		callback(output);
