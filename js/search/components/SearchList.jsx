@@ -3,7 +3,7 @@ import {Pagination, Modal} from 'react-bootstrap';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
-import {httpGetAsync, getSearchQueryURL, parseJSON} from './../../helpers/http.js';
+import {search, datasources} from 'pathway-commons';
 import {SearchItem} from './SearchItem.jsx';
 
 // SearchList
@@ -17,35 +17,33 @@ export class SearchList extends React.Component {
 		this.state = {
 			searchResult: {}
 		}
+		this.getSearchResult(this.props.query);
 	}
 
 	// If query prop or dataSource is changed then re-render
 	componentWillReceiveProps(nextProps) {
-		if ((!isEqual(this.props.query, nextProps.query) && (!isEmpty(this.props.dataSources))) || (isEmpty(this.props.dataSources) && !isEmpty(nextProps.dataSources))) {
+		if (!isEqual(this.props.query, nextProps.query)) {
 			this.getSearchResult(nextProps.query);
 		}
 	}
 
-	getSearchResult(query) {
-		if (!isEmpty(query)) {
-			httpGetAsync(getSearchQueryURL(query), (responseText) => this.updateSearchResult(responseText));
+	getSearchResult(queryObject) {
+		if (!isEmpty(queryObject)) {
+			Promise.all([search().query(queryObject).format("json").fetch(), datasources.get()]).then(promArray => {
+				var searchData = promArray[0];
+				if (searchData) {
+					// Process searchData to add extra properties from dataSources
+					searchData = {
+						searchHit: searchData.searchHit.map((searchResult) => {
+							searchResult["sourceInfo"] = promArray[1][searchResult.dataSource[0]];
+							return searchResult;
+						}),
+						...searchData
+					};
+				}
+				this.setState({searchResult: searchData});
+			});
 		}
-	}
-
-	// Handle JSON string returned from search request
-	updateSearchResult(searchResultObj) {
-		var searchData = parseJSON(searchResultObj);
-		if (searchData) {
-			// Process searchData to add extra properties from dataSources
-			searchData = {
-				searchHit: searchData.searchHit.map((searchResult) => {
-					searchResult["sourceInfo"] = this.props.dataSources[searchResult.dataSource[0]];
-					return searchResult;
-				}),
-				...searchData
-			};
-		}
-		this.setState({searchResult: searchData});
 	}
 
 	// Handle page switch from Pagination
@@ -68,7 +66,7 @@ export class SearchList extends React.Component {
 				<div className="SearchList">
 					{hitList.map((item, index) => {
 						if (item.size > 0) {
-							return (<SearchItem key={index} dataSources={this.props.dataSources} data={item}/>);
+							return (<SearchItem key={index} data={item}/>);
 						}
 					})}
 					<div className={classNames("paginationContainer", "text-center", hitList.length == 0

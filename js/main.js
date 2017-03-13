@@ -12,5 +12,5 @@ ReactDOM.render(<App/>, mountElement);
 
 export const hardReload = () => {
 	ReactDOM.unmountComponentAtNode(mountElement);
-	ReactDOM.render(<App/>, mountElement);
+	setTimeout(() => ReactDOM.render(<App/>, mountElement), 1);
 }

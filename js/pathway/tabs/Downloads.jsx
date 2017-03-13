@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import {Col, Button} from 'react-bootstrap';
 import isEmpty from 'lodash/isEmpty';
 import {saveAs} from 'file-saver';
-import {httpGetAsync, getPathwayURL} from '../../helpers/http.js';
+import {get} from 'pathway-commons';
 import {getDataFormats} from '../../helpers/pc2.js';
 
 // Downloads
@@ -13,7 +13,11 @@ import {getDataFormats} from '../../helpers/pc2.js';
 // - pathwayData
 export class Downloads extends React.Component {
 	initiatePCDownload(format, file_ext) {
-		httpGetAsync(getPathwayURL(this.props.uri, format), (content) => {this.saveDownload(file_ext, content)});
+		get()
+			.uri(this.props.uri)
+			.format(format)
+			.fetch()
+			.then(content => this.saveDownload(file_ext, typeof content === "object" ? JSON.stringify(content) : content));
 	}
 
 	saveDownload(file_ext, content) {

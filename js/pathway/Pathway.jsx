@@ -2,7 +2,7 @@ import React from 'react';
 import {Redirect} from 'react-router';
 import {Nav, NavItem} from 'react-bootstrap';
 import convert from 'sbgnml-to-cytoscape';
-import {httpGetAsync, getPathwayURL, getTraversalURL, parseJSON} from './../helpers/http.js';
+import {get, traverse} from 'pathway-commons';
 
 import {ErrorMessage} from '../components/ErrorMessage.jsx';
 import {Summary} from './tabs/Summary.jsx';
@@ -23,17 +23,22 @@ export class Pathway extends React.Component {
 			name: ""
 		}
 
-		httpGetAsync(getPathwayURL(this.props.location.query.uri, "SBGN"), (responseText) => {
-			this.updatePathwayData(responseText);
-		});
+		get()
+			.uri(this.props.location.query.uri)
+			.format("SBGN")
+			.fetch()
+			.then((responseText) => {
+				this.updatePathwayData(responseText);
+			});
 
-		var urlName = {
-			uri: this.props.location.query.uri,
-			path: "Named/displayName"
-		};
-		httpGetAsync(getTraversalURL(urlName), (responseText) => {
-			this.setState({name: parseJSON(responseText).traverseEntry[0].value.pop()});
-		});
+		traverse()
+			.uri(this.props.location.query.uri)
+			.path("Named/displayName")
+			.format("json")
+			.fetch()
+			.then((responseObject) => {
+				this.setState({name: responseObject.traverseEntry[0].value.pop()});
+			});
 	}
 
 	updatePathwayData(pathwayString) {

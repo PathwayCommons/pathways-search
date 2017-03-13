@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import SBGNViz from 'sbgn-renderer';
 import {saveAs} from 'file-saver';
 import {Spinner} from '../../components/Spinner.jsx';
-import {base64toBlob} from '../../helpers/http.js';
+import {base64toBlob} from '../../helpers/converters.js';
 import {ErrorMessage} from '../../components/ErrorMessage.jsx';
 
 // Graph

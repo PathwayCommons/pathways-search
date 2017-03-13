@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import {httpGetAsync, getTraversalURL, parseJSON} from '../../helpers/http.js';
+import {traverse} from 'pathway-commons';
 import isEmpty from 'lodash/isEmpty';
 
 // Interactions
@@ -13,15 +13,14 @@ export class Interactions extends React.Component {
 			interactionParticipants: {}
 		}
 
-		var urlInteraction = {
-			uri: this.props.uri,
-			path: "Pathway/pathwayComponent:Interaction/participant*/displayName"
-		};
-		httpGetAsync(getTraversalURL(urlInteraction), (responseText) => {
-			if(responseText !== null) {
-				this.setState({interactionParticipants: parseJSON(responseText).traverseEntry[0].value});
-			}
-		});
+		traverse()
+			.uri(this.props.uri)
+			.path("Pathway/pathwayComponent:Interaction/participant*/displayName")
+			.format("json")
+			.fetch()
+			.then(responseArray => {
+				this.setState({interactionParticipants: responseArray.traverseEntry[0].value});
+			});
 	}
 	render() {
 		if(!isEmpty(this.state.interactionParticipants)) {

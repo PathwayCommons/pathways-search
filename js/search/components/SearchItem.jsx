@@ -1,8 +1,9 @@
 import React from 'react';
 import {Col, Image} from 'react-bootstrap';
 import {Link} from 'react-router';
+import isEqual from 'lodash/isEqual';
 
-import {getLogoURL} from './../../helpers/http.js';
+import {datasources} from 'pathway-commons';
 
 // SearchList
 // This component is only meant to be called by SearchList
@@ -10,6 +11,25 @@ import {getLogoURL} from './../../helpers/http.js';
 // - data
 // - dataSources
 export class SearchItem extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			imageSource: ""
+		};
+		this.updateImage(this.props.data.dataSource[0]);
+	}
+
+	// If query prop or dataSource is changed then re-render
+	componentWillReceiveProps(nextProps) {
+		if (!isEqual(this.props.data, nextProps.data)) {
+			this.updateImage(nextProps.data.dataSource[0]);
+		}
+	}
+
+	updateImage(datasource) {
+		datasources.lookupIcon(datasource).then(iconUrl => this.setState({imageSource: iconUrl}));
+	}
+
 	render() {
 		var data = this.props.data;
 		return (
@@ -17,7 +37,7 @@ export class SearchItem extends React.Component {
 				<Link to={{pathname: "/pathway", query: {uri: data.uri}}} target="_blank">
 					<Col xs={3} className="src-thumbnail-container">
 						<div className="src-thumbnail">
-							<Image src={getLogoURL(this.props.dataSources, data.dataSource[0])}/>
+							<Image src={this.state.imageSource}/>
 						</div>
 					</Col>
 					<Col xs={9}>
