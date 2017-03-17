@@ -27,7 +27,6 @@
 	@custom-media --screen-sm (max-width: 991px);
 	@custom-media --screen-md (max-width: 1199px);
 
-
-	/* Declare global dimensions */
-	--footerHeight: 70px;
+	/* Declare variables used in Pathway.css */
+	--nameHeaderHeight: 50px;
 }

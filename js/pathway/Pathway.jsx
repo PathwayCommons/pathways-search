@@ -1,15 +1,17 @@
 import React from 'react';
 import {Redirect} from 'react-router';
-import {Nav, NavItem} from 'react-bootstrap';
+import {Col, Glyphicon} from 'react-bootstrap';
 import convert from 'sbgnml-to-cytoscape';
 import {get, traverse} from 'pathway-commons';
 
 import {ErrorMessage} from '../components/ErrorMessage.jsx';
+import {HelpTooltip} from '../components/HelpTooltip.jsx';
 import {Summary} from './tabs/Summary.jsx';
 import {Interactions} from './tabs/Interactions.jsx';
 import {Publications} from './tabs/Publications.jsx';
 import {Downloads} from './tabs/Downloads.jsx';
 import {Graph} from './tabs/Graph.jsx';
+import {PathwayMenu} from './components/PathwayMenu.jsx';
 
 // Pathway
 // Prop Dependencies ::
@@ -20,7 +22,8 @@ export class Pathway extends React.Component {
 		super(props);
 		this.state = {
 			pathwayData: {},
-			name: ""
+			name: "",
+			show: false
 		}
 
 		get()
@@ -51,48 +54,33 @@ export class Pathway extends React.Component {
 		this.setState({pathwayData: pathwayString});
 	}
 
-	handleSelect(eventKey) {
-		this.props.router.push({
-			pathname: this.props.location.pathname,
-			query: {
-				uri: this.props.location.query.uri,
-				active: eventKey
-			}
-		});
+	toggleMenu(value) {
+		if(typeof value === "boolean") {
+			this.setState({show: value});
+		}
+		else {
+			this.setState({show: !this.state.showMenu});
+		}
 	}
 
 	render() {
-		var active = this.props.location.query.active || "Graph";
 		if(this.state.pathwayData) {
 			return(
 				<div className="Pathway">
-					<div className="name jumbotron">
-						{this.state.name}
+					<div className="nameHeader jumbotron clearfix">
+						<Col className="name" xs={10} sm={11}>
+							{this.state.name}
+						</Col>
+						<Col className="settings-modal-button" xs={2} sm={1}>
+							<Glyphicon glyph="cog" onClick={() => this.toggleMenu()}/>
+							<HelpTooltip show={this.props.help} title="Search Options" placement="left" positionTop="-65px" positionLeft="-170px">
+								Control Panel
+							</HelpTooltip>
+						</Col>
 					</div>
-					<Nav activeKey={active} onSelect={(e) => this.handleSelect(e)} bsStyle="tabs">
-						{/*
-						<NavItem eventKey="Summary">
-							Summary
-						</NavItem>
-						<NavItem eventKey="Publications">
-							Publications
-						</NavItem>
-						*/}
-						<NavItem eventKey="Interactions">
-							Interactions
-						</NavItem>
-						<NavItem eventKey="Downloads">
-							Downloads
-						</NavItem>
-						<NavItem eventKey="Graph">
-							Graph
-						</NavItem>
-					</Nav>
-					<Summary hidden={"Summary" != active}/>
-					<Interactions hidden={"Interactions" != active} uri={this.props.location.query.uri}/>
-					<Publications hidden={"Publications" != active}/>
-					<Downloads hidden={"Downloads" != active} uri={this.props.location.query.uri} name={this.state.name} pathwayData={this.state.pathwayData}/>
-					<Graph hidden={"Graph" != active} pathwayData={this.state.pathwayData}/>
+					<Graph pathwayData={this.state.pathwayData}/>
+					{/* Menu Modal */}
+					<PathwayMenu onHide={() => this.toggleMenu(false)} {...this.state} {...this.props}/>
 				</div>
 			);
 		}

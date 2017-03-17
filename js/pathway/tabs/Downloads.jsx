@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import {Col, Button} from 'react-bootstrap';
+import {Col, Button, Glyphicon} from 'react-bootstrap';
 import isEmpty from 'lodash/isEmpty';
 import {saveAs} from 'file-saver';
 import {get} from 'pathway-commons';
@@ -32,15 +32,21 @@ export class Downloads extends React.Component {
 
 	generateDownloadCard(cardName, onClick) {
 		return (
-			<Col xs={12} sm={6} md={4}>
-				<div className="tile">
-					<div className="formatName">
-						{cardName}
-					</div>
-					<br/>
-					<Button onClick={onClick}>
-						Download
-					</Button>
+			<Col className={classNames("downloadCard", cardName)} key={cardName} xs={12}>
+				<div className="tile clearfix">
+					<Col xs={2}>
+						<Button className="downloadButton" onClick={onClick}>
+							<Glyphicon glyph="save"/>
+						</Button>
+					</Col>
+					<Col xs={10}>
+						<div className="formatHeader">
+							{cardName}
+						</div>
+						<div className="descriptiveText">
+							{"Descriptive text here"}
+						</div>
+					</Col>
 				</div>
 			</Col>
 		);
@@ -49,7 +55,6 @@ export class Downloads extends React.Component {
 	render() {
 		return(
 			<div className={classNames("Downloads", (this.props.hidden ? "hidden" : ""))}>
-				<br/>
 				<div className="downloadContainer clearfix">
 					{/* All generate all standard PC file downloads */}
 					{getDataFormats.map((item, index) => {

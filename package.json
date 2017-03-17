@@ -9,7 +9,7 @@
     "start": "http-server",
     "prestart": "npm run build"
   },
-  "author": "Manfred Cheung @ UofT",
+  "author": "Manfred Cheung @ UofT <mj3cheun@uwaterloo.ca>",
   "license": "MIT",
   "dependencies": {
     "bootstrap": "^3.3.7",
