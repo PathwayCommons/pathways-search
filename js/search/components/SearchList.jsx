@@ -69,11 +69,6 @@ export class SearchList extends React.Component {
 							return (<SearchItem key={index} data={item}/>);
 						}
 					})}
-					<div className={classNames("paginationContainer", "text-center", hitList.length == 0
-						? "hidden"
-						: "")}>
-						<Pagination first last ellipsis boundaryLinks items={Math.ceil(searchData.numHits / searchData.maxHitsPerPage)} maxButtons={3} activePage={parseInt(this.props.query.page) + 1 || 1} onSelect={(e) => this.handleSelect(e)}/>
-					</div>
 				</div>
 			// If searchData is null this indicates no search results were found
 			);

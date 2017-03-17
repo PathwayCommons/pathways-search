@@ -49,7 +49,7 @@ export class PathwayMenu extends React.Component {
 						<Downloads hidden={"Downloads" != active} uri={this.props.location.query.uri} name={this.props.name} pathwayData={this.props.pathwayData}/>
 					</Modal.Body>
 					<Modal.Footer>
-						<Button onClick={() => this.toggleMenu(false)}>Close</Button>
+						<Button onClick={() => this.props.onHide()}>Close</Button>
 					</Modal.Footer>
 				</Modal>
 			</div>
