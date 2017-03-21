@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pagination, Modal} from 'react-bootstrap';
+import {Pagination, Modal, Image} from 'react-bootstrap';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
@@ -85,17 +85,14 @@ export class SearchList extends React.Component {
 			return (
 				<div className="SearchList">
 					<Modal.Dialog>
-						<Modal.Header>
-							<Modal.Title>Search</Modal.Title>
-						</Modal.Header>
-
 						<Modal.Body>
 							<div className="text">
-								Find and view pathways that are archived by Pathway Commons. You can access the collection of metabolic pathways, signalling pathways and gene regulatory networks sourced from <a href="http://www.pathwaycommons.org/pc2/datasources">public pathway databases</a>.
+								<Image src='img/splash_infographic.png' className="splashImage" responsive/>
+								Access the entire collection of metabolic pathways, signalling pathways and gene regulatory networks sourced from <a href="http://www.pathwaycommons.org/pc2/datasources">public pathway databases</a>.
 							</div>
 							<br/>
-							<div className="subtext">
-								<a href="https://www.ncbi.nlm.nih.gov/pubmed/21071392">Pathway Commons, a web resource for biological pathway data.</a> Cerami E et al. Nucleic Acids Research (2011).
+							<div className="subtext text-right">
+								<a href="https://www.ncbi.nlm.nih.gov/pubmed/21071392">Pathway Commons, a web resource for biological pathway data.</a><br/> Cerami E et al. Nucleic Acids Research (2011).
 							</div>
 						</Modal.Body>
 						<Modal.Footer>

@@ -7,9 +7,14 @@
 		margin: 0px;
 	}
 
-	& .glyphicon {
+	& .barItem {
 		line-height: 42px;
-		font-size: 26px;
+		font-size: 16px;
 		cursor: pointer;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-align: center;
+		color: var(--darkGrey);
 	}
 }

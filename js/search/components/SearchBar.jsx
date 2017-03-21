@@ -1,5 +1,5 @@
 import React from 'react';
-import {Col, FormGroup, InputGroup, FormControl, Button, Modal, Glyphicon} from 'react-bootstrap';
+import {Col, FormGroup, InputGroup, FormControl, Button, Modal} from 'react-bootstrap';
 import {SearchOptions} from './SearchOptions.jsx';
 import {HelpTooltip} from './../../components/HelpTooltip.jsx';
 
@@ -45,23 +45,25 @@ export class SearchBar extends React.Component {
 	render() {
 		return (
 			<div className="SearchBar jumbotron clearfix">
-				<Col xs={10} sm={11}>
+				<Col xs={9} md={10}>
 					<FormGroup>
 						<InputGroup>
-							<FormControl type="text" defaultValue={this.props.query.q} placeholder="Search pathway by name, a list of gene names or type a URI" onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)}/>
+							<FormControl type="text" defaultValue={this.props.query.q} placeholder="Search Pathway Commons by  pathway name or gene names" onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)}/>
 							<InputGroup.Button>
 								<Button onClick={() => this.updateTerm()}>Search</Button>
 							</InputGroup.Button>
 						</InputGroup>
 					</FormGroup>
 					<HelpTooltip show={this.props.help} title="Search Bar">
-						Enter a keyword, phrase, gene name or gene id. Separate multiple items by clicking "Enter" after each. Submit the query by clicking the "Search" button.
+						Enter the name of the pathway or gene names. Submit the query by clicking the "Search" button. e.g. 'BMP Signaling'.
 					</HelpTooltip>
 				</Col>
-				<Col xs={2} sm={1}>
-					<Glyphicon glyph="cog" onClick={() => this.toggleFilterMenu(true)}/>
-					<HelpTooltip show={this.props.help} title="Search Options" placement="left" positionTop="-110px" positionLeft="-280px">
-						This menu provides a way to refine your search results. For example, filter the results by database or order by pathway size.
+				<Col xs={3} sm={2}>
+					<div className="barItem" onClick={() => this.toggleFilterMenu(true)}>
+						Advanced
+					</div>
+					<HelpTooltip show={this.props.help} title="Search Options">
+						This menu provides a way to refine your search results. For example, filter the results by database.
 					</HelpTooltip>
 				</Col>
 
