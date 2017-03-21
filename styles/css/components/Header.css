@@ -9,6 +9,13 @@
 		}
 	}
 
+	& .headerIcon {
+		height: 100%;
+		width: auto;
+		vertical-align: text-top;
+		margin-right: 20px;
+	}
+
 	& li * {
 		vertical-align: middle;
 		cursor: pointer;
