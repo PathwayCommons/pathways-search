@@ -1,7 +1,7 @@
 import React from 'react';
 import {FormGroup, InputGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
+import {Typeahead} from 'react-bootstrap-typeahead';
 import map from 'lodash/map';
-import filter from 'lodash/filter';
 import isEmpty from 'lodash/isEmpty';
 import clone from 'lodash/clone';
 import {datasources} from 'pathway-commons';
@@ -50,29 +50,32 @@ export class SearchOptions extends React.Component {
 		});
 	}
 
-	renderFilter() {
-		return !isEmpty(this.state.datasource) ? (
-			<FormGroup>
-				<ControlLabel>
-					Data Source
-				</ControlLabel>
-				<FormControl componentClass="select" defaultValue={this.props.query.datasource} onChange={(e) =>
-						this.updateFilter("datasource", filter(e.target.childNodes, option => option.selected)
-						.map((e) => {return e.value}))
-				} multiple>
-					{map(this.state.datasource, (value, index) => {
-						return(<option value={value.id} key={index}>{value.name}</option>);
-					})}
-				</FormControl>
-			</FormGroup>
-		) : null;
-	}
-
 	render() {
-		return(
-			<div className="SearchOptions">
-				{this.renderFilter()}
-			</div>
-		);
+		if(!isEmpty(this.state.datasource)) {
+			var defaultArray = this.props.query.datasource ? this.state.datasource.filter(datasource => this.props.query.datasource.indexOf(datasource.id) !== -1) : [];
+			return (
+				<div className="SearchOptions">
+					<FormGroup>
+						<ControlLabel>
+							Data Source
+						</ControlLabel>
+						<Typeahead
+							multiple
+							clearButton
+							labelKey="name"
+							options={this.state.datasource}
+							defaultSelected={defaultArray}
+							placeholder="Select datasources ..."
+							onChange={(e) => {this.updateFilter("datasource", e.map(e => e.id));console.log(e.map(e => e.id));}}
+						/>
+					</FormGroup>
+				</div>
+			);
+		}
+		else {
+			return(
+				<div className="SearchOptions"/>
+			);
+		}
 	}
 }
