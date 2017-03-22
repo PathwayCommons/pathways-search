@@ -65,7 +65,7 @@ export class SearchList extends React.Component {
 			return (
 				<div className="SearchList">
 					{hitList.map((item, index) => {
-						if (item.size > 0) {
+						if (item.numParticipants > 3) {
 							return (<SearchItem key={index} data={item}/>);
 						}
 					})}

@@ -43,18 +43,11 @@ export class SearchItem extends React.Component {
 					<Col xs={9}>
 						<div className="header">
 							<p className="title"><strong>{data.name}</strong></p>
-							<p className="uri">{data.name ? "" : data.uri}</p>
 						</div>
 						<div className="subtext">
-							<p>
-								<small className="source">Source: <i>{data.sourceInfo.name}</i></small>
-							</p>
-							<p>
-								<small className="class">Class: {data.biopaxClass}</small><br/>
-							</p>
-							<p>
-								<small className="size">{data.size != null ? "Number of Interactions: " + data.size : ""}</small>
-							</p>
+								<span className="source">{data.sourceInfo.name}</span>
+								<br/>
+								<span className="participants">{(data.numParticipants || "0") + " Participants"}</span>
 						</div>
 					</Col>
 				</Link>
