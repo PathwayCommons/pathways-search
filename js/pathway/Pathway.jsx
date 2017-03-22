@@ -11,7 +11,7 @@ import {Interactions} from './tabs/Interactions.jsx';
 import {Publications} from './tabs/Publications.jsx';
 import {Downloads} from './tabs/Downloads.jsx';
 import {Graph} from './tabs/Graph.jsx';
-import {PathwayMenu} from './components/PathwayMenu.jsx';
+import {ModalFramework} from './components/ModalFramework.jsx';
 
 // Pathway
 // Prop Dependencies ::
@@ -54,15 +54,6 @@ export class Pathway extends React.Component {
 		this.setState({pathwayData: pathwayString});
 	}
 
-	toggleMenu(value) {
-		if(typeof value === "boolean") {
-			this.setState({show: value});
-		}
-		else {
-			this.setState({show: !this.state.showMenu});
-		}
-	}
-
 	render() {
 		if(this.state.pathwayData) {
 			return(
@@ -71,13 +62,13 @@ export class Pathway extends React.Component {
 						<Col className="name" xs={10}>
 							{this.state.name}
 						</Col>
-						<Col className="tab-button" xs={2} onClick={() => this.toggleMenu()}>
+						<Col className="tab-button" xs={2} onClick={() => this.setState({active: "Downloads"})}>
 							Downloads
 						</Col>
 					</div>
 					<Graph pathwayData={this.state.pathwayData}/>
 					{/* Menu Modal */}
-					<PathwayMenu onHide={() => this.toggleMenu(false)} {...this.state} {...this.props}/>
+					<ModalFramework onHide={() => this.setState({active: ""})} {...this.state} {...this.props}/>
 				</div>
 			);
 		}
