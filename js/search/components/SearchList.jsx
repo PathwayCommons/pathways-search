@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
 import {search, datasources} from 'pathway-commons';
 import {SearchItem} from './SearchItem.jsx';
+import {HelpTooltip} from '../../components/HelpTooltip.jsx';
 
 // SearchList
 // Prop Dependencies ::
@@ -15,7 +16,8 @@ export class SearchList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			searchResult: {}
+			searchResult: {},
+			expanded: false
 		}
 		this.getSearchResult(this.props.query);
 	}
@@ -64,11 +66,26 @@ export class SearchList extends React.Component {
 			var hitList = searchData.searchHit;
 			return (
 				<div className="SearchList">
-					{hitList.map((item, index) => {
-						if (item.numParticipants > 3) {
-							return (<SearchItem key={index} data={item}/>);
-						}
-					})}
+					<HelpTooltip show={this.props.help} title="Search Results" placement="left" positionTop="180px">
+						This shows the top 5 pathways returned by Pathway Commons. Click on 'Show more results' to display the remaining 100 search hits returned. Participants refers to the number of physical entities such as proteins and small molecules
+					</HelpTooltip>
+					{
+						hitList
+						.map((item, index) => {
+							if (item.numParticipants > 3) {
+								return (<SearchItem key={index} data={item}/>);
+							}
+						})
+						.filter(item => item)
+						.slice(0, !this.state.expanded ? 5 : undefined)
+					}
+					{
+						!this.state.expanded ?
+						<div className="moreResults" onClick={() => this.setState({expanded: true})}>
+							Show More Results ...
+						</div>
+						: null
+					}
 				</div>
 			// If searchData is null this indicates no search results were found
 			);
@@ -79,9 +96,9 @@ export class SearchList extends React.Component {
 						No Search Results Found
 					</div>
 				</div>
-			// Otherwise assume page is still loading and display nothing
 			);
 		} else {
+			// Generate splash modal
 			return (
 				<div className="SearchList">
 					<Modal.Dialog>
