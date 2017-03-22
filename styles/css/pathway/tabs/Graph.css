@@ -23,7 +23,7 @@
 
 	& .graphMenuItem {
 		display: inline-block;
-		float: right;
+		float: left;
 		padding: 3px 20px;
 		background-color: var(--lightGrey);
 		cursor: pointer;

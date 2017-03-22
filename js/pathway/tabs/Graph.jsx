@@ -138,7 +138,7 @@ export class Graph extends React.Component {
 					<div className="graphMenuContainer">
 						<div className="graphMenu">
 							<div className="graphMenuItem" onClick={() => this.exportImage()}>
-								Download Image
+								Screenshot
 							</div>
 						</div>
 					</div>

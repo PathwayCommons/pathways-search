@@ -1,23 +1,25 @@
 .Pathway {
 	& .nameHeader {
+		line-height: 50px;
 		padding: 0px;
 		margin-bottom: 2px;
 		text-transform: capitalize;
 	}
 
 	& .name {
-		line-height: var(--nameHeaderHeight);
 		padding: 0px;
 		padding-left: 30px;
 	}
 
-	& .nav-tabs {
-		margin-bottom: 1px;
+	& .tab-button {
+		font-size: 16px;
+		padding-right: 20px;
+		cursor: pointer;
+		text-align: center;
+		color: var(--darkGrey);
 	}
 
-	& .glyphicon {
-		line-height: var(--nameHeaderHeight);
-		font-size: 26px;
-		cursor: pointer;
+	& .nav-tabs {
+		margin-bottom: 1px;
 	}
 }

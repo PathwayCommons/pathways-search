@@ -68,14 +68,11 @@ export class Pathway extends React.Component {
 			return(
 				<div className="Pathway">
 					<div className="nameHeader jumbotron clearfix">
-						<Col className="name" xs={10} sm={11}>
+						<Col className="name" xs={10}>
 							{this.state.name}
 						</Col>
-						<Col className="settings-modal-button" xs={2} sm={1}>
-							<Glyphicon glyph="cog" onClick={() => this.toggleMenu()}/>
-							<HelpTooltip show={this.props.help} title="Search Options" placement="left" positionTop="-65px" positionLeft="-170px">
-								Control Panel
-							</HelpTooltip>
+						<Col className="tab-button" xs={2} onClick={() => this.toggleMenu()}>
+							Downloads
 						</Col>
 					</div>
 					<Graph pathwayData={this.state.pathwayData}/>
