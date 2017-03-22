@@ -4,7 +4,7 @@ import {Col, Button, Glyphicon} from 'react-bootstrap';
 import isEmpty from 'lodash/isEmpty';
 import {saveAs} from 'file-saver';
 import {get} from 'pathway-commons';
-import {getDataFormats} from '../../helpers/pc2.js';
+import {DownloadCard} from './DownloadCard.jsx';
 
 // Downloads
 // Prop Dependencies ::
@@ -30,38 +30,35 @@ export class Downloads extends React.Component {
 		return filename.substr(0, filename.length < FILENAME_CUTOFF ? filename.length : FILENAME_CUTOFF).replace(/ /g, "_");
 	}
 
-	generateDownloadCard(cardName, onClick) {
-		return (
-			<Col className={classNames("downloadCard", cardName)} key={cardName} xs={12}>
-				<div className="tile clearfix">
-					<Col xs={2}>
-						<Button className="downloadButton" onClick={onClick}>
-							<Glyphicon glyph="save"/>
-						</Button>
-					</Col>
-					<Col xs={10}>
-						<div className="formatHeader">
-							{cardName}
-						</div>
-						<div className="descriptiveText">
-							{"Descriptive text here"}
-						</div>
-					</Col>
-				</div>
-			</Col>
-		);
-	}
-
 	render() {
 		return(
 			<div className={classNames("Downloads", (this.props.hidden ? "hidden" : ""))}>
 				<div className="downloadContainer clearfix">
-					{/* All generate all standard PC file downloads */}
-					{getDataFormats.map((item, index) => {
-						return this.generateDownloadCard(item.pc2.replace(/_/g, " "), () => {this.initiatePCDownload(item.pc2, item.file_ext)});
-					})}
 					{/* All custom download links go below */}
-					{!isEmpty(this.props.pathwayData) ? this.generateDownloadCard("Cytoscape JSON", () => {this.saveDownload("json", JSON.stringify(this.props.pathwayData, null, 2))}) : null}
+					<DownloadCard name="Gene Set" format="gmt" onClick={() => {this.initiatePCDownload("GSEA", "gmt")}}>
+						Database of pathway and gene names (Uniprot)
+						<br/>
+						Format: <a href="http://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29">Tab-delimited text</a>
+						<br/>
+						<ul>
+							<li>Perform enrichment analysis using GSEA.</li>
+						</ul>
+					</DownloadCard>
+					<DownloadCard name="Simple Interaction" format="sif" onClick={() => {this.initiatePCDownload("BINARY_SIF", "sif")}}>
+						Simplified description of pathway as a list of interaction pairs.
+						<br/>
+						Format: <a href="http://wiki.cytoscape.org/Cytoscape_User_Manual/Network_Formats">Tab-delimited text</a>
+						<br/>
+						<ul>
+							<li>View, style and edit using the Cytoscape desktop software.</li>
+							<li>Analyze using graph algorithms.</li>
+						</ul>
+					</DownloadCard>
+					{/*
+						<DownloadCard name="Cytoscape JSON" format="json" onClick={() => {this.saveDownload("json", JSON.stringify(this.props.pathwayData, null, 2))}}>
+							For use in Cytoscape
+						</DownloadCard>
+					*/}
 				</div>
 			</div>
 		);

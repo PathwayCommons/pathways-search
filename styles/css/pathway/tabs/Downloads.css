@@ -2,12 +2,4 @@
 	& .downloadContainer {
 		margin-top: 20px;
 	}
-
-	& .downloadButton {
-		font-size: 20px;
-	}
-
-	& .descriptiveText {
-		font-size: 14px;
-	}
 }

@@ -1,0 +1,11 @@
+.DownloadCard {
+	& .downloadButton {
+		height: 100px;
+		width: 100%;
+	}
+
+	& .descriptiveText {
+		font-size: 12px;
+		text-align: left;
+	}
+}
