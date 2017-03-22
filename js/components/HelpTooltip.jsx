@@ -23,7 +23,7 @@ export class HelpTooltip extends React.Component {
 	render() {
 		return (
 			<div className={classNames("HelpTooltip", this.props.className, this.state.show ? "" : "hidden")}>
-				<Popover id={this.props.title} title={this.props.title} placement={this.props.placement || "bottom"} positionTop={this.props.positionTop} positionLeft={this.props.positionLeft} container={this.props.container} onClick={() => {this.tempHide()}}>
+				<Popover id={this.props.title} title={this.props.title} placement={this.props.placement || "bottom"} positionTop={this.props.positionTop} positionLeft={this.props.positionLeft} onClick={() => {this.tempHide()}}>
 					<span className="helpText">
 						{this.props.children}
 					</span>

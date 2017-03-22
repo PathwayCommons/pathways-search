@@ -15,16 +15,23 @@ export class Graph extends React.Component {
 		super(props);
 		this.state = {
 			graphId: this.props.id || Math.floor(Math.random() * Math.pow(10, 8)) + 1,
+			graphContainer: {},
 			graphInstance: {},
 			graphRendered: false,
-			graphEmpty: false
+			graphEmpty: false,
+			width: "100vw",
+			height: "85vh"
 		}
 	}
 
 	componentDidMount() {
-		let sbgnViz = new SBGNViz({container: document.getElementById(this.state.graphId)});
-		this.setState({graphInstance: sbgnViz});
-		this.checkRenderGraph(this.props.pathwayData)
+		var graphContainer = document.getElementById(this.state.graphId);
+		let sbgnViz = new SBGNViz({container: graphContainer});
+		this.setState({
+			graphInstance: sbgnViz,
+			graphContainer: graphContainer
+		});
+		this.checkRenderGraph(this.props.pathwayData);
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -32,18 +39,37 @@ export class Graph extends React.Component {
 		return true;
 	}
 
+	handleResize() {
+		var xPosition = 0;
+		var yPosition = 0;
+
+		var element = this.state.graphContainer;
+		while (element) {
+			yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+			element = element.offsetParent;
+		}
+
+		var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+		var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+		this.setState({
+			width: w,
+			height: h - yPosition
+		});
+	}
+
 	checkRenderGraph(pathwayData) {
-		if(this.checkEmptyGraph(pathwayData)) {
+		if (this.checkEmptyGraph(pathwayData)) {
 			this.state.graphEmpty = true;
 		}
-		if(!isEmpty(pathwayData) && (!this.state.graphRendered)) {
+		if (!isEmpty(pathwayData) && (!this.state.graphRendered)) {
 			this.renderGraph(this.state.graphInstance, pathwayData);
 		}
 	}
 
 	// Checks if graph data returned has any nodes
 	checkEmptyGraph(pathwayData) {
-		if(!isEmpty(pathwayData) && (pathwayData.nodes.length == 0)) {
+		if (!isEmpty(pathwayData) && (pathwayData.nodes.length == 0)) {
 			return true;
 		}
 		else {
@@ -53,6 +79,14 @@ export class Graph extends React.Component {
 
 	// Graph rendering is not tracked by React
 	renderGraph(cy, cyGraph) {
+		this.handleResize();
+		// Add listener to take care of resize events
+		if (window.addEventListener) {
+			window.addEventListener('resize', () => {
+				this.handleResize();
+			}, true);
+		}
+
 		this.state.graphRendered = true;
 		cy.startBatch();
 		cy.remove('*');
@@ -81,7 +115,7 @@ export class Graph extends React.Component {
 	};
 
 	exportImage() {
-		if(!isEmpty(this.state.graphInstance)) {
+		if (!isEmpty(this.state.graphInstance)) {
 			var imgString = this.state.graphInstance.png({scale: 10});
 			imgString = imgString.substring(imgString.indexOf(",") + 1);
 			var blob = base64toBlob(imgString, "image/png");
@@ -90,15 +124,17 @@ export class Graph extends React.Component {
 	}
 
 	resetImage() {
-		if(!isEmpty(this.props.pathwayData)) {
+		if (!isEmpty(this.props.pathwayData)) {
 			this.renderGraph(this.state.graphInstance, this.props.pathwayData);
 		}
 	}
 
 	render() {
-		if(!this.state.graphEmpty) {
-			return(
-				<div className={classNames("Graph", this.props.hidden ? "visibilityHidden" : "")}>
+		if (!this.state.graphEmpty) {
+			return (
+				<div className={classNames("Graph", this.props.hidden
+					? "visibilityHidden"
+					: "")}>
 					<div className="graphMenuContainer">
 						<div className="graphMenu">
 							<div className="graphMenuItem" onClick={() => this.exportImage()}>
@@ -109,15 +145,15 @@ export class Graph extends React.Component {
 					<div className="SpinnerContainer">
 						<Spinner hidden={this.state.graphRendered}/>
 					</div>
-					<div
-						id={this.state.graphId}
-						style={{width:'100vw', height:'76vh'}}
-					/>
+					<div id={this.state.graphId} style={{
+						width: this.state.width,
+						height: this.state.height
+					}}/>
 				</div>
 			);
 		}
 		else {
-			return(
+			return (
 				<ErrorMessage className={classNames("Graph", this.props.hidden ? "visibilityHidden" : "")}>
 					No Paths Found
 				</ErrorMessage>
