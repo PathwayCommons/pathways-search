@@ -26,8 +26,7 @@
     "react-dom": "^15.4.1",
     "react-router": "^3.0.0",
     "react-toggle": "^3.0.1",
-    "sbgn-renderer": "^0.1.0",
-    "sbgnml-to-cytoscape": "~1.1.1",
+    "sbgn-renderer": "git://github.com/PathwayCommons/sbgn-renderer#1.1.0",
     "spinkit": "^1.2.5"
   },
   "devDependencies": {

@@ -1,7 +1,6 @@
 import React from 'react';
 import {Redirect} from 'react-router';
 import {Col, Glyphicon} from 'react-bootstrap';
-import convert from 'sbgnml-to-cytoscape';
 import {get, traverse} from 'pathway-commons';
 
 import {ErrorMessage} from '../components/ErrorMessage.jsx';
@@ -31,7 +30,7 @@ export class Pathway extends React.Component {
 			.format("SBGN")
 			.fetch()
 			.then((responseText) => {
-				this.updatePathwayData(responseText);
+				this.setState({pathwayData: responseText});
 			});
 
 		traverse()
@@ -42,16 +41,6 @@ export class Pathway extends React.Component {
 			.then((responseObject) => {
 				this.setState({name: responseObject.traverseEntry[0].value.pop()});
 			});
-	}
-
-	updatePathwayData(pathwayString) {
-		try {
-			pathwayString = convert(pathwayString);
-		}
-		catch(e) {
-			pathwayString = null;
-		}
-		this.setState({pathwayData: pathwayString});
 	}
 
 	render() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-import SBGNViz from 'sbgn-renderer';
+import SBGNRenderer from 'sbgn-renderer';
 import {saveAs} from 'file-saver';
 import {Spinner} from '../../components/Spinner.jsx';
 import {base64toBlob} from '../../helpers/converters.js';
@@ -26,9 +26,8 @@ export class Graph extends React.Component {
 
 	componentDidMount() {
 		var graphContainer = document.getElementById(this.state.graphId);
-		let sbgnViz = new SBGNViz({container: graphContainer});
 		this.setState({
-			graphInstance: sbgnViz,
+			graphInstance: new SBGNRenderer({container: graphContainer}),
 			graphContainer: graphContainer
 		});
 		this.checkRenderGraph(this.props.pathwayData);
@@ -59,26 +58,13 @@ export class Graph extends React.Component {
 	}
 
 	checkRenderGraph(pathwayData) {
-		if (this.checkEmptyGraph(pathwayData)) {
-			this.state.graphEmpty = true;
-		}
 		if (!isEmpty(pathwayData) && (!this.state.graphRendered)) {
 			this.renderGraph(this.state.graphInstance, pathwayData);
 		}
 	}
 
-	// Checks if graph data returned has any nodes
-	checkEmptyGraph(pathwayData) {
-		if (!isEmpty(pathwayData) && (pathwayData.nodes.length == 0)) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
 	// Graph rendering is not tracked by React
-	renderGraph(cy, cyGraph) {
+	renderGraph(cy, sbgnString) {
 		this.handleResize();
 		// Add listener to take care of resize events
 		if (window.addEventListener) {
@@ -88,30 +74,7 @@ export class Graph extends React.Component {
 		}
 
 		this.state.graphRendered = true;
-		cy.startBatch();
-		cy.remove('*');
-		cy.add(cyGraph);
-
-		var nodePositions = {};
-		for (var i = 0; i < cyGraph.nodes.length; i++) {
-			var xPos = cyGraph.nodes[i].data.bbox.x;
-			var yPos = cyGraph.nodes[i].data.bbox.y;
-			nodePositions[cyGraph.nodes[i].data.id] = {
-				'x': xPos,
-				'y': yPos
-			};
-		}
-
-		cy.layout({name: 'preset', positions: nodePositions, fit: true, padding: 50});
-
-		var compounds = cy.nodes().filter('$node > node');
-		compounds.css('padding-left', 5);
-		compounds.css('padding-right', 5);
-		compounds.css('padding-top', 5);
-		compounds.css('padding-bottom', 5);
-
-		cy.endBatch();
-		cy.style().update();
+		SBGNRenderer.renderGraph(cy, sbgnString);
 	};
 
 	exportImage() {
