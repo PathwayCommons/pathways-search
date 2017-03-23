@@ -60,9 +60,10 @@ export class SearchList extends React.Component {
 
 	render() {
 		var searchData = this.state.searchResult;
+		var isFull = !isEmpty(searchData);
 
 		// Only load populated searchlist if searchData is populated
-		if (!isEmpty(searchData)) {
+		if (isFull && !searchData.empty) {
 			var hitList = searchData.searchHit;
 			return (
 				<div className="SearchList">
@@ -89,7 +90,7 @@ export class SearchList extends React.Component {
 				</div>
 			// If searchData is null this indicates no search results were found
 			);
-		} else if (searchData === null) {
+		} else if (isFull && searchData.empty) {
 			return (
 				<div className="SearchList">
 					<div className="noSearchResults">
