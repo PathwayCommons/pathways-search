@@ -101,11 +101,11 @@ export class SearchList extends React.Component {
 			// Generate splash modal
 			return (
 				<div className="SearchList">
-					<Modal.Dialog>
+					<Modal.Dialog className="splashModal">
 						<Modal.Body>
 							<div className="text">
 								<Image src='img/splash_infographic.png' className="splashImage" responsive/>
-								Access the entire collection of metabolic pathways, signalling pathways and gene regulatory networks sourced from <a href="http://www.pathwaycommons.org/pc2/datasources">public pathway databases</a>.
+								Access the entire collection of metabolic pathways, signalling pathways and gene regulatory networks sourced from  <a href="http://www.pathwaycommons.org/pc2/datasources">public pathway databases</a>.
 							</div>
 							<br/>
 							<div className="subtext text-right">

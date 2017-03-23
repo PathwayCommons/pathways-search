@@ -57,7 +57,7 @@ export class SearchOptions extends React.Component {
 				<div className="SearchOptions">
 					<FormGroup>
 						<ControlLabel>
-							Data Source
+							Filter by datasource:
 						</ControlLabel>
 						<Typeahead
 							multiple
@@ -66,7 +66,7 @@ export class SearchOptions extends React.Component {
 							options={this.state.datasource}
 							defaultSelected={defaultArray}
 							placeholder="Select datasources ..."
-							onChange={(e) => {this.updateFilter("datasource", e.map(e => e.id));console.log(e.map(e => e.id));}}
+							onChange={selectedArray => this.updateFilter("datasource", selectedArray.map(selected => selected.id))}
 						/>
 					</FormGroup>
 				</div>

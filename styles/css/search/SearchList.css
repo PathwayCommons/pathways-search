@@ -8,8 +8,9 @@
 		width: 100%;
 	}
 
-	& .modal {
+	& .splashModal {
 		position: relative;
+		z-index: 1000;
 	}
 
 	& .splashImage {
