@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import {Col, FormGroup, InputGroup, FormControl, Button, Modal} from 'react-bootstrap';
 import {SearchOptions} from './SearchOptions.jsx';
 import {HelpTooltip} from './../../components/HelpTooltip.jsx';
@@ -59,7 +60,7 @@ export class SearchBar extends React.Component {
 					</HelpTooltip>
 				</Col>
 				<Col xs={3} sm={2}>
-					<div className="barItem" onClick={() => this.toggleFilterMenu(true)}>
+					<div className={classNames("barItem", this.props.query.q ? "" : "hidden")} onClick={() => this.toggleFilterMenu(true)}>
 						Advanced
 					</div>
 					<HelpTooltip show={this.props.help} title="Search Options">
