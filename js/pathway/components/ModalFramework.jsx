@@ -25,7 +25,7 @@ export class ModalFramework extends React.Component {
 						<Summary hidden={"Summary" != active}/>
 						<Interactions hidden={"Interactions" != active} uri={this.props.location.query.uri}/>
 						<Publications hidden={"Publications" != active}/>
-						<Downloads hidden={"Downloads" != active} uri={this.props.location.query.uri} name={this.props.name} pathwayData={this.props.pathwayData}/>
+						<Downloads hidden={"Downloads" != active} uri={this.props.location.query.uri} name={this.props.name} pathwayData={this.props.pathwayData} graphImage={this.props.graphImage}/>
 					</Modal.Body>
 					<Modal.Footer>
 						<Button onClick={() => this.props.onHide()}>Close</Button>

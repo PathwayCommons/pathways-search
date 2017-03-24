@@ -20,13 +20,18 @@ export class Page extends React.Component {
 		}
 	}
 
+	deleteGlobal(key) {
+		delete this.state[key];
+	}
+
 	getAllGlobals() {
 		return this.state;
 	}
 
 	render() {
 		var globalObject = Object.assign({
-			updateGlobal: (key, value) => this.updateGlobal(key, value)
+			updateGlobal: (key, value) => this.updateGlobal(key, value),
+			deleteGlobal: (key) => this.deleteGlobal(key)
 		}, this.getAllGlobals());
 
 		return (

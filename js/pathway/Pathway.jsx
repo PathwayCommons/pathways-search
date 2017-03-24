@@ -55,7 +55,7 @@ export class Pathway extends React.Component {
 							Downloads
 						</Col>
 					</div>
-					<Graph pathwayData={this.state.pathwayData}/>
+					<Graph pathwayData={this.state.pathwayData} {...this.props}/>
 					{/* Menu Modal */}
 					<ModalFramework onHide={() => this.setState({active: ""})} {...this.state} {...this.props}/>
 				</div>

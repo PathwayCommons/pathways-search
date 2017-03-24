@@ -9,6 +9,8 @@ import {ErrorMessage} from '../../components/ErrorMessage.jsx';
 
 // Graph
 // Prop Dependencies ::
+// - updateGlobal
+// - deleteGlobal
 // - pathwayData
 export class Graph extends React.Component {
 	constructor(props) {
@@ -22,6 +24,10 @@ export class Graph extends React.Component {
 			width: "100vw",
 			height: "85vh"
 		}
+	}
+
+	componentWillUnmount() {
+		this.props.deleteGlobal("graphImage");
 	}
 
 	componentDidMount() {
@@ -73,13 +79,17 @@ export class Graph extends React.Component {
 			}, true);
 		}
 
+		// Set global graphImage
+		this.props.updateGlobal("graphImage", () => this.exportImage(true));
+
+		// Perform render
 		this.state.graphRendered = true;
 		SBGNRenderer.renderGraph(cy, sbgnString);
 	};
 
-	exportImage() {
+	exportImage(isFullscreen) {
 		if (!isEmpty(this.state.graphInstance)) {
-			var imgString = this.state.graphInstance.png({scale: 10});
+			var imgString = this.state.graphInstance.png({scale: 10, full: Boolean(isFullscreen)});
 			imgString = imgString.substring(imgString.indexOf(",") + 1);
 			var blob = base64toBlob(imgString, "image/png");
 			saveAs(blob, "Graph" + this.state.graphId + ".png");

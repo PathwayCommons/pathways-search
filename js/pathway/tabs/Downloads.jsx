@@ -11,6 +11,7 @@ import {DownloadCard} from './DownloadCard.jsx';
 // - name
 // - uri
 // - pathwayData
+// - graphImage
 export class Downloads extends React.Component {
 	initiatePCDownload(format, file_ext) {
 		get()
@@ -35,6 +36,11 @@ export class Downloads extends React.Component {
 			<div className={classNames("Downloads", (this.props.hidden ? "hidden" : ""))}>
 				<div className="downloadContainer clearfix">
 					{/* All custom download links go below */}
+					<DownloadCard name="Pathway Image" format="png" onClick={() => {this.props.graphImage()}}>
+						Dowloads an image of the entire pathway. If you wish to capture only a subsection of the pathway, use the 'Screencapture' link on the top left of the main viewer.
+						<br/>
+						Format: PNG
+					</DownloadCard>
 					<DownloadCard name="Gene Set Database" format="gmt" onClick={() => {this.initiatePCDownload("GSEA", "gmt")}}>
 						Database of pathway and gene names (Uniprot)
 						<br/>
