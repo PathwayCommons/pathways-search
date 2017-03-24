@@ -2,10 +2,6 @@
 	padding: 15px 5px;
 	overflow: hidden;
 
-	& a {
-		color: var(--black);
-	}
-
 	& .src-thumbnail-container {
 		display: table;
 		height: 100px;
@@ -28,6 +24,13 @@
 
 	& .title {
 		margin-bottom: 5px;
+		color: var(--darkBlue);
+	}
+
+	& .title:hover {
+		cursor: pointer;
+		color: var(--lightBlue);
+		text-decoration: underline;
 	}
 
 	& .participants {
@@ -35,13 +38,5 @@
 		background-color: var(--lightBlue);
 		color: var(--white);
 		padding: 2px 10px;
-	}
-}
-
-.SearchItem:hover {
-	cursor: pointer;
-
-	& .title {
-		color: var(--lightBlue);
 	}
 }

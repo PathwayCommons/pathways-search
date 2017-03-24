@@ -34,23 +34,23 @@ export class SearchItem extends React.Component {
 		var data = this.props.data;
 		return (
 			<div className="SearchItem clearfix">
-				<Link to={{pathname: "/pathway", query: {uri: data.uri}}} target="_blank">
-					<Col xs={3} className="src-thumbnail-container">
-						<div className="src-thumbnail">
-							<Image src={this.state.imageSource}/>
-						</div>
-					</Col>
-					<Col xs={9}>
-						<div className="header">
-							<p className="title"><strong>{data.name}</strong></p>
-						</div>
-						<div className="subtext">
-								<span className="source">{data.sourceInfo.name}</span>
-								<br/>
-								<span className="participants">{(data.numParticipants || "0") + " Participants"}</span>
-						</div>
-					</Col>
-				</Link>
+				<Col xs={3} className="src-thumbnail-container">
+					<div className="src-thumbnail">
+						<Image src={this.state.imageSource}/>
+					</div>
+				</Col>
+				<Col xs={9}>
+					<div className="header">
+							<Link className="title" to={{pathname: "/pathway", query: {uri: data.uri}}} target="_blank">
+								<strong>{data.name}</strong>
+							</Link>
+					</div>
+					<div className="subtext">
+							<span className="source">{data.sourceInfo.name}</span>
+							<br/>
+							<span className="participants">{(data.numParticipants || "0") + " Participants"}</span>
+					</div>
+				</Col>
 			</div>
 		);
 	}
