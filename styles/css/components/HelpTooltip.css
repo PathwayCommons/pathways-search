@@ -6,4 +6,9 @@
 		color: var(--black);
 		font-size: 16px;
 	}
+
+	& .clickable {
+		color: var(--lightBlue);
+		text-decoration: underline;
+	}
 }

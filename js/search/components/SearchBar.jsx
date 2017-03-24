@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import {Col, FormGroup, InputGroup, FormControl, Button, Modal} from 'react-bootstrap';
+import {hardReload} from '../../main.js';
 import {SearchOptions} from './SearchOptions.jsx';
 import {HelpTooltip} from './../../components/HelpTooltip.jsx';
 
@@ -43,6 +44,13 @@ export class SearchBar extends React.Component {
 		});
 	}
 
+	populateWithExample(e, q) {
+		e.stopPropagation();
+		this.state.q = q;
+		this.updateTerm();
+		hardReload();
+	}
+
 	render() {
 		return (
 			<div className="SearchBar jumbotron clearfix">
@@ -56,7 +64,7 @@ export class SearchBar extends React.Component {
 						</InputGroup>
 					</FormGroup>
 					<HelpTooltip show={this.props.help} title="Search Bar">
-						Enter the name of the pathway or gene names. Submit the query by clicking the "Search" button. e.g. 'BMP Signaling'.
+						Enter the name of the pathway or gene names. Submit the query by clicking the "Search" button. e.g. 'BMP Signalling'. <span className="clickable" onClick={e => this.populateWithExample(e, "BMP Signalling")}>Click here</span> for an example search query.
 					</HelpTooltip>
 				</Col>
 				<Col xs={3} sm={2}>
