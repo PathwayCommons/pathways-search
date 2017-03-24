@@ -35,7 +35,7 @@ export class Downloads extends React.Component {
 			<div className={classNames("Downloads", (this.props.hidden ? "hidden" : ""))}>
 				<div className="downloadContainer clearfix">
 					{/* All custom download links go below */}
-					<DownloadCard name="Gene Set" format="gmt" onClick={() => {this.initiatePCDownload("GSEA", "gmt")}}>
+					<DownloadCard name="Gene Set Database" format="gmt" onClick={() => {this.initiatePCDownload("GSEA", "gmt")}}>
 						Database of pathway and gene names (Uniprot)
 						<br/>
 						Format: <a href="http://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29">Tab-delimited text</a>
@@ -44,7 +44,7 @@ export class Downloads extends React.Component {
 							<li>Perform enrichment analysis using GSEA.</li>
 						</ul>
 					</DownloadCard>
-					<DownloadCard name="Simple Interaction" format="sif" onClick={() => {this.initiatePCDownload("BINARY_SIF", "sif")}}>
+					<DownloadCard name="Simple Interaction Format" format="sif" onClick={() => {this.initiatePCDownload("BINARY_SIF", "sif")}}>
 						Simplified description of pathway as a list of interaction pairs.
 						<br/>
 						Format: <a href="http://wiki.cytoscape.org/Cytoscape_User_Manual/Network_Formats">Tab-delimited text</a>

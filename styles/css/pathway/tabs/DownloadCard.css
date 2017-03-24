@@ -1,7 +1,8 @@
 .DownloadCard {
 	& .downloadButton {
-		height: 100px;
+		padding: 5px 0px;
 		width: 100%;
+		margin-bottom: 10px;
 	}
 
 	& .descriptiveText {
