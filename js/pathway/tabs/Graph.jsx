@@ -80,19 +80,22 @@ export class Graph extends React.Component {
 		}
 
 		// Set global graphImage
-		this.props.updateGlobal("graphImage", () => this.exportImage(true));
+		this.props.updateGlobal("graphImage", (cb) => this.exportImage(true, cb));
 
 		// Perform render
 		this.state.graphRendered = true;
 		SBGNRenderer.renderGraph(cy, sbgnString);
 	};
 
-	exportImage(isFullscreen) {
+	exportImage(isFullscreen, cb) {
 		if (!isEmpty(this.state.graphInstance)) {
 			var imgString = this.state.graphInstance.png({scale: 10, full: Boolean(isFullscreen)});
 			imgString = imgString.substring(imgString.indexOf(",") + 1);
 			var blob = base64toBlob(imgString, "image/png");
 			saveAs(blob, "Graph" + this.state.graphId + ".png");
+		}
+		if(cb) {
+			cb();
 		}
 	}
 

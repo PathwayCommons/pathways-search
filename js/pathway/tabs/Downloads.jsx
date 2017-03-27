@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import {saveAs} from 'file-saver';
 import {get} from 'pathway-commons';
 import {DownloadCard} from './DownloadCard.jsx';
+import {Spinner} from '../../components/Spinner.jsx';
 
 // Downloads
 // Prop Dependencies ::
@@ -13,12 +14,25 @@ import {DownloadCard} from './DownloadCard.jsx';
 // - pathwayData
 // - graphImage
 export class Downloads extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			loading: false
+		};
+	}
+
+	toggleLoading() {
+		this.setState({loading: !this.state.loading});
+	}
+
 	initiatePCDownload(format, file_ext) {
+		this.toggleLoading();
 		get()
 			.uri(this.props.uri)
 			.format(format)
 			.fetch()
-			.then(content => this.saveDownload(file_ext, typeof content === "object" ? JSON.stringify(content) : content));
+			.then(content => this.saveDownload(file_ext, typeof content === "object" ? JSON.stringify(content) : content))
+			.then(() => this.toggleLoading());
 	}
 
 	saveDownload(file_ext, content) {
@@ -34,9 +48,14 @@ export class Downloads extends React.Component {
 	render() {
 		return(
 			<div className={classNames("Downloads", (this.props.hidden ? "hidden" : ""))}>
+				<Spinner full hidden={!this.state.loading}/>
 				<div className="downloadContainer clearfix">
 					{/* All custom download links go below */}
-					<DownloadCard name="Pathway Image" format="png" onClick={() => {this.props.graphImage()}}>
+					<DownloadCard name="Pathway Image" format="png" onClick={() => {
+							// Allow 10ms for toggleloading to finish before calling graphImage or else toggleLoading does not work properly
+							this.toggleLoading();
+							setTimeout(() => this.props.graphImage(() => this.toggleLoading()), 10);
+					}}>
 						Dowloads an image of the entire pathway. If you wish to capture only a subsection of the pathway, use the 'Screencapture' link on the top left of the main viewer.
 						<br/>
 						Format: PNG
