@@ -23,7 +23,7 @@ export class Graph extends React.Component {
 			graphEmpty: false,
 			width: "100vw",
 			height: "85vh"
-		}
+		};
 	}
 
 	componentWillUnmount() {

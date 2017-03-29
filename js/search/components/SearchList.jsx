@@ -18,7 +18,7 @@ export class SearchList extends React.Component {
 		this.state = {
 			searchResult: {},
 			expanded: false
-		}
+		};
 		this.getSearchResult(this.props.query);
 	}
 

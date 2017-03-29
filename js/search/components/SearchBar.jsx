@@ -18,7 +18,7 @@ export class SearchBar extends React.Component {
 		this.state = {
 			q: this.props.query.q || "",
 			showFilterMenu: false
-		}
+		};
 	}
 
 	updateTerm() {
@@ -64,7 +64,7 @@ export class SearchBar extends React.Component {
 						</InputGroup>
 					</FormGroup>
 					<HelpTooltip show={this.props.help} title="Search Bar">
-						Enter the name of the pathway or gene names. Submit the query by clicking the "Search" button. e.g. 'BMP Signalling'. <span className="clickable" onClick={e => this.populateWithExample(e, "BMP Signalling")}>Click here</span> for an example search query.
+						Enter the name of the pathway or gene names. Submit the query by clicking the "Search" button. e.g. 'Signaling by BMP' or 'ACVR2A BMP2 BMPR1B SMAD4'. <span className="clickable" onClick={e => this.populateWithExample(e, "ACVR2A BMP2 BMPR1B SMAD4")}>Click here</span> for an example search query.
 					</HelpTooltip>
 				</Col>
 				<Col xs={3} sm={2}>

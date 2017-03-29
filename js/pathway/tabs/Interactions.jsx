@@ -11,7 +11,7 @@ export class Interactions extends React.Component {
 		super(props);
 		this.state = {
 			interactionParticipants: {}
-		}
+		};
 
 		traverse()
 			.uri(this.props.uri)

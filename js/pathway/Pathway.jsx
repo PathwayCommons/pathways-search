@@ -23,7 +23,7 @@ export class Pathway extends React.Component {
 			pathwayData: {},
 			name: "",
 			show: false
-		}
+		};
 
 		get()
 			.uri(this.props.location.query.uri)
