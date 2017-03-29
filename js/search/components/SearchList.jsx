@@ -105,7 +105,7 @@ export class SearchList extends React.Component {
 					<Modal.Dialog className="splashModal">
 						<Modal.Body>
 							<div className="text">
-								<Image src='img/splash_infographic.png' className="splashImage" responsive/>
+								<Image src='img/splash_infographic.svg' className="splashImage" responsive/>
 								Access the entire collection of metabolic pathways, signalling pathways and gene regulatory networks sourced from  <a href="http://www.pathwaycommons.org/pc2/datasources">public pathway databases</a>.
 							</div>
 							<br/>
