@@ -41,7 +41,7 @@ export class Header extends React.Component {
 					<div className="navbar-collapse collapse">
 						<ul className="nav navbar-nav navbar-right">
 							<li>
-								<a onClick={e => this.toggleHelp()}>
+								<a className="helpButton" onClick={e => this.toggleHelp()}>
 									Help
 									<Toggle icons={false} checked={this.props.help}/>
 								</a>

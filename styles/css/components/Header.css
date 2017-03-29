@@ -21,6 +21,10 @@
 		cursor: pointer;
 	}
 
+	& .helpButton {
+		color: var(--red) !important;
+	}
+
 	& .react-toggle {
 		margin-left: 15px;
 	}
