@@ -18,9 +18,6 @@ export class ModalFramework extends React.Component {
 		return (
 			<div className="ModalFramework">
 				<Modal show={Boolean(active)} onHide={() => this.props.onHide()}>
-					<Modal.Header>
-						{active}
-					</Modal.Header>
 					<Modal.Body>
 						<Summary hidden={"Summary" != active}/>
 						<Interactions hidden={"Interactions" != active} uri={this.props.location.query.uri}/>

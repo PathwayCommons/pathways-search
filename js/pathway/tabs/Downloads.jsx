@@ -79,11 +79,6 @@ export class Downloads extends React.Component {
 							<li>Analyze using graph algorithms.</li>
 						</ul>
 					</DownloadCard>
-					{/*
-						<DownloadCard name="Cytoscape JSON" format="json" onClick={() => {this.saveDownload("json", JSON.stringify(this.props.pathwayData, null, 2))}}>
-							For use in Cytoscape
-						</DownloadCard>
-					*/}
 				</div>
 			</div>
 		);

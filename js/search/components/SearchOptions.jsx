@@ -56,8 +56,11 @@ export class SearchOptions extends React.Component {
 			return (
 				<div className="SearchOptions">
 					<FormGroup>
+						<div className="optionsHeader">
+							<strong>Filter</strong>
+						</div>
 						<ControlLabel>
-							Filter by datasource:
+							Datasource:
 						</ControlLabel>
 						<Typeahead
 							multiple
@@ -65,7 +68,7 @@ export class SearchOptions extends React.Component {
 							labelKey="name"
 							options={this.state.datasource}
 							defaultSelected={defaultArray}
-							placeholder="Select datasources ..."
+							placeholder="Select one or more datasources to filter by (eg. Reactome)"
 							onChange={selectedArray => this.updateFilter("datasource", selectedArray.map(selected => selected.id))}
 						/>
 					</FormGroup>

@@ -1,12 +1,13 @@
 .DownloadCard {
 	& .downloadButton {
+		font-size: 17px;
 		padding: 5px 0px;
 		width: 100%;
 		margin-bottom: 10px;
 	}
 
 	& .descriptiveText {
-		font-size: 12px;
+		font-size: 15px;
 		text-align: left;
 	}
 }

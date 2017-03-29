@@ -77,9 +77,6 @@ export class SearchBar extends React.Component {
 				</Col>
 
 				<Modal show={this.state.showFilterMenu} onHide={() => this.toggleFilterMenu(false)}>
-					<Modal.Header closeButton>
-						<Modal.Title>Advanced Search</Modal.Title>
-					</Modal.Header>
 					<Modal.Body>
 						<SearchOptions {...this.props}/>
 					</Modal.Body>
