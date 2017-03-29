@@ -54,7 +54,7 @@ export class SearchBar extends React.Component {
 	render() {
 		return (
 			<div className="SearchBar jumbotron clearfix">
-				<Col xs={9} md={10}>
+				<Col xs={this.props.query.q ? 9 : 12} md={10}>
 					<FormGroup>
 						<InputGroup>
 							<FormControl type="text" defaultValue={this.props.query.q} placeholder="Search Pathway Commons by  pathway name or gene names" onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)}/>
