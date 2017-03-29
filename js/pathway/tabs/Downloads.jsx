@@ -54,7 +54,7 @@ export class Downloads extends React.Component {
 					<DownloadCard name="Pathway Image" format="png" onClick={() => {
 							// Allow 10ms for toggleloading to finish before calling graphImage or else toggleLoading does not work properly
 							this.toggleLoading();
-							setTimeout(() => this.props.graphImage(() => this.toggleLoading()), 10);
+							setTimeout(() => this.props.graphImage(true, () => this.toggleLoading()), 10);
 					}}>
 						Dowloads an image of the entire pathway. If you wish to capture only a subsection of the pathway, use the 'Screencapture' link on the top left of the main viewer.
 						<br/>

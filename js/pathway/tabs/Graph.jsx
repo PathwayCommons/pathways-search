@@ -65,12 +65,12 @@ export class Graph extends React.Component {
 
 	checkRenderGraph(pathwayData) {
 		if (!isEmpty(pathwayData) && (!this.state.graphRendered)) {
-			this.renderGraph(this.state.graphInstance, pathwayData);
+			this.renderGraph(pathwayData);
 		}
 	}
 
 	// Graph rendering is not tracked by React
-	renderGraph(cy, sbgnString) {
+	renderGraph(sbgnString) {
 		this.handleResize();
 		// Add listener to take care of resize events
 		if (window.addEventListener) {
@@ -80,11 +80,11 @@ export class Graph extends React.Component {
 		}
 
 		// Set global graphImage
-		this.props.updateGlobal("graphImage", (cb) => this.exportImage(true, cb));
+		this.props.updateGlobal("graphImage", (isFullscreen, cb) => this.exportImage(isFullscreen, cb));
 
 		// Perform render
 		this.state.graphRendered = true;
-		SBGNRenderer.renderGraph(cy, sbgnString);
+		SBGNRenderer.renderGraph(this.state.graphInstance, sbgnString);
 	};
 
 	exportImage(isFullscreen, cb) {
@@ -113,9 +113,6 @@ export class Graph extends React.Component {
 					: "")}>
 					<div className="graphMenuContainer">
 						<div className="graphMenu">
-							<div className="graphMenuItem" onClick={() => this.exportImage()}>
-								Screenshot
-							</div>
 						</div>
 					</div>
 					<div className="SpinnerContainer">

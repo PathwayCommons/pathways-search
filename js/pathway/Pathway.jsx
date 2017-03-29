@@ -48,10 +48,13 @@ export class Pathway extends React.Component {
 			return(
 				<div className="Pathway">
 					<div className="nameHeader jumbotron clearfix">
-						<Col className="name" xs={10}>
+						<Col className="name" xs={8} lg={10}>
 							{this.state.name}
 						</Col>
-						<Col className="tab-button" xs={2} onClick={() => this.setState({active: "Downloads"})}>
+						<Col className="tab-button" xs={4} sm={2} lg={1} onClick={() => this.props.graphImage(false)}>
+							Screenshot
+						</Col>
+						<Col className="tab-button" xsHidden sm={2} lg={1} onClick={() => this.setState({active: "Downloads"})}>
 							Downloads
 						</Col>
 					</div>
