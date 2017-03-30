@@ -10,6 +10,7 @@ import {HelpTooltip} from '../../components/HelpTooltip.jsx';
 // SearchList
 // Prop Dependencies ::
 // - query
+// - embed
 // - updateSearchArg(updateObject)
 export class SearchList extends React.Component {
 	constructor(props) {
@@ -61,8 +62,11 @@ export class SearchList extends React.Component {
 		var searchData = this.state.searchResult;
 		var isFull = !isEmpty(searchData);
 
-		// Only load populated searchlist if searchData is populated
-		if (isFull && !searchData.empty) {
+		if (this.props.embed) {
+			// If is embed return nothing
+			return null;
+		} else if (isFull && !searchData.empty) {
+			// Only load populated searchlist if searchData is populated
 			var hitList = searchData.searchHit;
 			return (
 				<div className="SearchList">

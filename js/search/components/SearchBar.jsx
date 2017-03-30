@@ -8,6 +8,7 @@ import {HelpTooltip} from './../../components/HelpTooltip.jsx';
 // SearchBar
 // Prop Dependencies ::
 // - query
+// - embed
 // - updateSearchArg(updateObject)
 // - help
 
@@ -52,9 +53,10 @@ export class SearchBar extends React.Component {
 	}
 
 	render() {
+		var showAdvancedButton = this.props.query.q && !this.props.embed;
 		return (
 			<div className="SearchBar jumbotron clearfix">
-				<Col xs={this.props.query.q ? 9 : 12} md={10}>
+				<Col xs={showAdvancedButton ? 9 : 12} md={showAdvancedButton ? 10 : 12}>
 					<FormGroup>
 						<InputGroup>
 							<FormControl type="text" defaultValue={this.props.query.q} placeholder="Search Pathway Commons by  pathway name or gene names" onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)}/>
@@ -67,8 +69,8 @@ export class SearchBar extends React.Component {
 						Enter the name of the pathway or gene names. Submit the query by clicking the "Search" button. e.g. 'Signaling by BMP' or 'ACVR2A BMP2 BMPR1B SMAD4'. <span className="clickable" onClick={e => this.populateWithExample(e, "ACVR2A BMP2 BMPR1B SMAD4")}>Click here</span> for an example search query.
 					</HelpTooltip>
 				</Col>
-				<Col xs={3} sm={2}>
-					<div className={classNames("barItem", this.props.query.q ? "" : "hidden")} onClick={() => this.toggleFilterMenu(true)}>
+				<Col xs={3} md={2}>
+					<div className={classNames("barItem", showAdvancedButton ? "" : "hidden")} onClick={() => this.toggleFilterMenu(true)}>
 						Advanced
 					</div>
 					<HelpTooltip show={this.props.help} title="Search Options">
