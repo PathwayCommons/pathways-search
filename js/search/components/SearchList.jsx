@@ -10,7 +10,6 @@ import {HelpTooltip} from '../../components/HelpTooltip.jsx';
 // SearchList
 // Prop Dependencies ::
 // - query
-// - dataSources
 // - updateSearchArg(updateObject)
 export class SearchList extends React.Component {
 	constructor(props) {

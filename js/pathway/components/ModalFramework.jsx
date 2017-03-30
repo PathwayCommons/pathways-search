@@ -1,5 +1,5 @@
 import React from 'react';
-import {Redirect} from 'react-router';
+import {Redirect} from 'react-router-dom';
 import {Modal, Button} from 'react-bootstrap';
 
 import {ErrorMessage} from '../../components/ErrorMessage.jsx';
@@ -11,7 +11,7 @@ import {Downloads} from '../tabs/Downloads.jsx';
 
 // ModalFramework
 // Prop Dependencies ::
-// - None
+// - query
 export class ModalFramework extends React.Component {
 	render() {
 		var active = this.props.active || "";
@@ -20,9 +20,9 @@ export class ModalFramework extends React.Component {
 				<Modal show={Boolean(active)} onHide={() => this.props.onHide()}>
 					<Modal.Body>
 						<Summary hidden={"Summary" != active}/>
-						<Interactions hidden={"Interactions" != active} uri={this.props.location.query.uri}/>
+						<Interactions hidden={"Interactions" != active} uri={this.props.query.uri}/>
 						<Publications hidden={"Publications" != active}/>
-						<Downloads hidden={"Downloads" != active} uri={this.props.location.query.uri} name={this.props.name} pathwayData={this.props.pathwayData} graphImage={this.props.graphImage}/>
+						<Downloads hidden={"Downloads" != active} uri={this.props.query.uri} name={this.props.name} pathwayData={this.props.pathwayData} graphImage={this.props.graphImage}/>
 					</Modal.Body>
 					<Modal.Footer>
 						<Button onClick={() => this.props.onHide()}>Close</Button>

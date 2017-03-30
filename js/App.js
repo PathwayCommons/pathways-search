@@ -1,25 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, Redirect, hashHistory} from 'react-router';
+import {HashRouter, Route} from 'react-router-dom';
 
-import {Page} from './components/Page.jsx';
-import {Search} from './search/Search.jsx';
-import {SearchEmbed} from './search/SearchEmbed.jsx';
-import {Pathway} from './pathway/Pathway.jsx';
-import {PageNotFound} from './PageNotFound.jsx';
+import {Index} from './Index.jsx';
+
+import styles from '!style-loader!css-loader!postcss-loader!../styles/index.css';
+
+const mountElement = document.getElementById('container');
 
 export class App extends React.Component {
 	render() {
 		return (
-			<Router history={hashHistory}>
-				<Route component={Page}>
-					<Redirect from="/" to="/search"/>
-					<Route path="/search/:embed" component={SearchEmbed}/>
-					<Route path="search" component={Search}/>
-					<Route path="pathway(/:embed)" component={Pathway}/>
-				</Route>
-				<Route path="*" component={PageNotFound}/>
-			</Router>
+			<HashRouter className="App">
+				<Route path="/:selector?/:modifier?" component={Index}/>
+			</HashRouter>
 		);
 	}
+}
+
+// All comments stripped out during production build
+console.log("DEVELOPMENT BUILD");
+ReactDOM.render(<App/>, mountElement);
+
+export const hardReload = () => {
+	ReactDOM.unmountComponentAtNode(mountElement);
+	setTimeout(() => ReactDOM.render(<App/>, mountElement), 1);
 }

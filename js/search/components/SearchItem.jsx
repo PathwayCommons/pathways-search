@@ -1,15 +1,15 @@
 import React from 'react';
 import {Col, Image} from 'react-bootstrap';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 import isEqual from 'lodash/isEqual';
+import queryString from 'query-string';
 
 import {datasources} from 'pathway-commons';
 
-// SearchList
+// SearchItem
 // This component is only meant to be called by SearchList
 // Prop Dependencies ::
 // - data
-// - dataSources
 export class SearchItem extends React.Component {
 	constructor(props) {
 		super(props);
@@ -41,7 +41,7 @@ export class SearchItem extends React.Component {
 				</Col>
 				<Col xs={9}>
 					<div className="header">
-							<Link className="title" to={{pathname: "/pathway", query: {uri: data.uri}}} target="_blank">
+							<Link className="title" to={{pathname: "/pathway", search: queryString.stringify({uri: data.uri})}} target="_blank">
 								<strong>{data.name}</strong>
 							</Link>
 					</div>

@@ -7,3 +7,12 @@ body {
 	position: absolute !important;
 	margin-top: -99999999px !important;
 }
+
+.Index {
+	min-height: 100vh;
+	position: relative;
+}
+
+.Index.iframe {
+	min-height: inherit;
+}

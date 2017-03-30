@@ -1,19 +1,22 @@
 import React from 'react';
 import isEmpty from 'lodash/isEmpty';
 import isArray from 'lodash/isArray';
+import queryString from 'query-string';
 
 // SearchWrapper
 // Prop Dependencies ::
-// - router
+// - history
 // - location
+// - query
 export class SearchWrapper extends React.Component {
 	updateSearchArg(updateObject) {
-		this.props.router.push({
+		this.props.history.push({
 			pathname: this.props.location.pathname,
-			query: this.filterUpdate(updateObject)
+			search: queryString.stringify(this.filterUpdate(updateObject))
 		});
+
 		if(this.props.embed === true) {
-			var openUrl = window.location.href.replace("/" + this.props.params.embed, "");
+			var openUrl = window.location.href.replace("/embed", "");
 			window.open(openUrl, "Pathway Commons Search");
 		}
 	}
@@ -34,7 +37,7 @@ export class SearchWrapper extends React.Component {
 		}
 
 		// If the page property is the same in old and new, assume some other property has changed, therefore delete page property to go back to page 1
-		if(this.props.location.query.page == output.page) {
+		if(this.props.query.page == output.page) {
 			delete output.page;
 		}
 		return output;
@@ -46,7 +49,7 @@ export class SearchWrapper extends React.Component {
 				{React.Children.map(this.props.children, (child) => React.cloneElement(child, {
 					...this.props,
 					updateSearchArg: (object) => this.updateSearchArg(object),
-					query: this.props.location.query
+					query: this.props.query
 				}))}
 			</div>
 		);

@@ -20,7 +20,6 @@
 
 /* Load all custom scss files */
 @import './css/components/Header.css';
-@import './css/components/Page.css';
 @import './css/components/Spinner.css';
 @import './css/components/ErrorMessage.css';
 @import './css/components/HelpTooltip.css';

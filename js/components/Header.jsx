@@ -1,8 +1,8 @@
 import React from 'react';
 import localForage from 'localforage';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 import Toggle from 'react-toggle'
-import {hardReload} from '../main.js';
+import {hardReload} from '../App.js';
 import {HelpTooltip} from './HelpTooltip.jsx';
 
 // Header

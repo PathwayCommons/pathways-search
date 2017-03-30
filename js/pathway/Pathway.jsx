@@ -1,5 +1,5 @@
 import React from 'react';
-import {Redirect} from 'react-router';
+import {Redirect} from 'react-router-dom';
 import {Col, Glyphicon} from 'react-bootstrap';
 import {get, traverse} from 'pathway-commons';
 
@@ -14,8 +14,7 @@ import {ModalFramework} from './components/ModalFramework.jsx';
 
 // Pathway
 // Prop Dependencies ::
-// - router
-// - location
+// - query
 export class Pathway extends React.Component {
 	constructor(props) {
 		super(props);
@@ -26,7 +25,7 @@ export class Pathway extends React.Component {
 		};
 
 		get()
-			.uri(this.props.location.query.uri)
+			.uri(this.props.query.uri)
 			.format("SBGN")
 			.fetch()
 			.then((responseText) => {
@@ -34,7 +33,7 @@ export class Pathway extends React.Component {
 			});
 
 		traverse()
-			.uri(this.props.location.query.uri)
+			.uri(this.props.query.uri)
 			.path("Named/displayName")
 			.format("json")
 			.fetch()

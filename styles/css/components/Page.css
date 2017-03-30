@@ -1,8 +1,0 @@
-.Page {
-	min-height: 100vh;
-	position: relative;
-}
-
-.Page.iframe {
-	min-height: inherit;
-}

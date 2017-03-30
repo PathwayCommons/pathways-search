@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import {Col, FormGroup, InputGroup, FormControl, Button, Modal} from 'react-bootstrap';
-import {hardReload} from '../../main.js';
+import {hardReload} from '../../App.js';
 import {SearchOptions} from './SearchOptions.jsx';
 import {HelpTooltip} from './../../components/HelpTooltip.jsx';
 

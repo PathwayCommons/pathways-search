@@ -15,7 +15,7 @@ module.exports = {
 			}
 		})
 	],
-	entry: ['./js/main.js'],
+	entry: ['./js/App.js'],
 	output: {
 		path: __dirname + '/public',
 		filename: 'bundle.js'
