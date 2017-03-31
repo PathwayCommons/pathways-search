@@ -18,9 +18,7 @@ export class Interactions extends React.Component {
 			.path("Pathway/pathwayComponent:Interaction/participant*/displayName")
 			.format("json")
 			.fetch()
-			.then(responseArray => {
-				this.setState({interactionParticipants: responseArray.traverseEntry[0].value});
-			});
+			.then(responseArray => this.setState({interactionParticipants: responseArray.traverseEntry[0].value}));
 	}
 	render() {
 		if(!isEmpty(this.state.interactionParticipants)) {

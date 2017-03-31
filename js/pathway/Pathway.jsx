@@ -29,26 +29,21 @@ export class Pathway extends React.Component {
 			.uri(this.props.query.uri)
 			.format("SBGN")
 			.fetch()
-			.then((responseText) => {
-				this.setState({pathwayData: responseText});
-			});
+			.then(responseText => this.setState({pathwayData: responseText}));
 
 		traverse()
 			.uri(this.props.query.uri)
 			.path("Named/displayName")
 			.format("json")
 			.fetch()
-			.then((responseObject) => {
-				this.setState({name: responseObject.traverseEntry[0].value.pop()});
-			});
+			.then(responseObject => this.setState({name: responseObject.traverseEntry[0].value.pop()}));
 
 		traverse()
 			.uri(this.props.query.uri)
 			.path("Entity/dataSource/displayName")
 			.format("json")
 			.fetch()
-			.then(responseObject => responseObject.traverseEntry[0].value.pop())
-			.then(dsString => this.setState({datasource: dsString}));
+			.then(responseObject => this.setState({datasource: responseObject.traverseEntry[0].value.pop()}));
 	}
 
 	render() {

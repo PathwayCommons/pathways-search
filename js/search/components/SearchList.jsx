@@ -31,7 +31,7 @@ export class SearchList extends React.Component {
 
 	getSearchResult(queryObject) {
 		if (!isEmpty(queryObject)) {
-			Promise.all([search().query(queryObject).format("json").fetch(), datasources.get()]).then(promArray => {
+			Promise.all([search().query(queryObject).format("json").fetch(), datasources.fetch()]).then(promArray => {
 				var searchData = promArray[0];
 				if (searchData) {
 					// Process searchData to add extra properties from dataSources

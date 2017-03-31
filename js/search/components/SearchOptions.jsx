@@ -25,7 +25,9 @@ export class SearchOptions extends React.Component {
 			query: clone(this.props.query),
 			datasource: {}
 		};
-		datasources.get().then(datasourceObj => this.setState({datasource: Object.values(datasourceObj)}));
+		datasources
+			.fetch()
+			.then(datasourceObj => this.setState({datasource: Object.values(datasourceObj)}));
 	}
 
 	componentWillUnmount() {
