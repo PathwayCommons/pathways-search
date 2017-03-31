@@ -21,6 +21,7 @@ export class Pathway extends React.Component {
 		this.state = {
 			pathwayData: {},
 			name: "",
+			datasource: "",
 			show: false
 		};
 
@@ -40,6 +41,14 @@ export class Pathway extends React.Component {
 			.then((responseObject) => {
 				this.setState({name: responseObject.traverseEntry[0].value.pop()});
 			});
+
+		traverse()
+			.uri(this.props.query.uri)
+			.path("Entity/dataSource/displayName")
+			.format("json")
+			.fetch()
+			.then(responseObject => responseObject.traverseEntry[0].value.pop())
+			.then(dsString => this.setState({datasource: dsString}));
 	}
 
 	render() {
@@ -47,8 +56,9 @@ export class Pathway extends React.Component {
 			return(
 				<div className="Pathway">
 					<div className="nameHeader jumbotron clearfix">
-						<Col className="name" xs={8} lg={10}>
-							{this.state.name}
+						<Col className="header" xs={8} lg={10}>
+							<span className="name">{this.state.name}</span>
+							<span className="datasource">{this.state.datasource}</span>
 						</Col>
 						<Col className="tab-button" xs={4} sm={2} lg={1} onClick={() => this.props.graphImage(false)}>
 							Screenshot
