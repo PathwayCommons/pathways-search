@@ -1,7 +1,9 @@
 import React from 'react';
 import isEmpty from 'lodash/isEmpty';
 import isArray from 'lodash/isArray';
+import isEqual from 'lodash/isEqual';
 import queryString from 'query-string';
+import {search, datasources} from 'pathway-commons';
 
 // SearchWrapper
 // Prop Dependencies ::
@@ -9,6 +11,40 @@ import queryString from 'query-string';
 // - location
 // - query
 export class SearchWrapper extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			searchResult: {}
+		};
+		this.getSearchResult(this.props.query);
+	}
+
+	// If query prop or dataSource is changed then re-render
+	componentWillReceiveProps(nextProps) {
+		if (!isEqual(this.props.query, nextProps.query)) {
+			this.getSearchResult(nextProps.query);
+		}
+	}
+
+	getSearchResult(queryObject) {
+		if (!isEmpty(queryObject)) {
+			Promise.all([search().query(queryObject).format("json").fetch(), datasources.fetch()]).then(promArray => {
+				var searchData = promArray[0];
+				if (searchData) {
+					// Process searchData to add extra properties from dataSources
+					searchData = {
+						searchHit: searchData.searchHit.map((searchResult) => {
+							searchResult["sourceInfo"] = promArray[1][searchResult.dataSource[0]];
+							return searchResult;
+						}),
+						...searchData
+					};
+				}
+				this.setState({searchResult: searchData});
+			});
+		}
+	}
+
 	updateSearchArg(updateObject) {
 		this.props.history.push({
 			pathname: this.props.location.pathname,
@@ -48,8 +84,8 @@ export class SearchWrapper extends React.Component {
 			<div className="SearchWrapper">
 				{React.Children.map(this.props.children, (child) => React.cloneElement(child, {
 					...this.props,
-					updateSearchArg: (object) => this.updateSearchArg(object),
-					query: this.props.query
+					...this.state,
+					updateSearchArg: object => this.updateSearchArg(object)
 				}))}
 			</div>
 		);

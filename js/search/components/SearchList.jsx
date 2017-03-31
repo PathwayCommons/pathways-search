@@ -1,51 +1,21 @@
 import React from 'react';
 import {Pagination, Modal, Image} from 'react-bootstrap';
-import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
-import {search, datasources} from 'pathway-commons';
 import {SearchItem} from './SearchItem.jsx';
 import {HelpTooltip} from '../../components/HelpTooltip.jsx';
 
 // SearchList
 // Prop Dependencies ::
-// - query
+// - searchData
 // - embed
 // - updateSearchArg(updateObject)
 export class SearchList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			searchResult: {},
 			expanded: false
 		};
-		this.getSearchResult(this.props.query);
-	}
-
-	// If query prop or dataSource is changed then re-render
-	componentWillReceiveProps(nextProps) {
-		if (!isEqual(this.props.query, nextProps.query)) {
-			this.getSearchResult(nextProps.query);
-		}
-	}
-
-	getSearchResult(queryObject) {
-		if (!isEmpty(queryObject)) {
-			Promise.all([search().query(queryObject).format("json").fetch(), datasources.fetch()]).then(promArray => {
-				var searchData = promArray[0];
-				if (searchData) {
-					// Process searchData to add extra properties from dataSources
-					searchData = {
-						searchHit: searchData.searchHit.map((searchResult) => {
-							searchResult["sourceInfo"] = promArray[1][searchResult.dataSource[0]];
-							return searchResult;
-						}),
-						...searchData
-					};
-				}
-				this.setState({searchResult: searchData});
-			});
-		}
 	}
 
 	// Handle page switch from Pagination
@@ -59,7 +29,7 @@ export class SearchList extends React.Component {
 	}
 
 	render() {
-		var searchData = this.state.searchResult;
+		var searchData = this.props.searchResult;
 		var isFull = !isEmpty(searchData);
 
 		if (this.props.embed) {
