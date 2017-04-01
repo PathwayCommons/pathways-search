@@ -4,7 +4,7 @@ import {Typeahead} from 'react-bootstrap-typeahead';
 import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
 import clone from 'lodash/clone';
-import {datasources} from 'pathway-commons';
+import {datasources, search} from 'pathway-commons';
 import {BioPaxClass} from "../../helpers/pc2.js";
 
 // Determines which prop are valid filter props as opposed to other properties like page or query
@@ -25,9 +25,17 @@ export class SearchOptions extends React.Component {
 			query: clone(this.props.query),
 			datasource: {}
 		};
-		datasources
-			.fetch()
-			.then(datasourceObj => this.setState({datasource: Object.values(datasourceObj)}));
+
+		Promise.all([
+			datasources
+				.fetch()
+				.then(datasourceObj => Object.values(datasourceObj)),
+			search()
+				.query({...this.props.query, datasource: undefined})
+				.fetch()
+		])
+			.then(promArray => promArray[0].filter(datasource => promArray[1].providers.indexOf(datasource.name) !== -1))
+			.then(datasourceObj => this.setState({datasource: datasourceObj}));
 	}
 
 	componentWillUnmount() {
@@ -54,7 +62,7 @@ export class SearchOptions extends React.Component {
 
 	render() {
 		if(!isEmpty(this.state.datasource)) {
-			var defaultArray = this.props.query.datasource ? this.state.datasource.filter(datasource => this.props.query.datasource.indexOf(datasource.id) !== -1) : [];
+			var defaultArray = this.props.query.datasource ? this.state.datasource.filter(datasource => this.props.query.datasource.indexOf(datasource.id) !== -1) : this.state.datasource;
 			return (
 				<div className="SearchOptions">
 					<FormGroup>
@@ -62,7 +70,7 @@ export class SearchOptions extends React.Component {
 							<strong>Filter</strong>
 						</div>
 						<ControlLabel>
-							Datasource:
+							Datasources:
 						</ControlLabel>
 						<Typeahead
 							multiple
