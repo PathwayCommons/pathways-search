@@ -42,7 +42,7 @@ export class Header extends React.Component {
 						<ul className="nav navbar-nav navbar-right">
 							<li>
 								<a className="helpButton" onClick={e => this.toggleHelp()}>
-									Help
+									Tips
 									<Toggle icons={false} checked={this.props.help}/>
 								</a>
 								<HelpTooltip show={this.props.help} title="Help Switch">
