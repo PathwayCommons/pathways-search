@@ -1,5 +1,6 @@
 import React from 'react';
 import {Pagination, Modal, Image} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
 import {SearchItem} from './SearchItem.jsx';
@@ -91,9 +92,9 @@ export class SearchList extends React.Component {
 								Pathway Commons
 							</a>
 							{"  |  "}
-							<a href="http://groups.google.com/forum/#!forum/pathway-commons-help">
-								Help
-							</a>
+							<Link to="/faq">
+								FAQ
+							</Link>
 						</Modal.Footer>
 					</Modal.Dialog>
 				</div>

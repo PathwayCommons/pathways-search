@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import queryString from 'query-string';
 
 import {Header} from './components/Header.jsx';
+import {Faq} from './faq/Faq.jsx';
 import {Search} from './search/Search.jsx';
 import {Pathway} from './pathway/Pathway.jsx';
 import {PageNotFound} from './PageNotFound.jsx';
@@ -62,6 +63,7 @@ export class Index extends React.Component {
 						<Switch>
 							<Route exact path="/" render={() => <Redirect to="/search"/>}/>
 							<Route path="/search" render={props => <Search {...props} {...globalObject}/>}/>
+							<Route path="/faq" render={props => <Faq {...props} {...globalObject}/>}/>
 							<Route path="/pathway" render={props => <Pathway {...props} {...globalObject}/>}/>
 							<Route path="*" render={props => <PageNotFound {...props} {...globalObject}/>}/>
 						</Switch>
