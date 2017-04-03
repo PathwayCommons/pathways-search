@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormGroup, InputGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
+import {FormGroup, InputGroup, FormControl, ControlLabel, HelpBlock, Button} from 'react-bootstrap';
 import {Typeahead} from 'react-bootstrap-typeahead';
 import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
@@ -23,7 +23,9 @@ export class SearchOptions extends React.Component {
 		super(props);
 		this.state = {
 			query: clone(this.props.query),
-			datasource: {}
+			datasource: {},
+			lt: this.props.query.lt || "",
+			gt: this.props.query.gt || ""
 		};
 
 		Promise.all([
@@ -49,14 +51,15 @@ export class SearchOptions extends React.Component {
 
 	updateFilter(index, value) {
 		var output = this.state.query;
-		if(!isEmpty(value)) {
+		if(!isEmpty(value)) { // ensure all valid values returns !isEmpty() === true
 			output[index] = value;
 		}
 		else {
 			delete output[index];
 		}
 		this.setState({
-			filterObj: output
+			filterObj: output,
+			[index]: value
 		});
 	}
 
@@ -81,6 +84,37 @@ export class SearchOptions extends React.Component {
 							placeholder="Select one or more datasources to filter by (eg. Reactome)"
 							onChange={selectedArray => this.updateFilter("datasource", selectedArray.map(selected => selected.id))}
 						/>
+						<HelpBlock>
+							Only search results from the datasources listed above will be shown. Alternatively, remove all datasources to disable datasource filtering.
+						</HelpBlock>
+					</FormGroup>
+					<FormGroup>
+						<ControlLabel>
+							Minimum participants:
+						</ControlLabel>
+						<FormControl
+							type="text"
+							placeholder="Enter the lowest number of participants shown"
+							defaultValue={this.state.gt ? this.state.gt : undefined}
+							onChange={e => this.updateFilter("gt", String(+e.target.value || ""))}
+						/>
+						<HelpBlock>
+							Only search results with greater than the number of participants displayed above will be shown. Alternatively, leave blank to disable minimum filtering.
+						</HelpBlock>
+					</FormGroup>
+					<FormGroup>
+						<ControlLabel>
+							Maximum participants:
+						</ControlLabel>
+						<FormControl
+							type="text"
+							placeholder="Enter the highest number of participants shown"
+							defaultValue={this.state.lt ? this.state.lt : undefined}
+							onChange={e => this.updateFilter("lt", String(+e.target.value || ""))}
+						/>
+						<HelpBlock>
+							Only search results with less than the number of participants displayed above will be shown. Alternatively, leave blank to disable maximum filtering.
+						</HelpBlock>
 					</FormGroup>
 				</div>
 			);

@@ -47,7 +47,7 @@ export class SearchList extends React.Component {
 					{
 						hitList
 						.map((item, index) => {
-							if (item.numParticipants > 3) {
+							if (((this.props.query.lt > item.numParticipants) || this.props.query.lt === undefined) && ((this.props.query.gt < item.numParticipants) || this.props.query.gt === undefined)) {
 								return (<SearchItem key={index} data={item}/>);
 							}
 						})
