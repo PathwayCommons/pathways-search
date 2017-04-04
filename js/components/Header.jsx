@@ -45,8 +45,8 @@ export class Header extends React.Component {
 									Tips
 									<Toggle icons={false} checked={this.props.help}/>
 								</a>
-								<HelpTooltip show={this.props.help} title="Help Switch">
-									Toggle help on or off. Click on individual tips to close.
+								<HelpTooltip show={this.props.help} title="Tips Switch">
+									Toggle tips on or off. Click on individual tips to close.
 								</HelpTooltip>
 							</li>
 						</ul>
