@@ -37,7 +37,7 @@ export class SearchOptions extends React.Component {
 				.fetch()
 		])
 			.then(promArray => promArray[0].filter(datasource => promArray[1].providers.indexOf(datasource.name) !== -1))
-			.then(datasourceObj => this.setState({datasource: datasourceObj}));
+			.then(datasourceObj => this.setState({datasourceRef: datasourceObj}));
 	}
 
 	componentWillUnmount() {
@@ -64,8 +64,8 @@ export class SearchOptions extends React.Component {
 	}
 
 	render() {
-		if(!isEmpty(this.state.datasource)) {
-			var defaultArray = this.props.query.datasource ? this.state.datasource.filter(datasource => this.props.query.datasource.indexOf(datasource.id) !== -1) : this.state.datasource;
+		if(!isEmpty(this.state.datasourceRef)) {
+			var defaultArray = this.props.query.datasource ? this.state.datasourceRef.filter(datasource => this.props.query.datasource.indexOf(datasource.id) !== -1) : this.state.datasourceRef;
 			return (
 				<div className="SearchOptions">
 					<FormGroup>
@@ -79,7 +79,7 @@ export class SearchOptions extends React.Component {
 							multiple
 							clearButton
 							labelKey="name"
-							options={this.state.datasource}
+							options={this.state.datasourceRef}
 							defaultSelected={defaultArray}
 							placeholder="Select one or more datasources to filter by (eg. Reactome)"
 							onChange={selectedArray => this.updateFilter("datasource", selectedArray.map(selected => selected.id))}
