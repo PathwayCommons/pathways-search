@@ -73,7 +73,7 @@ export class SearchBar extends React.Component {
 					<div className={classNames("barItem", showAdvancedButton ? "" : "hidden")} onClick={() => this.toggleFilterMenu(true)}>
 						Advanced
 					</div>
-					<HelpTooltip show={this.props.help} title="Search Options">
+					<HelpTooltip show={this.props.help && showAdvancedButton} title="Advanced Search">
 						This menu provides a way to refine your search results. For example, filter the results by database.
 					</HelpTooltip>
 				</Col>
