@@ -65,7 +65,7 @@ export class SearchOptions extends React.Component {
 
 	render() {
 		if(!isEmpty(this.state.datasourceRef)) {
-			var defaultArray = this.props.query.datasource ? this.state.datasourceRef.filter(datasource => this.props.query.datasource.indexOf(datasource.id) !== -1) : this.state.datasourceRef;
+			var defaultArray = this.props.query.datasource ? this.state.datasourceRef.filter(datasource => this.props.query.datasource.indexOf(datasource.name) !== -1) : this.state.datasourceRef;
 			return (
 				<div className="SearchOptions">
 					<FormGroup>
@@ -82,7 +82,7 @@ export class SearchOptions extends React.Component {
 							options={this.state.datasourceRef}
 							defaultSelected={defaultArray}
 							placeholder="Select one or more datasources to filter by (eg. Reactome)"
-							onChange={selectedArray => this.updateFilter("datasource", selectedArray.map(selected => selected.id))}
+							onChange={selectedArray => this.updateFilter("datasource", selectedArray.map(selected => selected.name))}
 						/>
 						<HelpBlock>
 							Only search results from the datasources listed above will be shown. Alternatively, remove all datasources to disable datasource filtering.
