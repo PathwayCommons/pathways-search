@@ -13,6 +13,11 @@ body {
 	position: relative;
 }
 
+.alert {
+	margin: 0;
+	border-radius: 0;
+}
+
 .Index.iframe {
 	min-height: inherit;
 }
