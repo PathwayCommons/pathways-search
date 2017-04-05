@@ -1,5 +1,6 @@
 .Header {
 	margin-bottom: 1px;
+	border-radius: 0;
 
 	& .navbar-brand, & a {
 		color: var(--white);
