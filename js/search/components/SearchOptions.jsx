@@ -1,6 +1,7 @@
 import React from 'react';
 import {FormGroup, InputGroup, FormControl, ControlLabel, HelpBlock, Button} from 'react-bootstrap';
 import {Typeahead} from 'react-bootstrap-typeahead';
+import Toggle from 'react-toggle';
 import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
 import clone from 'lodash/clone';
@@ -10,7 +11,11 @@ import {BioPaxClass} from "../../helpers/pc2.js";
 // Determines which prop are valid filter props as opposed to other properties like page or query
 const filterPropList = [
 	"type",
-	"datasource"
+	"datasource",
+	"lt",
+	"gt",
+	"enhance",
+	"escape"
 ]
 
 // SearchOptions
@@ -25,7 +30,9 @@ export class SearchOptions extends React.Component {
 			query: clone(this.props.query),
 			datasource: {},
 			lt: this.props.query.lt || "",
-			gt: this.props.query.gt || ""
+			gt: this.props.query.gt || "",
+			enhance: this.props.query.enhance || "",
+			escape: this.props.query.escape || ""
 		};
 
 		Promise.all([
@@ -68,10 +75,10 @@ export class SearchOptions extends React.Component {
 			var defaultArray = this.props.query.datasource ? this.state.datasourceRef.filter(datasource => this.props.query.datasource.indexOf(datasource.name) !== -1) : this.state.datasourceRef;
 			return (
 				<div className="SearchOptions">
+					<div className="optionsHeader">
+						<strong>Filter</strong>
+					</div>
 					<FormGroup>
-						<div className="optionsHeader">
-							<strong>Filter</strong>
-						</div>
 						<ControlLabel>
 							Datasources:
 						</ControlLabel>
@@ -114,6 +121,31 @@ export class SearchOptions extends React.Component {
 						/>
 						<HelpBlock>
 							Only search results with less than the number of participants displayed above will be shown. Alternatively, leave blank to disable maximum filtering.
+						</HelpBlock>
+					</FormGroup>
+					<div className="optionsHeader">
+						<strong>Search Options</strong>
+					</div>
+					<FormGroup>
+						<ControlLabel>
+							Enhanced Search:
+						</ControlLabel>
+						<div onClick={() => this.updateFilter("enhance", this.state.enhance !== "false" ? "false" : "true")}>
+							<Toggle checked={this.state.enhance !== "false"}/>
+						</div>
+						<HelpBlock>
+							Switches advanced search query parsing; a system which attempts to refine search relevance, on or off. More information on what it does and how it works is available in the FAQ.
+						</HelpBlock>
+					</FormGroup>
+					<FormGroup>
+						<ControlLabel>
+							Lucene Escape Input:
+						</ControlLabel>
+						<div onClick={() => this.updateFilter("escape", this.state.escape !== "false" ? "false" : "true")}>
+							<Toggle checked={this.state.escape !== "false"}/>
+						</div>
+						<HelpBlock>
+							Escapes user input to ensure that any Lucene special characters do not interfere with search. Recommend leaving enabled unless you intend to enter Lucene manually.
 						</HelpBlock>
 					</FormGroup>
 				</div>
