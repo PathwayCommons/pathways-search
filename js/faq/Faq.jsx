@@ -24,10 +24,17 @@ export class Faq extends React.Component {
 					<Panel header="Can I perform a more specific search?" eventKey="4">
 						The ‘Advanced’ menu (right of the search bar) enables users to filter results by data provider. One can also choose to filter data lower than and greater than a specified number of participants, or leave either filtering option blank to disable minimum or maximum filtering.
 					</Panel>
-					<Panel header="How many results are returned?" eventKey="5">
+					<Panel header="How does enhanced search work?" eventKey="5">
+						Essentially, enhanced search is a system which parses your input into a Pathway Commons readable Lucene query internally which is more likely to give expected search results compared to using free-text search alone.
+						<br/><br/>
+						The way it works is as follows. First, the phrase that you enter is seperated by whitespace, where each whitespace segment, henceforth known as a "word", is treated as one unit. Then, each word is run through a series of regular expression tests and lookup tables to determine if it is one of the Pathway Commons compatible identifier formats (HGNC, CHEBI, Uniprot). If it is, then word is inserted into a Lucene query which will look for the word in xref and/or name, for example, <code>(xrefid:word1 name:word1)</code>. Otherwise, it is assumed that the word is part of the title and therefore will be inserted into a Lucene query which will look for the word in name only, for example, <code>name:word2</code>. Finally, the Lucene queries from all the words are combined together, putting <code> AND </code> between each Lucene query, for example, <code>(xrefid:word1 name:word1) AND name:word2</code>.
+						<br/><br/>
+						The final result is a query which will return search results which contains all of the words entered in either the xref or title if the word is an identifier, or in the title otherwise. The result is much more strictly focused compared to free-text, and for most people should be more intuitive to work with. However, as it is more restrictive, it is also more likely to return no results. If this is the case, it may be beneficial to disable enhanced search to see if enhanced search is removing the target pathway.
+					</Panel>
+					<Panel header="How many results are returned?" eventKey="6">
 						By default, the top five search results are returned. The user can click the ‘Show more results’ to display the remaining results, to a maximum of 100.
 					</Panel>
-					<Panel header="Why can’t I find a pathway that I believe exists in Pathway Commons?" eventKey="6">
+					<Panel header="Why can’t I find a pathway that I believe exists in Pathway Commons?" eventKey="7">
 						This is probably because of the default filtering options -  size, source, type. Select the ‘show me everything’ option in the Advanced options
 					</Panel>
 				</Accordion>
