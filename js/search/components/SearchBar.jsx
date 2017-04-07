@@ -24,7 +24,14 @@ export class SearchBar extends React.Component {
 
 	updateTerm() {
 		if (this.state.q != this.props.query.q) {
-			this.props.updateSearchArg({q: this.state.q, lt: 200, gt: 3, type: "Pathway"}); // Set default search and filter parameters
+			this.props.updateSearchArg({ // Set search and filter parameters to be used when q changes
+				q: this.state.q,
+				lt: 200,
+				gt: 3,
+				type: "Pathway",
+				enhance: this.props.query.enhance,
+				escape: this.props.query.escape
+			});
 		}
 	}
 
