@@ -5,10 +5,6 @@ import {get, traverse} from 'pathway-commons';
 
 import {ErrorMessage} from '../components/ErrorMessage.jsx';
 import {HelpTooltip} from '../components/HelpTooltip.jsx';
-import {Summary} from './tabs/Summary.jsx';
-import {Interactions} from './tabs/Interactions.jsx';
-import {Publications} from './tabs/Publications.jsx';
-import {Downloads} from './tabs/Downloads.jsx';
 import {Graph} from './tabs/Graph.jsx';
 import {ModalFramework} from './components/ModalFramework.jsx';
 
@@ -54,6 +50,7 @@ export class Pathway extends React.Component {
 						<Col className="header" xs={8} lg={10}>
 							<span className="name">{this.state.name}</span>
 							<span className="datasource">{this.state.datasource}</span>
+							<span className="info-button" onClick={() => this.setState({active: "Information"})}>Info</span>
 						</Col>
 						<Col className="tab-button" xs={4} sm={2} lg={1} onClick={() => this.props.graphImage(false)}>
 							Screenshot

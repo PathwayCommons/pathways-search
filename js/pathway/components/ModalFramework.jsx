@@ -4,9 +4,8 @@ import {Modal, Button} from 'react-bootstrap';
 
 import {ErrorMessage} from '../../components/ErrorMessage.jsx';
 import {HelpTooltip} from '../../components/HelpTooltip.jsx';
-import {Summary} from '../tabs/Summary.jsx';
 import {Interactions} from '../tabs/Interactions.jsx';
-import {Publications} from '../tabs/Publications.jsx';
+import {Information} from '../tabs/Information.jsx';
 import {Downloads} from '../tabs/Downloads.jsx';
 
 // ModalFramework
@@ -19,9 +18,8 @@ export class ModalFramework extends React.Component {
 			<div className="ModalFramework">
 				<Modal show={Boolean(active)} onHide={() => this.props.onHide()}>
 					<Modal.Body>
-						<Summary hidden={"Summary" != active}/>
 						<Interactions hidden={"Interactions" != active} uri={this.props.query.uri}/>
-						<Publications hidden={"Publications" != active}/>
+						<Information hidden={"Information" != active} uri={this.props.query.uri}/>
 						<Downloads hidden={"Downloads" != active} uri={this.props.query.uri} name={this.props.name} pathwayData={this.props.pathwayData} graphImage={this.props.graphImage}/>
 					</Modal.Body>
 					<Modal.Footer>

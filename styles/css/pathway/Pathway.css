@@ -16,6 +16,13 @@
 		color: var(--darkGrey);
 		text-transform: uppercase;
 		font-size: 15px;
+		margin-right: 20px;
+	}
+
+	& .info-button {
+		color: var(--darkGrey);
+		font-size: 15px;
+		cursor: pointer;
 	}
 
 	& .tab-button {
