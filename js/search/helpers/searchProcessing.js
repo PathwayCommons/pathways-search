@@ -65,7 +65,7 @@ export let searchProcessing = (query) => { // Pass in all query parameters
 					}
 					// When using enhanced search Lucene is always escaped
 					word = escapeLucene(word);
-					return (isSymbol ? "(xrefid:" + word + " name:" + word + ")" : "name:" + word);
+					return (isSymbol ? word : "name:" + word);
 				})
 				.reduce((acc, val, index) => {
 					return acc + (index !== 0 ? " AND " : "") + val;
