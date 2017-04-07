@@ -15,7 +15,8 @@ export class SearchWrapper extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			searchResult: {}
+			searchResult: {},
+			processedQuery: ""
 		};
 		this.getSearchResult(this.props.query);
 	}
@@ -30,16 +31,17 @@ export class SearchWrapper extends React.Component {
 	getSearchResult(queryObject) {
 		if (!isEmpty(queryObject)) {
 			searchProcessing(queryObject)
-				.then(processedQuery =>
-					Promise.all([
+				.then(processedQuery => {
+					this.setState({processedQuery: processedQuery});
+					return Promise.all([
 						search()
 							.query(queryObject)
 							.q(processedQuery)
 							.format("json")
 							.fetch(),
 						datasources.fetch()
-					])
-				)
+					]);
+				})
 				.then(promArray => {
 					var searchData = promArray[0];
 					if (searchData) {

@@ -40,7 +40,7 @@ export class SearchOptions extends React.Component {
 				.fetch()
 				.then(datasourceObj => Object.values(datasourceObj)),
 			search()
-				.query({...this.props.query, datasource: undefined})
+				.query({...this.props.query, datasource: undefined, q: this.props.processedQuery})
 				.fetch()
 		])
 			.then(promArray => promArray[0].filter(datasource => promArray[1].providers.indexOf(datasource.name) !== -1))
