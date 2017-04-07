@@ -134,7 +134,7 @@ export class SearchOptions extends React.Component {
 							<Toggle checked={this.state.enhance !== "false"}/>
 						</div>
 						<HelpBlock>
-							Switches advanced search query parsing; a system which attempts to refine search relevance, on or off. More information on what it does and how it works is available in the FAQ.
+							Toggles advanced search query parsing; a system which attempts to refine search relevance, on or off. More information on what it does and how it works is available in the FAQ.
 						</HelpBlock>
 					</FormGroup>
 					<FormGroup>
@@ -145,7 +145,7 @@ export class SearchOptions extends React.Component {
 							<Toggle checked={this.state.escape !== "false"}/>
 						</div>
 						<HelpBlock>
-							Escapes user input to ensure that any Lucene special characters do not interfere with search. Recommend leaving enabled unless you intend to enter Lucene manually.
+							Escapes user input to ensure that any Lucene special characters do not interfere with search. Overridden when search enhance is enabled. Recommend leaving enabled unless you intend to enter Lucene manually.
 						</HelpBlock>
 					</FormGroup>
 				</div>
