@@ -5,10 +5,11 @@ import isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
 import {SearchItem} from './SearchItem.jsx';
 import {HelpTooltip} from '../../components/HelpTooltip.jsx';
+import {ErrorMessage} from '../../components/ErrorMessage.jsx';
 
 // SearchList
 // Prop Dependencies ::
-// - searchData
+// - searchResult
 // - embed
 // - updateSearchArg(updateObject)
 export class SearchList extends React.Component {
@@ -31,49 +32,54 @@ export class SearchList extends React.Component {
 
 	render() {
 		var searchData = this.props.searchResult;
-		var isFull = !isEmpty(searchData);
+		var hitList = [];
+		var noResults = null;
+		var listCutoff = 5;
 
-		if (this.props.embed) {
-			// If is embed return nothing
+		if(!isEmpty(searchData)) {
+			var hitList = searchData.searchHit
+				.filter(item => { // Perform filtering by numParticipants
+					if (((this.props.query.lt > item.numParticipants) || this.props.query.lt === undefined) && ((this.props.query.gt < item.numParticipants) || this.props.query.gt === undefined)) {
+						return true;
+					}
+					else {
+						return false;
+					}
+				});
+
+			noResults = hitList.length === 0;
+		}
+
+		if (this.props.embed) { // If is embed return nothing
 			return null;
-		} else if (isFull && !searchData.empty) {
-			// Only load populated searchlist if searchData is populated
-			var hitList = searchData.searchHit;
+		} else if (hitList.length > 0) { // Generate search list if results available
 			return (
 				<div className="SearchList">
 					<HelpTooltip show={this.props.help} title="Search Results" placement="left" positionTop="180px">
-						This shows the top 5 pathways returned by Pathway Commons. Click on 'Show more results' to display the remaining 100 search hits returned. Participants refers to the number of physical entities such as proteins and small molecules
+						This shows the top {listCutoff} pathways returned by Pathway Commons. Click on 'Show more results' to display the remaining 100 search hits returned. Participants refers to the number of physical entities such as proteins and small molecules
 					</HelpTooltip>
 					{
 						hitList
-						.map((item, index) => {
-							if (((this.props.query.lt > item.numParticipants) || this.props.query.lt === undefined) && ((this.props.query.gt < item.numParticipants) || this.props.query.gt === undefined)) {
-								return (<SearchItem key={index} data={item}/>);
-							}
-						})
-						.filter(item => item)
-						.slice(0, !this.state.expanded ? 5 : undefined)
+						.map((item, index) => <SearchItem key={index} data={item}/>)
+						.slice(0, !this.state.expanded ? listCutoff : undefined)
 					}
 					{
-						!this.state.expanded ?
+						!this.state.expanded && hitList.length > listCutoff ?
 						<div className="moreResults" onClick={() => this.setState({expanded: true})}>
 							Show More Results ...
 						</div>
 						: null
 					}
 				</div>
-			// If searchData is null this indicates no search results were found
 			);
-		} else if (isFull && searchData.empty) {
+		} else if (searchData === null || noResults) { // For <= v.8, if searchData is null this indicates no search results found. Else for >= v.9, hitList = [] and empty = true indicates no search results found.
 			return (
-				<div className="SearchList">
-					<div className="noSearchResults">
+					<ErrorMessage className="SearchList">
 						No Search Results Found
-					</div>
-				</div>
+					</ErrorMessage>
 			);
 		} else {
-			// Generate splash modal
+			// Assume, either on home page or search results not loaded, generate splash screen
 			return (
 				<div className="SearchList">
 					<Modal.Dialog className="splashModal">

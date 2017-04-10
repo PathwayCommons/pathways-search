@@ -1,8 +1,4 @@
 .SearchList {
-	& .noSearchResults {
-		margin-left: 10%;
-	}
-
 	& .paginationContainer {
 		overflow-x: hidden;
 		width: 100%;
