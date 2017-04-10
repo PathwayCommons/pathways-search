@@ -21,7 +21,17 @@ let getHgncData = () => {
 			if(expiry < unixTime || value === null) {
 				return fetch("hgncSymbols.txt", {method: 'get', mode: 'no-cors'})
 					.then(res => res.text())
-					.then(text => text.split("\n").slice(1))
+					.then(text => text
+						.toUpperCase() // Make all text upper case
+						.split("\n") // Split file string by new line characters
+						.slice(1) // Remove header
+						.map(line => { // Parse file from hgnc
+							var lineArray = line.trim().split("	");
+							var prevSymbolArray = lineArray.length > 1 ? lineArray[1].split(", ") : [];
+							return [lineArray[0], ...prevSymbolArray];
+						})
+						.reduce((acc, val) => acc.concat(val)) // Flatten resulting array
+					)
 					.then(dataArray => {
 						localForage.setItem('hgncSymbols', dataArray);
 						localForage.setItem('hgncSymbolsExpiry', unixTime + expireDelay);
