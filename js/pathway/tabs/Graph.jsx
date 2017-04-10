@@ -2,10 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import SBGNRenderer from 'sbgn-renderer';
+import expandCollapse from 'cytoscape-expand-collapse';
 import {saveAs} from 'file-saver';
 import {Spinner} from '../../components/Spinner.jsx';
 import {base64toBlob} from '../../helpers/converters.js';
 import {ErrorMessage} from '../../components/ErrorMessage.jsx';
+
+expandCollapse( SBGNRenderer.__proto__ );
 
 // Graph
 // Prop Dependencies ::
@@ -32,8 +35,31 @@ export class Graph extends React.Component {
 
 	componentDidMount() {
 		var graphContainer = document.getElementById(this.state.graphId);
+		var graphInstance = new SBGNRenderer({container: graphContainer});
+		graphInstance.expandCollapse({
+			fisheye: true,
+			animate: true,
+			undoable: false,
+			cueEnabled: false
+		});
+
+		graphInstance.on('expandcollapse.afterexpand', function (evt) {
+			const node = evt.target;
+			graphInstance.zoomingEnabled(false);
+			node.children().layout({
+				name:'grid',
+				fit: 'false',
+				avoidOverlap: true,
+				condense: true,
+				animate: true,
+				rows: node.children().size() / 2,
+				cols: node.children().size() / 2,
+				boundingBox: node.boundingBox()
+			}).run();
+			graphInstance.zoomingEnabled(true);
+		});
 		this.setState({
-			graphInstance: new SBGNRenderer({container: graphContainer}),
+			graphInstance: graphInstance,
 			graphContainer: graphContainer
 		});
 		this.checkRenderGraph(this.props.pathwayData);
@@ -85,6 +111,30 @@ export class Graph extends React.Component {
 		// Perform render
 		this.state.graphRendered = true;
 		SBGNRenderer.renderGraph(this.state.graphInstance, sbgnString);
+
+		// TODO move to another package (i.e not here but also not in the sbgn-renderer)
+		// remove dangling nodes in compartments
+		this.state.graphInstance
+			.nodes('[class="compartment"]')
+			.children()
+			.filterFn((ele) => ele.neighborhood().length === 0)
+			.remove();
+
+		// TODO move to another package (i.e not here but also not in the sbgn-renderer)
+		// remove dangling orphan nodes
+		this.state.graphInstance
+			.nodes('[class != "compartment"], [class != "complex"], [class != "complex multimer"]')
+			.filterFn((ele) => !ele.isChild() && ele.neighborhood.length === 0)
+			.remove();
+
+		// TODO move to another package (i.e not here but also not in the sbgn-renderer)
+		// collapse complex nodes by default
+		const api = this.state.graphInstance
+			.expandCollapse('get');
+		const complexNodes = this.state.graphInstance
+			.nodes('[class="complex"], [class="complex multimer"]');
+		api.collapseRecursively(complexNodes);
+
 	};
 
 	exportImage(isFullscreen, cb) {
