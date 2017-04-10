@@ -60,14 +60,15 @@ export class SearchWrapper extends React.Component {
 	}
 
 	updateSearchArg(updateObject) {
-		this.props.history.push({
-			pathname: this.props.location.pathname,
-			search: queryString.stringify(this.filterUpdate(updateObject))
-		});
-
 		if(this.props.embed === true) {
 			var openUrl = window.location.href.replace("/embed", "");
 			window.open(openUrl, "Pathway Commons Search");
+		}
+		else {
+			this.props.history.push({
+				pathname: this.props.location.pathname,
+				search: queryString.stringify(this.filterUpdate(updateObject))
+			});
 		}
 	}
 

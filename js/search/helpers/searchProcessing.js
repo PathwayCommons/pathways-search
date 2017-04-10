@@ -11,39 +11,46 @@ var checkList = [
 
 // var hgncUrl = "http://www.genenames.org/cgi-bin/download?col=gd_app_sym&status=Approved&status_opt=2&where=&order_by=gd_app_sym_sort&format=text&limit=&submit=submit"; // URL of hgncSymbols.txt data
 
-let getHgncData = () => {
-	return Promise.all([localForage.getItem('hgncSymbols'), localForage.getItem('hgncSymbolsExpiry')])
-		.then(promArray => {
-			var value = promArray[0];
-			var expiry = promArray[1];
-			var unixTime = new Date().getTime();
+let hgncData = Promise.all([localForage.getItem('hgncSymbols'), localForage.getItem('hgncSymbolsExpiry')])
+	.then(promArray => {
+		var value = promArray[0];
+		var expiry = promArray[1];
+		var unixTime = new Date().getTime();
 
-			if(expiry < unixTime || value === null) {
-				return fetch("hgncSymbols.txt", {method: 'get', mode: 'no-cors'})
-					.then(res => res.text())
-					.then(text => text
-						.toUpperCase() // Make all text upper case
-						.split("\n") // Split file string by new line characters
-						.slice(1) // Remove header
-						.map(line => { // Parse file from hgnc
-							var lineArray = line.trim().split("	");
-							var prevSymbolArray = lineArray.length > 1 ? lineArray[1].split(", ") : [];
-							return [lineArray[0], ...prevSymbolArray];
-						})
-						.reduce((acc, val) => acc.concat(val)) // Flatten resulting array
-					)
-					.then(dataArray => {
-						localForage.setItem('hgncSymbols', dataArray);
-						localForage.setItem('hgncSymbolsExpiry', unixTime + expireDelay);
-						return dataArray;
+		if(expiry < unixTime || value === null) {
+			return fetch("hgncSymbols.txt", {method: 'get', mode: 'no-cors'})
+				.then(res => res.text())
+				.then(text => text
+					.toUpperCase() // Make all text upper case
+					.split("\n") // Split file string by new line characters
+					.slice(1) // Remove header
+					.map(line => { // Parse file from hgnc into nested array of symbols
+						var lineArray = line.trim().split("	"); // Split by tab character
+						if(lineArray[1] !== undefined) {
+							var symbolArray = lineArray[1].split(",");
+							symbolArray.push.apply(symbolArray, [lineArray[0]]);
+							return symbolArray;
+						}
+						else {
+							return [lineArray[0]];
+						}
 					})
-			}
-			else {
-				return value;
-			}
-		})
-		.then(dataArray => new Set(dataArray))
-}
+					.reduce((acc, val) => acc.concat(val)) // Flatten resulting array
+					.map(symbol => symbol.trim()) // Trim all symbols as HGNC leaves random spaces in data
+				)
+				.then(dataArray => {
+					console.log("HGNC Load:" + new Date().getTime() - unixTime);
+					localForage.setItem('hgncSymbols', dataArray);
+					localForage.setItem('hgncSymbolsExpiry', unixTime + expireDelay);
+					return dataArray;
+				})
+		}
+		else {
+			console.log("HGNC Cached");
+			return value;
+		}
+	})
+	.then(dataArray => new Set(dataArray));
 
 let escapeLucene = (inputString) => {
 	return inputString.replace(/([\!\*\+\-\&\|\(\)\[\]\{\}\^\~\?\:\/\\"])/g, "\\$1");
@@ -63,7 +70,7 @@ export let searchProcessing = (query) => { // Pass in all query parameters
 	}
 
 	if(enhance) {
-		return getHgncData()
+		return hgncData
 			.then(hgncData => words.split(/\s+/g)
 				.map(word => { // Process each word individually
 					var isSymbol;
