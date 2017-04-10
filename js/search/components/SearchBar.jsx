@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import {Col, FormGroup, InputGroup, FormControl, Button, Modal} from 'react-bootstrap';
+import queryString from 'query-string';
 import {hardReload} from '../../App.js';
 import {SearchOptions} from './SearchOptions.jsx';
 import {HelpTooltip} from './../../components/HelpTooltip.jsx';
@@ -23,7 +24,11 @@ export class SearchBar extends React.Component {
 	}
 
 	updateTerm() {
-		if (this.state.q != this.props.query.q) {
+		var q = this.state.q.indexOf("%") === -1 ? this.state.q : decodeURIComponent(this.state.q);
+		if (q.match(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/)) {
+			this.props.history.push({pathname: "/pathway", search: queryString.stringify({uri: q})});
+		}
+		else if (this.state.q != this.props.query.q) {
 			this.props.updateSearchArg({ // Set search and filter parameters to be used when q changes
 				q: this.state.q,
 				lt: 200,
