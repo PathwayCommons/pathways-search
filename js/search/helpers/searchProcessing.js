@@ -1,55 +1,25 @@
 var fetch = require('fetch-ponyfill')().fetch;
 import {utilities} from 'pathway-commons';
-import localForage from 'localforage';
-
-const expireDelay = 60*1000;//30*24*60*60*1000;
 
 var checkList = [
 	"uniprot",
 	"chebi"
 ]
 
-// var hgncUrl = "http://www.genenames.org/cgi-bin/download?col=gd_app_sym&status=Approved&status_opt=2&where=&order_by=gd_app_sym_sort&format=text&limit=&submit=submit"; // URL of hgncSymbols.txt data
+// var hgncUrl = "http://www.genenames.org/cgi-bin/download?col=gd_app_sym&col=gd_prev_sym&status=Approved&status_opt=2&where=&order_by=gd_app_sym_sort&format=text&limit=&submit=submit"; // URL of hgncSymbols.txt data
 
-let hgncData = Promise.all([localForage.getItem('hgncSymbols'), localForage.getItem('hgncSymbolsExpiry')])
-	.then(promArray => {
-		var value = promArray[0];
-		var expiry = promArray[1];
-		var unixTime = new Date().getTime();
+let parseFile = text => {
+	let i = text.indexOf("\n") + 1; // Get index of first newline
+	let textNoHeader = text.substr(i).toUpperCase();
 
-		if(expiry < unixTime || value === null) {
-			return fetch("hgncSymbols.txt", {method: 'get', mode: 'no-cors'})
-				.then(res => res.text())
-				.then(text => text
-					.toUpperCase() // Make all text upper case
-					.split("\n") // Split file string by new line characters
-					.slice(1) // Remove header
-					.map(line => { // Parse file from hgnc into nested array of symbols
-						var lineArray = line.trim().split("	"); // Split by tab character
-						if(lineArray[1] !== undefined) {
-							var symbolArray = lineArray[1].split(",");
-							symbolArray.push.apply(symbolArray, [lineArray[0]]);
-							return symbolArray;
-						}
-						else {
-							return [lineArray[0]];
-						}
-					})
-					.reduce((acc, val) => acc.concat(val)) // Flatten resulting array
-					.map(symbol => symbol.trim()) // Trim all symbols as HGNC leaves random spaces in data
-				)
-				.then(dataArray => {
-					console.log("HGNC Load:" + new Date().getTime() - unixTime);
-					localForage.setItem('hgncSymbols', dataArray);
-					localForage.setItem('hgncSymbolsExpiry', unixTime + expireDelay);
-					return dataArray;
-				})
-		}
-		else {
-			console.log("HGNC Cached");
-			return value;
-		}
-	})
+	return textNoHeader
+	.split(/[\s,]+/) // Split file string by whitespace (spaces, tabs, newlines) and commas
+	.filter(symbol => symbol); // Check for and remove any empty strings
+};
+
+let hgncData = fetch("hgncSymbols.txt", {method: 'get', mode: 'no-cors'})
+	.then(res => res.text())
+	.then(parseFile)
 	.then(dataArray => new Set(dataArray));
 
 let escapeLucene = (inputString) => {
@@ -73,7 +43,7 @@ export let searchProcessing = (query) => { // Pass in all query parameters
 		return hgncData
 			.then(hgncData => words.split(/\s+/g)
 				.map(word => { // Process each word individually
-					var isSymbol;
+					let isSymbol;
 					// Conduct regex checks
 					isSymbol = checkList.some(ds => utilities.sourceCheck(ds, word));
 					// Conduct more expensive HGNC check
