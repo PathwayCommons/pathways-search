@@ -32,13 +32,16 @@ export class Faq extends React.Component {
 						<br/><br/>
 						The final result is a query which will return search results which contains all of the words entered in either the xref or title if the word is an identifier, or in the title otherwise. The result is much more strictly focused compared to free-text, and for most people should be more intuitive to work with. However, as it is more restrictive, it is also more likely to return no results. If this is the case, it may be beneficial to disable enhanced search to see if enhanced search is removing the target pathway.
 					</Panel>
-					<Panel header="How many results are returned?" eventKey="6">
+					<Panel header="What identifier formats can I enter into search?" eventKey="6">
+						By default, you can enter HUGO Gene Nomenclature Committee (HGNC), Uniprot (swissprot), Chemical Entities of Biological Interest (ChEBI), Small Molecule Pathway Database (SMPDB), and Kegg Pathway identifiers into search. In order to attempt to use any other identifiers, Enhanced Search must be turned off.
+					</Panel>
+					<Panel header="How many results are returned?" eventKey="7">
 						By default, the top five search results are returned. The user can click the ‘Show more results’ to display the remaining results, to a maximum of 100.
 					</Panel>
-					<Panel header="Why can’t I find a pathway that I believe exists in Pathway Commons?" eventKey="7">
+					<Panel header="Why can’t I find a pathway that I believe exists in Pathway Commons?" eventKey="8">
 						This is probably because of the default filtering options -  size, source, type. Select the ‘show me everything’ option in the Advanced options
 					</Panel>
-					<Panel header="How do I link to the app or embed a searchbox or pathway?" eventKey="8">
+					<Panel header="How do I link to the app or embed a searchbox or pathway?" eventKey="9">
 						Any given page in the app can be linked to by simply copying the URL.
 						<br/><br/>
 						If you wish to embed a pathway elsewhere, take the URL of the page you wish to embed and add <code>/embed</code> to the subdirectory, just in front of <code>/pathway</code>. For example, to embed a pathway with the following URL:
