@@ -3,8 +3,10 @@ import {utilities} from 'pathway-commons';
 
 var checkList = [
 	"uniprot",
-	"chebi"
-]
+	"chebi",
+	"smpdb",
+	"keggpathway"
+];
 
 // var hgncUrl = "http://www.genenames.org/cgi-bin/download?col=gd_app_sym&col=gd_prev_sym&status=Approved&status_opt=2&where=&order_by=gd_app_sym_sort&format=text&limit=&submit=submit"; // URL of hgncSymbols.txt data
 
@@ -41,7 +43,8 @@ export let searchProcessing = (query) => { // Pass in all query parameters
 
 	if(enhance) {
 		return hgncData
-			.then(hgncData => words.split(/\s+/g)
+			.then(hgncData => words
+				.split(/\s+/g)
 				.map(word => { // Process each word individually
 					let isSymbol;
 					// Conduct regex checks
