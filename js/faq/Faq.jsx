@@ -6,6 +6,7 @@ import {Accordion, Panel} from 'react-bootstrap';
 // none
 export class Faq extends React.Component {
 	render() {
+		var hostName = window.location.protocol + "//" + window.location.host + window.location.pathname;
 		return (
 			<div className="Faq">
 				<h4 className="text-center">
@@ -36,6 +37,17 @@ export class Faq extends React.Component {
 					</Panel>
 					<Panel header="Why can’t I find a pathway that I believe exists in Pathway Commons?" eventKey="7">
 						This is probably because of the default filtering options -  size, source, type. Select the ‘show me everything’ option in the Advanced options
+					</Panel>
+					<Panel header="How do I link to the app or embed a searchbox or pathway?" eventKey="8">
+						Any given page in the app can be linked to by simply copying the URL.
+						<br/><br/>
+						If you wish to embed a pathway elsewhere, take the URL of the page you wish to embed and add <code>/embed</code> to the subdirectory, just in front of <code>/pathway</code>. For example, to embed a pathway with the following URL:
+						<code>{hostName + "#/pathway?uri=http%3A%2F%2Fidentifiers.org%2Freactome%2FR-HSA-157118"}</code>,
+						modify the URL to the following,
+						<code>{hostName + "#/pathway/embed?uri=http%3A%2F%2Fidentifiers.org%2Freactome%2FR-HSA-157118"}</code>.
+						The resulting URL can then be placed in an iframe.
+						<br/><br/>
+						If you wish to embed search, place the following URL in an iframe, <code>{hostName + "#/search/embed"}</code>.
 					</Panel>
 				</Accordion>
 			</div>
