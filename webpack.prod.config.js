@@ -21,31 +21,27 @@ module.exports = {
 		filename: 'bundle.js'
 	},
 	module: {
-		loaders: [{
+		rules: [{
 				test: /.jsx?$/,
-				loader: 'babel-loader',
-				exclude: /node_modules/,
-				query: {
-					presets: ['es2015', 'react'],
-					plugins: ['transform-object-rest-spread']
-				}
+				use: 'babel-loader',
+				exclude: /node_modules/
 			},
 			{
 				test: /\.css$/,
-				loaders: ['style-loader', 'css-loader', 'postcss-loader']
+				use: ['style-loader', 'css-loader', 'postcss-loader']
 			},
 			{
 				test: /\.(eot|svg|ttf|woff|woff2)$/,
-				loader: 'file-loader?name=fonts/[name].[ext]'
+				use: 'file-loader?name=fonts/[name].[ext]'
 			},
 			{
 				test: /\.png$/,
-				loader: 'url-loader'
+				use: 'url-loader'
 			},
 			{
-				test: [/\.js$/, /\.es6$/],
+				test: [/\.js$/, /\.jsx$/],
 				exclude: /node_modules/,
-				loader: webpackStripLoader.loader('console.log')
+				use: webpackStripLoader.loader('console.log')
 			}
 		]
 	}

@@ -4,3 +4,4 @@
 *.js.map
 bundle.js
 npm-debug.log
+stats.json
