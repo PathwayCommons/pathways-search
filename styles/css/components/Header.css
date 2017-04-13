@@ -23,7 +23,7 @@
 	}
 
 	& .helpButton {
-		color: var(--yellow) !important;
+		color: var(--orange) !important;
 	}
 
 	& .react-toggle {
