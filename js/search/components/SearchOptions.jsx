@@ -21,7 +21,7 @@ const filterPropList = [
 // SearchOptions
 // Prop Dependencies ::
 // - query
-// - dataSources
+// - searchResult
 // - updateSearchArg(updateObject)
 export class SearchOptions extends React.Component {
 	constructor(props) {
@@ -40,9 +40,11 @@ export class SearchOptions extends React.Component {
 			datasources
 				.fetch()
 				.then(datasourceObj => Object.keys(datasourceObj).map(key => datasourceObj[key])),
-			search()
-				.query({...this.props.query, datasource: undefined, q: this.props.processedQuery})
-				.fetch()
+			!isEmpty(this.props.query.datasource) ?
+				search()
+					.query({...this.props.query, datasource: undefined, q: this.props.processedQuery})
+					.fetch() :
+				Promise.resolve(this.props.searchResult)
 		])
 			.then(promArray => promArray[0].filter(datasource => promArray[1].providers.indexOf(datasource.name) !== -1))
 			.catch(() => { // Provide all datasources if no datasources available in search results
