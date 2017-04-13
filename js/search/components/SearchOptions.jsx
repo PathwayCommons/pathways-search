@@ -39,16 +39,17 @@ export class SearchOptions extends React.Component {
 		Promise.all([
 			datasources
 				.fetch()
-				.then(datasourceObj => Object.values(datasourceObj)),
+				.then(datasourceObj => Object.keys(datasourceObj).map(key => datasourceObj[key])),
 			search()
 				.query({...this.props.query, datasource: undefined, q: this.props.processedQuery})
 				.fetch()
 		])
 			.then(promArray => promArray[0].filter(datasource => promArray[1].providers.indexOf(datasource.name) !== -1))
 			.catch(() => { // Provide all datasources if no datasources available in search results
+				console.error("No datasources available in search results");
 				return datasources
 					.fetch()
-					.then(datasourceObj => Object.values(datasourceObj));
+					.then(datasourceObj => Object.keys(datasourceObj).map(key => datasourceObj[key]));
 			})
 			.then(datasourceObj => this.setState({datasourceRef: datasourceObj}));
 	}
@@ -86,17 +87,20 @@ export class SearchOptions extends React.Component {
 					<ControlLabel>
 						Datasources:
 					</ControlLabel>
-					<Typeahead
-						multiple
-						clearButton
-						labelKey="name"
-						options={this.state.datasourceRef}
-						defaultSelected={this.props.query.datasource && !isEmpty(this.state.datasourceRef) ?
-							this.state.datasourceRef.filter(datasource => this.props.query.datasource.indexOf(datasource.name) !== -1) :
-							this.state.datasourceRef}
-						placeholder="Select one or more datasources to filter by (eg. Reactome)"
-						onChange={selectedArray => this.updateFilter("datasource", selectedArray.map(selected => selected.name))}
-					/>
+					{
+						!isEmpty(this.state.datasourceRef) ?
+						<Typeahead
+							multiple
+							clearButton
+							labelKey="name"
+							options={this.state.datasourceRef}
+							defaultSelected={this.props.query.datasource ?
+								this.state.datasourceRef.filter(datasource => this.props.query.datasource.indexOf(datasource.name) !== -1) :
+								this.state.datasourceRef}
+							placeholder="Select one or more datasources to filter by (eg. Reactome)"
+							onChange={selectedArray => this.updateFilter("datasource", selectedArray.map(selected => selected.name))}
+						/> : null
+					}
 					<HelpBlock>
 						Only search results from the datasources listed above will be shown. Alternatively, remove all datasources to disable datasource filtering.
 					</HelpBlock>
@@ -137,7 +141,7 @@ export class SearchOptions extends React.Component {
 						Enhanced Search:
 					</ControlLabel>
 					<div onClick={() => this.updateFilter("enhance", this.state.enhance !== "false" ? "false" : "true")}>
-						<Toggle checked={this.state.enhance !== "false"}/>
+						<Toggle checked={this.state.enhance !== "false"} onChange={() => {/* No op */}}/>
 					</div>
 					<HelpBlock>
 						Toggles advanced search query parsing; a system which attempts to refine search relevance, on or off. More information on what it does and how it works is available in the FAQ.
@@ -148,7 +152,7 @@ export class SearchOptions extends React.Component {
 						Lucene Escape Input:
 					</ControlLabel>
 					<div onClick={() => this.updateFilter("escape", this.state.escape !== "false" ? "false" : "true")}>
-						<Toggle checked={this.state.escape !== "false"}/>
+						<Toggle checked={this.state.escape !== "false"} onChange={() => {/* No op */}}/>
 					</div>
 					<HelpBlock>
 						Escapes user input to ensure that any Lucene special characters do not interfere with search. Overridden when search enhance is enabled. Recommend leaving enabled unless you intend to enter Lucene manually.
