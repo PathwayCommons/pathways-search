@@ -28,7 +28,11 @@ let escapeLucene = (inputString) => {
 	return inputString.replace(/([\!\*\+\-\&\|\(\)\[\]\{\}\^\~\?\:\/\\"])/g, "\\$1");
 }
 
-export let searchProcessing = (query) => { // Pass in all query parameters
+export let queryProcessing = (query, failureCount = 0) => { // Pass in all query parameters
+	if(failureCount > 3) { // All fallbacks exhausted, conclude no results available and return null
+		return Promise.resolve(null);
+	}
+
 	var escape = query.escape !== "false";
 	var enhance = query.enhance !== "false";
 	var output = "";
@@ -38,10 +42,10 @@ export let searchProcessing = (query) => { // Pass in all query parameters
 		var words = query.q.trim();
 	}
 	else {
-		return query.q;
+		return Promise.resolve(query.q);
 	}
 
-	if(enhance) {
+	if(enhance && !(failureCount > 1)) { // On second failure and over disable enhanced search
 		return hgncData
 			.then(hgncData => words
 				.split(/\s+/g)
@@ -58,7 +62,7 @@ export let searchProcessing = (query) => { // Pass in all query parameters
 					return (isSymbol ? word : "name:" + word);
 				})
 				.reduce((acc, val, index) => {
-					return acc + (index !== 0 ? " AND " : "") + val;
+					return acc + (index !== 0 ? (failureCount > 0 ? " " : " AND ") : "") + val;
 				})
 			);
 	}

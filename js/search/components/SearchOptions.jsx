@@ -5,7 +5,8 @@ import Toggle from 'react-toggle';
 import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
 import clone from 'lodash/clone';
-import {datasources, search} from 'pathway-commons';
+import {datasources} from 'pathway-commons';
+import {queryFetch} from '../helpers/queryFetch.js';
 import {BioPaxClass} from "../../helpers/pc2.js";
 
 // Determines which prop are valid filter props as opposed to other properties like page or query
@@ -40,11 +41,7 @@ export class SearchOptions extends React.Component {
 			datasources
 				.fetch()
 				.then(datasourceObj => Object.keys(datasourceObj).map(key => datasourceObj[key])),
-			!isEmpty(this.props.query.datasource) ?
-				search()
-					.query({...this.props.query, datasource: undefined, q: this.props.processedQuery})
-					.fetch() :
-				Promise.resolve(this.props.searchResult)
+			queryFetch({...this.props.query, datasource: undefined})
 		])
 			.then(promArray => promArray[0].filter(datasource => promArray[1].providers.indexOf(datasource.name) !== -1))
 			.catch(() => { // Provide all datasources if no datasources available in search results

@@ -37,16 +37,7 @@ export class SearchList extends React.Component {
 		var listCutoff = 5;
 
 		if(!isEmpty(searchData)) {
-			var hitList = searchData.searchHit
-				.filter(item => { // Perform filtering by numParticipants
-					if (((this.props.query.lt > item.numParticipants) || this.props.query.lt === undefined) && ((this.props.query.gt < item.numParticipants) || this.props.query.gt === undefined)) {
-						return true;
-					}
-					else {
-						return false;
-					}
-				});
-
+			var hitList = searchData.searchHit;
 			noResults = hitList.length === 0;
 		}
 

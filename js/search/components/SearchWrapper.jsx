@@ -1,10 +1,9 @@
 import React from 'react';
-import isEmpty from 'lodash/isEmpty';
 import isArray from 'lodash/isArray';
 import isEqual from 'lodash/isEqual';
 import queryString from 'query-string';
 import {search, datasources} from 'pathway-commons';
-import {searchProcessing} from '../helpers/searchProcessing.js';
+import {queryFetch} from '../helpers/queryFetch.js';
 
 // SearchWrapper
 // Prop Dependencies ::
@@ -29,34 +28,10 @@ export class SearchWrapper extends React.Component {
 	}
 
 	getSearchResult(queryObject) {
-		if (!isEmpty(queryObject)) {
-			searchProcessing(queryObject)
-				.then(processedQuery => {
-					this.setState({processedQuery: processedQuery});
-					return Promise.all([
-						search()
-							.query(queryObject)
-							.q(processedQuery)
-							.format("json")
-							.fetch(),
-						datasources.fetch()
-					]);
-				})
-				.then(promArray => {
-					var searchData = promArray[0];
-					if (searchData) {
-						// Process searchData to add extra properties from dataSources
-						searchData = {
-							searchHit: searchData.searchHit.map((searchResult) => {
-								searchResult["sourceInfo"] = promArray[1][searchResult.dataSource[0]];
-								return searchResult;
-							}),
-							...searchData
-						};
-					}
-					this.setState({searchResult: searchData});
-				});
-		}
+		queryFetch(queryObject)
+			.then(searchResult => {
+				this.setState({searchResult: searchResult});
+		});
 	}
 
 	updateSearchArg(updateObject) {
