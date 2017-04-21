@@ -1,9 +1,10 @@
 import isEmpty from 'lodash/isEmpty';
+import memoize from 'fast-memoize';
 
 import {search, datasources} from 'pathway-commons';
 import {queryProcessing} from './queryProcessing.js';
 
-export let queryFetch = (queryObject, failureCount) => {
+export let queryFetch = memoize((queryObject, failureCount) => {
 	failureCount = typeof failureCount === "number" ? failureCount : 0;
 	return queryProcessing(queryObject, failureCount) // Get processed q using queryProcessing
 		.then(processedQuery => { // Peform fetch using pathway-commons
@@ -61,4 +62,4 @@ export let queryFetch = (queryObject, failureCount) => {
 				return Promise.resolve(null);
 			}
 		});
-};
+});
