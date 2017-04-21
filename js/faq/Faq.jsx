@@ -55,6 +55,9 @@ export class Faq extends React.Component {
 						<br/><br/>
 						If you wish to embed search, place the following URL in an iframe, <code>{hostName + "#/search/embed"}</code>.
 					</Panel>
+					<Panel header="Where is the source code for this web app?" eventKey={keyValue++}>
+						This web app is an open sourced project hosted on Github <a href="https://github.com/PathwayCommons/pathways-search">here</a>. See repository for instructions on how to build and run project.
+					</Panel>
 				</Accordion>
 			</div>
 		);
