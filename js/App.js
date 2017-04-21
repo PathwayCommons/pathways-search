@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {HashRouter, Route} from 'react-router-dom';
+import {utilities} from 'pathway-commons';
 
 import {Index} from './Index.jsx';
 
 import styles from '!style-loader!css-loader!postcss-loader!../styles/index.css';
+
+// Set user in pathway-commons
+utilities.user("pathways-search");
 
 const mountElement = document.getElementById('container');
 
