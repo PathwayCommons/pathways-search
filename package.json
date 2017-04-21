@@ -4,10 +4,11 @@
   "description": "A web application for accessing and using the Pathway Commons services",
   "main": "index.js",
   "scripts": {
+    "prebuild": "node getHgncSymbols.js",
     "build": "NODE_ENV=production webpack --config webpack.prod.config.js -p",
     "watch": "webpack-dev-server --inline --content-base public/ -d",
-    "start": "http-server",
-    "prestart": "npm run build"
+    "prestart": "npm run build",
+    "start": "http-server"
   },
   "author": "Manfred Cheung @ UofT <mj3cheun@uwaterloo.ca>",
   "license": "MIT",
