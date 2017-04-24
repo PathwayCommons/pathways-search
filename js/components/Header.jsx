@@ -34,7 +34,7 @@ export class Header extends React.Component {
 						<Link to={{
 							pathname: "/"
 						}} onClick={() => hardReload()}>
-							<img className="headerIcon" src="/img/pc_logo_light.svg"/>
+							<img className="headerIcon" src="img/pc_logo_light.svg"/>
 							Pathway Commons
 						</Link>
 					</div>
