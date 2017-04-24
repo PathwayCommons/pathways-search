@@ -75,6 +75,9 @@ export class SearchList extends React.Component {
 				<div className="SearchList">
 					<Modal.Dialog className="splashModal">
 						<Modal.Body>
+							<h6 className="text-center">
+								Search <a href="http://www.pathwaycommons.org/">Pathway Commons</a>
+							</h6>
 							<div className="text">
 								<Image src='img/splash_infographic.svg' className="splashImage" responsive/>
 								Access the entire collection of metabolic pathways, signalling pathways and gene regulatory networks sourced from  <a href="http://www.pathwaycommons.org/pc2/datasources">public pathway databases</a>.
@@ -85,13 +88,13 @@ export class SearchList extends React.Component {
 							</div>
 						</Modal.Body>
 						<Modal.Footer>
-							<a href="http://www.pathwaycommons.org/">
-								Pathway Commons
-							</a>
-							{"  |  "}
 							<Link to="/faq">
 								FAQ
 							</Link>
+							{"  |  "}
+							<a href="https://groups.google.com/forum/#!forum/pathway-commons-help/">
+								Help
+							</a>
 						</Modal.Footer>
 					</Modal.Dialog>
 				</div>
