@@ -57,33 +57,25 @@ export class Downloads extends React.Component {
 							setTimeout(() => this.props.graphImage(true, () => this.toggleLoading()), 10);
 					}}>
 						Dowloads an image of the entire pathway. If you wish to capture only a subsection of the pathway, use the 'Screenshot' link on the top left of the main viewer.
-						<br/>
+						<br/><br/>
 						Format: PNG
 					</DownloadCard>
 					<DownloadCard name="Gene Set Database" format="gmt" onClick={() => {this.initiatePCDownload("GSEA", "gmt")}}>
-						Database of pathway and gene names (Uniprot)
-						<br/>
-						Format: <a target="_blank" href="http://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29">Tab-delimited text</a>
-						<br/>
-						<ul>
-							<li>
-								Perform enrichment analysis using <a target="_blank" href="http://software.broadinstitute.org/gsea/index.jsp">Gene Set Enrichment Analysis (GSEA)</a>
-							</li>
-						</ul>
+						Database of pathway and gene names (UniProt) useful for performing enrichment analysis using <a target="_blank" href="http://software.broadinstitute.org/gsea/index.jsp">Gene Set Enrichment Analysis (GSEA)</a>.
+						<br/><br/>
+						Format: <a target="_blank" href="http://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29">GMT</a>
 					</DownloadCard>
 					<DownloadCard name="Simple Interaction Format" format="sif" onClick={() => {this.initiatePCDownload("BINARY_SIF", "sif")}}>
-						Simplified description of pathway as a list of interaction pairs.
-						<br/>
-						Format: <a target="_blank" href="http://wiki.cytoscape.org/Cytoscape_User_Manual/Network_Formats">Tab-delimited text</a>
-						<br/>
+						Simplified description of pathway as a list of interaction pairs useful for:
 						<ul>
 							<li>
-								View, style and edit using the <a target="_blank" href="http://cytoscape.org/">Cytoscape desktop software</a>
+								Viewing, styling, and editing pathways using <a target="_blank" href="http://cytoscape.org/">Cytoscape desktop software</a>
 							</li>
 							<li>
-								Analyze using graph algorithms
+								Analysis using graph algorithms
 							</li>
 						</ul>
+						Format: <a target="_blank" href="http://wiki.cytoscape.org/Cytoscape_User_Manual/Network_Formats">SIF</a>
 					</DownloadCard>
 				</div>
 			</div>

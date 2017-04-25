@@ -9,12 +9,9 @@ export class DownloadCard extends React.Component {
 				<div className="tile clearfix">
 					<Col xs={12}>
 						<Button className="downloadButton" onClick={this.props.onClick}>
-							<Col xsHidden className="buttonName">
+							<Col className="buttonName">
 								{this.props.name}
 							</Col>
-							<small>
-								{this.props.format.toUpperCase()}
-							</small>
 						</Button>
 					</Col>
 					<Col xs={12}>
