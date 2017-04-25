@@ -35,7 +35,7 @@ export class Header extends React.Component {
 							pathname: "/"
 						}} onClick={() => hardReload()}>
 							<img className="headerIcon" src="img/pc_logo_light.svg"/>
-							Pathway Commons
+							Pathway Search
 						</Link>
 					</div>
 					<div className="navbar-collapse collapse">
