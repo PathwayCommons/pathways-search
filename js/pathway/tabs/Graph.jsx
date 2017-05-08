@@ -43,6 +43,38 @@ export class Graph extends React.Component {
 			cueEnabled: false
 		});
 
+		graphInstance.style().selector('edge').css({'opacity': 0.3});
+
+		graphInstance.on('mouseover', 'edge', function (evt) {
+			const edge = evt.target;
+			edge.style({
+				'line-color': 'orange',
+				'opacity': 1
+			});
+
+			edge.source().style({
+				'background-color': 'blue'
+			});
+			edge.target().style({
+				'background-color': 'blue'
+			});
+		});
+
+		graphInstance.on('mouseout', 'edge', function (evt) {
+			const edge = evt.target;
+			edge.style({
+				'line-color': 'black',
+				'opacity': 0.3
+			});
+
+			edge.source().style({
+				'background-color': 'white'
+			});
+			edge.target().style({
+				'background-color': 'white'
+			});
+		});
+
 		graphInstance.on('expandcollapse.afterexpand', function (evt) {
 			const node = evt.target;
 			graphInstance.zoomingEnabled(false);
