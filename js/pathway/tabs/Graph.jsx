@@ -49,6 +49,9 @@ export class Graph extends React.Component {
 
 		graphInstance.on('mouseover', 'node', function (evt) {
 			const node = evt.target;
+			if (node.data('class') === 'compartment') {
+				return;
+			}
 			const neighborhood = node.neighborhood();
 
 			node.style({
@@ -68,6 +71,9 @@ export class Graph extends React.Component {
 
 		graphInstance.on('mouseout', 'node', function (evt) {
 			const node = evt.target;
+			if (node.data('class') === 'compartment') {
+				return;
+			}
 			const neighborhood = node.neighborhood();
 
 			node.style({
