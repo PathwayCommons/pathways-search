@@ -53,10 +53,13 @@ export class Graph extends React.Component {
 			});
 
 			edge.source().style({
-				'background-color': 'blue'
+				'background-color': 'blue',
+				'z-compound-depth': 'top'
+
 			});
 			edge.target().style({
-				'background-color': 'blue'
+				'background-color': 'blue',
+				'z-compound-depth': 'top'
 			});
 		});
 
@@ -68,10 +71,12 @@ export class Graph extends React.Component {
 			});
 
 			edge.source().style({
-				'background-color': 'white'
+				'background-color': 'white',
+				'z-compound-depth': 'auto'
 			});
 			edge.target().style({
-				'background-color': 'white'
+				'background-color': 'white',
+				'z-compound-depth': 'auto'
 			});
 		});
 
