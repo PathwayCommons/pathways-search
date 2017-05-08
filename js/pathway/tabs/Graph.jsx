@@ -43,7 +43,45 @@ export class Graph extends React.Component {
 			cueEnabled: false
 		});
 
+		// TODO: move all of these event binding mechanisms to the viewer-component
+		// TODO: make these style values compatible with painter styling e.g don't overwrite styles
 		graphInstance.style().selector('edge').css({'opacity': 0.3});
+
+		graphInstance.on('mouseover', 'node', function (evt) {
+			const node = evt.target;
+			const neighborhood = node.neighborhood();
+
+			node.style({
+				'background-color': 'blue',
+				'opacity': 1
+			});
+			neighborhood.nodes().style({
+				'background-color': 'blue',
+				'opacity': 1,
+				'z-compound-depth': 'top'
+			});
+			neighborhood.edges().style({
+				'line-color': 'orange',
+				'opacity': 1
+			});
+		});
+
+		graphInstance.on('mouseout', 'node', function (evt) {
+			const node = evt.target;
+			const neighborhood = node.neighborhood();
+
+			node.style({
+				'background-color': 'white',
+			});
+			neighborhood.nodes().style({
+				'background-color': 'white',
+				'z-compound-depth': 'auto'
+			});
+			neighborhood.edges().style({
+				'line-color': 'black',
+				'opacity': 0.3
+			});
+		});
 
 		graphInstance.on('mouseover', 'edge', function (evt) {
 			const edge = evt.target;
