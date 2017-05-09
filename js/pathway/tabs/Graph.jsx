@@ -2,13 +2,17 @@ import React from 'react';
 import classNames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import SBGNRenderer from 'sbgn-renderer';
+import convertSbgn from 'sbgnml-to-cytoscape';
+import coseBilkent from 'cytoscape-cose-bilkent';
 import expandCollapse from 'cytoscape-expand-collapse';
+
 import {saveAs} from 'file-saver';
 import {Spinner} from '../../components/Spinner.jsx';
 import {base64toBlob} from '../../helpers/converters.js';
 import {ErrorMessage} from '../../components/ErrorMessage.jsx';
 
 expandCollapse( SBGNRenderer.__proto__ );
+coseBilkent( SBGNRenderer.__proto__ );
 
 // Graph
 // Prop Dependencies ::
@@ -191,7 +195,9 @@ export class Graph extends React.Component {
 
 		// Perform render
 		this.state.graphRendered = true;
-		SBGNRenderer.renderGraph(this.state.graphInstance, sbgnString);
+		const graphJSON = convertSbgn(sbgnString);
+		this.state.graphInstance.remove('*');
+		this.state.graphInstance.add(graphJSON);
 
 		// TODO move to another package (i.e not here but also not in the sbgn-renderer)
 		// remove dangling nodes in compartments
@@ -216,6 +222,27 @@ export class Graph extends React.Component {
 			.nodes('[class="complex"], [class="complex multimer"]');
 		api.collapseRecursively(complexNodes);
 
+		this.state.graphInstance.layout({
+			name: 'cose-bilkent',
+			paddingCompound: 50,
+			nodeRepulsion: 4500,
+			fit: true,
+			idealEdgeLength: 50,
+			edgeElasticity: 0.45,
+			nestingFactor: 0.1,
+			gravity: 0.25,
+			numIter: 2500,
+			tile: false,
+			animationEasing: 'cubic-bezier(0.19, 1, 0.22, 1)',
+			animate: 'end',
+			animationDuration: 1000,
+			randomize: true,
+			tilingPaddingVertical: 20,
+			tilingPaddingHorizontal: 20,
+			gravityRangeCompound: 1.5,
+			gravityCompound: 1.0,
+			gravityRange: 3.8
+		}).run();
 	};
 
 	exportImage(isFullscreen, cb) {
