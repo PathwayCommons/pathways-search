@@ -143,6 +143,18 @@ export class Graph extends React.Component {
 			}).run();
 			graphInstance.zoomingEnabled(true);
 		});
+
+		graphInstance.on('tap', 'node[class="complex"], node[class="complex multimer"]', function (evt) {
+			evt.preventDefault();
+			const node = evt.target;
+			const api = graphInstance.expandCollapse('get');
+			if (api.isCollapsible(node)) {
+			  api.collapse(node);
+			} else {
+			  api.expand(node);
+			}
+		});
+
 		this.setState({
 			graphInstance: graphInstance,
 			graphContainer: graphContainer
@@ -216,12 +228,15 @@ export class Graph extends React.Component {
 
 		// TODO move to another package (i.e not here but also not in the sbgn-renderer)
 		// collapse complex nodes by default
-		const api = this.state.graphInstance
-			.expandCollapse('get');
+		const api = this.state.graphInstance.expandCollapse('get');
 		const complexNodes = this.state.graphInstance
 			.nodes('[class="complex"], [class="complex multimer"]');
+
+		// complexNodes.descendants().remove();
 		api.collapseRecursively(complexNodes);
 
+		// taken from newt
+		// https://github.com/iVis-at-Bilkent/newt/blob/unstable/app/js/app-utilities.js#L14
 		this.state.graphInstance.layout({
 			name: 'cose-bilkent',
 			paddingCompound: 50,
@@ -236,7 +251,7 @@ export class Graph extends React.Component {
 			animationEasing: 'cubic-bezier(0.19, 1, 0.22, 1)',
 			animate: 'end',
 			animationDuration: 1000,
-			randomize: true,
+			randomize: false,
 			tilingPaddingVertical: 20,
 			tilingPaddingHorizontal: 20,
 			gravityRangeCompound: 1.5,
