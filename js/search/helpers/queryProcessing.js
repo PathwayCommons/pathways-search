@@ -8,6 +8,10 @@ var checkList = [
 	"keggpathway"
 ];
 
+var nameBlacklist = [
+	"CELL"
+];
+
 // var hgncUrl = "http://www.genenames.org/cgi-bin/download?col=gd_app_sym&col=gd_prev_sym&status=Approved&status_opt=2&where=&order_by=gd_app_sym_sort&format=text&limit=&submit=submit"; // URL of hgncSymbols.txt data
 
 let parseFile = text => {
@@ -16,7 +20,8 @@ let parseFile = text => {
 
 	return textNoHeader
 	.split(/[\s,]+/) // Split file string by whitespace (spaces, tabs, newlines) and commas
-	.filter(symbol => symbol); // Check for and remove any empty strings
+	.filter(symbol => symbol) // Check for and remove any empty strings
+	.filter(symbol => nameBlacklist.indexOf(symbol) == -1); // Filter out ridiculous names
 };
 
 let hgncData = fetch("hgncSymbols.txt", {method: 'get', mode: 'no-cors'})
@@ -33,7 +38,6 @@ export let queryProcessing = (query, failureCount = 0) => { // Pass in all query
 		return Promise.resolve(null);
 	}
 
-	var escape = query.escape !== "false";
 	var enhance = query.enhance !== "false";
 	var output = "";
 
@@ -59,7 +63,7 @@ export let queryProcessing = (query, failureCount = 0) => { // Pass in all query
 					}
 					// When using enhanced search Lucene is always escaped
 					word = escapeLucene(word);
-					return (isSymbol ? word : "name:" + word);
+					return (isSymbol ? word : "name:" + "*" + word + "*" );
 				})
 				.reduce((acc, val, index) => {
 					return acc + (index !== 0 ? (failureCount > 0 ? " " : " AND ") : "") + val;
@@ -67,6 +71,6 @@ export let queryProcessing = (query, failureCount = 0) => { // Pass in all query
 			);
 	}
 	else {
-			return Promise.resolve(escape ? escapeLucene(words) : words);
+			return Promise.resolve(words);
 	}
 }
