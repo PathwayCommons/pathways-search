@@ -231,8 +231,6 @@ export class Graph extends React.Component {
 		const api = this.state.graphInstance.expandCollapse('get');
 		const complexNodes = this.state.graphInstance
 			.nodes('[class="complex"], [class="complex multimer"]');
-
-		// complexNodes.descendants().remove();
 		api.collapseRecursively(complexNodes);
 
 		// taken from newt
