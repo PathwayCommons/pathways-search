@@ -33,7 +33,6 @@ export let queryProcessing = (query, failureCount = 0) => { // Pass in all query
 		return Promise.resolve(null);
 	}
 
-	var escape = query.escape !== "false";
 	var enhance = query.enhance !== "false";
 	var output = "";
 
@@ -62,11 +61,12 @@ export let queryProcessing = (query, failureCount = 0) => { // Pass in all query
 					return (isSymbol ? word : "name:" + "*" + word + "*" );
 				})
 				.reduce((acc, val, index) => {
+					console.log(acc + (index !== 0 ? (failureCount > 0 ? " " : " AND ") : "") + val);
 					return acc + (index !== 0 ? (failureCount > 0 ? " " : " AND ") : "") + val;
 				})
 			);
 	}
 	else {
-			return Promise.resolve(escape ? escapeLucene(words) : words);
+			return Promise.resolve(words);
 	}
 }

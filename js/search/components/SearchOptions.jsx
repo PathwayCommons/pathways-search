@@ -15,8 +15,7 @@ const filterPropList = [
 	"datasource",
 	"lt",
 	"gt",
-	"enhance",
-	"escape"
+	"enhance"
 ]
 
 // SearchOptions
@@ -33,8 +32,7 @@ export class SearchOptions extends React.Component {
 			datasourceRef: [],
 			lt: this.props.query.lt || "",
 			gt: this.props.query.gt || "",
-			enhance: this.props.query.enhance || "",
-			escape: this.props.query.escape || ""
+			enhance: this.props.query.enhance || ""
 		};
 
 		Promise.all([
@@ -144,17 +142,6 @@ export class SearchOptions extends React.Component {
 					</div>
 					<HelpBlock>
 						Toggles advanced search query parsing; a system which attempts to refine search relevance, on or off. More information on what it does and how it works is available in the FAQ.
-					</HelpBlock>
-				</FormGroup>
-				<FormGroup>
-					<ControlLabel>
-						Lucene Escape Input:
-					</ControlLabel>
-					<div onClick={() => this.updateFilter("escape", this.state.escape !== "false" ? "false" : "true")}>
-						<Toggle checked={this.state.escape !== "false"} onChange={() => {/* No op */}}/>
-					</div>
-					<HelpBlock>
-						Escapes user input to ensure that any Lucene special characters do not interfere with search. Overridden when search enhance is enabled. Recommend leaving enabled unless you intend to enter Lucene manually.
 					</HelpBlock>
 				</FormGroup>
 			</div>

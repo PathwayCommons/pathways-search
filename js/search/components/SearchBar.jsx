@@ -34,8 +34,7 @@ export class SearchBar extends React.Component {
 				lt: 250,
 				gt: 3,
 				type: "Pathway",
-				enhance: this.props.query.enhance,
-				escape: this.props.query.escape
+				enhance: this.props.query.enhance
 			});
 		}
 	}
