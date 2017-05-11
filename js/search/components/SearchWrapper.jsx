@@ -4,6 +4,7 @@ import isEqual from 'lodash/isEqual';
 import queryString from 'query-string';
 import {search, datasources} from 'pathway-commons';
 import {queryFetch} from '../helpers/queryFetch.js';
+import {Spinner} from '../../components/Spinner.jsx';
 
 // SearchWrapper
 // Prop Dependencies ::
@@ -15,7 +16,8 @@ export class SearchWrapper extends React.Component {
 		super(props);
 		this.state = {
 			searchResult: {},
-			processedQuery: ""
+			processedQuery: "",
+			searchInProgress: false
 		};
 		this.getSearchResult(this.props.query);
 	}
@@ -23,6 +25,7 @@ export class SearchWrapper extends React.Component {
 	// If query prop or dataSource is changed then re-render
 	componentWillReceiveProps(nextProps) {
 		if (!isEqual(this.props.query, nextProps.query)) {
+			this.setState({searchInProgress: true});
 			this.getSearchResult(nextProps.query);
 		}
 	}
@@ -30,7 +33,10 @@ export class SearchWrapper extends React.Component {
 	getSearchResult(queryObject) {
 		queryFetch(queryObject)
 			.then(searchResult => {
-				this.setState({searchResult: searchResult});
+				this.setState({
+					searchResult: searchResult,
+					searchInProgress: false
+				});
 		});
 	}
 
@@ -71,6 +77,7 @@ export class SearchWrapper extends React.Component {
 	render() {
 		return (
 			<div className="SearchWrapper">
+				<Spinner full hidden={!this.state.searchInProgress}/>
 				{React.Children.map(this.props.children, (child) => React.cloneElement(child, {
 					...this.props,
 					...this.state,
