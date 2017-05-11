@@ -33,6 +33,10 @@ let escapeLucene = (inputString) => {
 	return inputString.replace(/([\!\*\+\-\&\|\(\)\[\]\{\}\^\~\?\:\/\\"])/g, "\\$1");
 }
 
+let escapeSpaces = (inputString) => {
+	return inputString.replace(/(\s+)/g, "\\$1");
+}
+
 export let queryProcessing = (query, failureCount = 0) => { // Pass in all query parameters
 	if(failureCount > 3) { // All fallbacks exhausted, conclude no results available and return null
 		return Promise.resolve(null);
@@ -49,28 +53,36 @@ export let queryProcessing = (query, failureCount = 0) => { // Pass in all query
 		return Promise.resolve(query.q);
 	}
 
-	if(enhance && !(failureCount > 1)) { // On second failure and over disable enhanced search
-		return hgncData
+	if( enhance && !failureCount ) {
+		return hgncData // AND then OR all tokens
 			.then(hgncData => words
 				.split(/\s+/g)
 				.map(word => { // Process each word individually
 					let isSymbol;
 					// Conduct regex checks
-					isSymbol = checkList.some(ds => utilities.sourceCheck(ds, word));
+					isSymbol = checkList.some( ds => utilities.sourceCheck( ds, word ) );
 					// Conduct more expensive HGNC check
 					if(!isSymbol) {
-						isSymbol = hgncData.has(word.toUpperCase());
+						isSymbol = hgncData.has( word.toUpperCase() );
 					}
 					// When using enhanced search Lucene is always escaped
 					word = escapeLucene(word);
 					return (isSymbol ? word : "name:" + "*" + word + "*" );
 				})
-				.reduce((acc, val, index) => {
-					return acc + (index !== 0 ? (failureCount > 0 ? " " : " AND ") : "") + val;
-				})
+			).then(
+				result => {
+					let q = "(name:" + escapeSpaces( words ) + ") OR (" +
+							    "name:*" + escapeSpaces( words ) + "*) OR (" +
+									result.join(" AND ") 					 + ") OR (" +
+									result.join(" OR ") 					 + ")";
+
+					// console.log("failure: %s", failureCount);
+					// console.log("Lucene query: %s", q);
+					return q;
+				}
 			);
 	}
 	else {
-			return Promise.resolve(words);
+			return Promise.resolve( words );
 	}
 }
