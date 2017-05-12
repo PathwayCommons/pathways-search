@@ -75,16 +75,9 @@ export class SearchList extends React.Component {
 				<div className="SearchList">
 					<Modal.Dialog className="splashModal">
 						<Modal.Body>
-							<h6 className="text-center">
-								Search <a href="http://www.pathwaycommons.org/">Pathway Commons</a>
-							</h6>
 							<div className="text">
-								<Image src='img/splash_infographic.svg' className="splashImage" responsive/>
-								Access the entire collection of metabolic pathways, signalling pathways and gene regulatory networks sourced from  <a href="http://www.pathwaycommons.org/pc2/datasources">public pathway databases</a>.
-							</div>
-							<br/>
-							<div className="subtext text-right">
-								<a href="https://www.ncbi.nlm.nih.gov/pubmed/21071392">Pathway Commons, a web resource for biological pathway data.</a><br/> Cerami E et al. Nucleic Acids Research (2011).
+								<Image src='img/splash_infographic.svg' className="splashImage" responsive />
+								Search <a href="http://www.pathwaycommons.org/" target="_blank">Pathway Commons</a> for metabolic pathways, signalling pathways and gene regulatory networks sourced from <a href="http://www.pathwaycommons.org/pc2/datasources" target="_blank">public pathway databases</a>.
 							</div>
 						</Modal.Body>
 						<Modal.Footer>
@@ -92,7 +85,7 @@ export class SearchList extends React.Component {
 								FAQ
 							</Link>
 							{"  |  "}
-							<a href="https://groups.google.com/forum/#!forum/pathway-commons-help/">
+							<a href="https://groups.google.com/forum/#!forum/pathway-commons-help/" target="_blank">
 								Help
 							</a>
 						</Modal.Footer>

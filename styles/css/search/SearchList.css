@@ -10,7 +10,6 @@
 	}
 
 	& .splashImage {
-		max-width: 70%;
 		margin: 20px auto;
 	}
 
@@ -24,7 +23,8 @@
 	}
 
 	& .subtext {
-		font-size: 12px;
+		font-size: 0.9em;
+		font-style: italic;
 		color: var(--darkGrey);
 	}
 

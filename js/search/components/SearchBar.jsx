@@ -70,7 +70,7 @@ export class SearchBar extends React.Component {
 				<Col xs={showAdvancedButton ? 9 : 12} md={showAdvancedButton ? 10 : 12}>
 					<FormGroup>
 						<InputGroup>
-							<FormControl type="text" defaultValue={this.props.query.q} placeholder="Search Pathway Commons by URI, pathway name, or gene names" onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)}/>
+							<FormControl type="text" defaultValue={this.props.query.q} placeholder="Search pathways by name, gene names or type a URI" onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)}/>
 							<InputGroup.Button>
 								<Button onClick={() => this.updateTerm()}>Search</Button>
 							</InputGroup.Button>

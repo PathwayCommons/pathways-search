@@ -75,9 +75,6 @@ export let queryProcessing = (query, failureCount = 0) => { // Pass in all query
 							    "name:*" + escapeSpaces( words ) + "*) OR (" +
 									result.join(" AND ") 					 + ") OR (" +
 									result.join(" OR ") 					 + ")";
-
-					// console.log("failure: %s", failureCount);
-					// console.log("Lucene query: %s", q);
 					return q;
 				}
 			);
