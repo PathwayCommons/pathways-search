@@ -38,7 +38,7 @@ let escapeSpaces = (inputString) => {
 }
 
 export let queryProcessing = (query, failureCount = 0) => { // Pass in all query parameters
-	if(failureCount > 3) { // All fallbacks exhausted, conclude no results available and return null
+	if(failureCount > 1) { // All fallbacks exhausted, conclude no results available and return null
 		return Promise.resolve(null);
 	}
 

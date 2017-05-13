@@ -17,25 +17,32 @@ export class SearchWrapper extends React.Component {
 		this.state = {
 			searchResult: {},
 			processedQuery: "",
-			searchInProgress: false
+			loading: false
 		};
-		this.getSearchResult(this.props.query);
 	}
 
 	// If query prop or dataSource is changed then re-render
 	componentWillReceiveProps(nextProps) {
 		if (!isEqual(this.props.query, nextProps.query)) {
-			this.setState({searchInProgress: true});
 			this.getSearchResult(nextProps.query);
 		}
 	}
 
+	componentDidMount(){
+		this.getSearchResult(this.props.query);
+	}
+
+	handleLoading( isLoading ){
+		this.setState({loading: isLoading})
+	}
+
 	getSearchResult(queryObject) {
+		this.handleLoading( true );
 		queryFetch(queryObject)
 			.then(searchResult => {
 				this.setState({
 					searchResult: searchResult,
-					searchInProgress: false
+					loading: false
 				});
 		});
 	}
@@ -77,7 +84,7 @@ export class SearchWrapper extends React.Component {
 	render() {
 		return (
 			<div className="SearchWrapper">
-				<Spinner full hidden={!this.state.searchInProgress}/>
+				<Spinner full hidden={!this.state.loading} />
 				{React.Children.map(this.props.children, (child) => React.cloneElement(child, {
 					...this.props,
 					...this.state,
