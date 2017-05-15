@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pagination, Modal, Image} from 'react-bootstrap';
+import {Pagination, Modal, Image, Media} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
@@ -88,6 +88,17 @@ export class SearchList extends React.Component {
 							<a href="https://groups.google.com/forum/#!forum/pathway-commons-help/" target="_blank">
 								Help
 							</a>
+								<Media>
+						     	<Media.Left>
+
+					      	</Media.Left>
+						      <Media.Body>
+						        <Media.Heading>
+											<img width={48} height={48} src="img/pc_logo_dark.svg" alt="Image" responsive /> <a href="http://www.pathwaycommons.org/" target="_blank">Pathway Commons</a>											
+										</Media.Heading>
+						        <p><em><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3013659/" target="_blank">A web resource for biological pathway data.</a></em></p>
+						      </Media.Body>
+						    </Media>
 						</Modal.Footer>
 					</Modal.Dialog>
 				</div>
