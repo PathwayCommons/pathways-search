@@ -37,8 +37,10 @@ let escapeSpaces = (inputString) => {
 	return inputString.replace(/(\s+)/g, "\\$1");
 }
 
+let failureLimit = 2;
+
 export let queryProcessing = (query, failureCount = 0) => { // Pass in all query parameters
-	if(failureCount > 1) { // All fallbacks exhausted, conclude no results available and return null
+	if(failureCount > failureLimit) { // All fallbacks exhausted, conclude no results available and return null
 		return Promise.resolve(null);
 	}
 
@@ -53,7 +55,7 @@ export let queryProcessing = (query, failureCount = 0) => { // Pass in all query
 		return Promise.resolve(query.q);
 	}
 
-	if( enhance && !failureCount ) {
+	if( enhance && failureCount < failureLimit ) {
 		return hgncData // AND then OR all tokens
 			.then(hgncData => words
 				.split(/\s+/g)
@@ -71,10 +73,10 @@ export let queryProcessing = (query, failureCount = 0) => { // Pass in all query
 				})
 			).then(
 				result => {
-					let q = "(name:" + escapeSpaces( words ) + ") OR (" +
-							    "name:*" + escapeSpaces( words ) + "*) OR (" +
-									result.join(" AND ") 					 + ") OR (" +
-									result.join(" OR ") 					 + ")";
+					let q = failureCount ? ("(" + result.join(" OR ") + ")") :
+						( "(name:" + escapeSpaces( words ) + ") OR (" +
+				      "name:*" + escapeSpaces( words ) + "*) OR (" +
+						   result.join(" AND ") + ")" );												
 					return q;
 				}
 			);
