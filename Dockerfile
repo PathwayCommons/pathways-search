@@ -16,7 +16,6 @@ RUN sed -i 's/www\.pathwaycommons\.org/beta\.pathwaycommons\.org/g' /webapps/pat
 RUN npm run build
 
 RUN chown -R nodejs:nodejs /webapps/pathway_search
-COPY entrypoint.sh /
 
 EXPOSE 8080
 USER nodejs
