@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prebuild": "node getHgncSymbols.js",
-    "build": "NODE_ENV=production webpack --config webpack.prod.config.js -p",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config.js -p",
     "watch": "webpack-dev-server --inline --content-base public/ -d",
     "prestart": "npm run build",
     "start": "http-server"
@@ -41,6 +41,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.23.0",
+    "cross-env": "^5.0.0",
     "css-loader": "^0.28.0",
     "cssnano": "^3.10.0",
     "designmodo-flat-ui": "^2.3.0",
