@@ -1,9 +1,10 @@
 import React from 'react';
-import {Pagination, Modal, Image, Media} from 'react-bootstrap';
+import {Pagination, Modal, Image, Media, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
 import {SearchItem} from './SearchItem.jsx';
+import {Splash} from '../../components/Splash.jsx';
 import {HelpTooltip} from '../../components/HelpTooltip.jsx';
 import {ErrorMessage} from '../../components/ErrorMessage.jsx';
 
@@ -35,6 +36,10 @@ export class SearchList extends React.Component {
 		var hitList = [];
 		var noResults = null;
 		var listCutoff = 5;
+		const tip_hit = (
+			<Popover className={ !this.props.help ? "hidden" : ""} id="popover-filter" placement="bottom" title="Search Results">
+				This shows the top {listCutoff} pathways returned by Pathway Commons. Click on 'More Results' to display the remaining 100 search hits returned. Participants refers to the number of physical entities such as proteins and small molecules.
+			</Popover>);
 
 		if(!isEmpty(searchData)) {
 			var hitList = searchData.searchHit;
@@ -46,9 +51,6 @@ export class SearchList extends React.Component {
 		} else if (hitList.length > 0) { // Generate search list if results available
 			return (
 				<div className="SearchList">
-					<HelpTooltip show={this.props.help} title="Search Results" placement="left" positionTop="180px">
-						This shows the top {listCutoff} pathways returned by Pathway Commons. Click on 'Show more results' to display the remaining 100 search hits returned. Participants refers to the number of physical entities such as proteins and small molecules
-					</HelpTooltip>
 					{
 						hitList
 						.map((item, index) => <SearchItem key={index} data={item}/>)
@@ -57,7 +59,9 @@ export class SearchList extends React.Component {
 					{
 						!this.state.expanded && hitList.length > listCutoff ?
 						<div className="moreResults" onClick={() => this.setState({expanded: true})}>
-							Show More Results ...
+							<OverlayTrigger placement="left" overlay={tip_hit} >
+								<Button bsSize="large" block>More Results</Button>
+							</OverlayTrigger>
 						</div>
 						: null
 					}
@@ -72,36 +76,7 @@ export class SearchList extends React.Component {
 		} else {
 			// Assume, either on home page or search results not loaded, generate splash screen
 			return (
-				<div className="SearchList">
-					<Modal.Dialog className="splashModal">
-						<Modal.Body>
-							<div className="text">
-								<Image src='img/splash_infographic.svg' className="splashImage" responsive />
-								Search <a href="http://www.pathwaycommons.org/" target="_blank">Pathway Commons</a> for metabolic pathways, signalling pathways and gene regulatory networks sourced from <a href="http://www.pathwaycommons.org/pc2/datasources" target="_blank">public pathway databases</a>.
-							</div>
-						</Modal.Body>
-						<Modal.Footer>
-							<Link to="/faq">
-								FAQ
-							</Link>
-							{"  |  "}
-							<a href="https://groups.google.com/forum/#!forum/pathway-commons-help/" target="_blank">
-								Help
-							</a>
-								<Media>
-						     	<Media.Left>
-
-					      	</Media.Left>
-						      <Media.Body>
-						        <Media.Heading>
-											<img width={48} height={48} src="img/pc_logo_dark.svg" alt="Image" responsive /> <a href="http://www.pathwaycommons.org/" target="_blank">Pathway Commons</a>											
-										</Media.Heading>
-						        <p><em><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3013659/" target="_blank">A web resource for biological pathway data.</a></em></p>
-						      </Media.Body>
-						    </Media>
-						</Modal.Footer>
-					</Modal.Dialog>
-				</div>
+				<Splash />
 			);
 		}
 	}

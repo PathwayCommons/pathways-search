@@ -5,7 +5,6 @@ import queryString from 'query-string';
 import {utilities} from 'pathway-commons';
 import {Alert} from 'react-bootstrap';
 
-import {Header} from './components/Header.jsx';
 import {Faq} from './faq/Faq.jsx';
 import {Search} from './search/Search.jsx';
 import {Pathway} from './pathway/Pathway.jsx';
@@ -66,8 +65,7 @@ export class Index extends React.Component {
 		}, this.getAllGlobals());
 
 		return (
-			<div className={classNames("Index", this.state.embed ? "iframe" : "", this.props.className)}>
-				<Header hidden={this.state.embed} {...globalObject}/>
+			<div className={classNames("Index", this.state.embed ? "iframe" : "", this.props.className)}>			
 				<div className={this.state.embed ? "" : "Content"}>
 					{
 						this.state.pcOnline ? null : (

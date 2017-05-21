@@ -1,0 +1,27 @@
+.SearchHeader {
+	background-color: var(--clouds);
+	padding-top: 1em;
+
+	& .brand {
+		font-size: 1.6em;
+		color: var(--midnightBlue);
+	}
+
+	& .control-label {
+		padding-top: 0;
+		text-align: center;
+	}
+
+	& .glyphicon {
+		cursor: pointer;
+	}
+
+}
+
+@media (--screen-xxs) {
+	.SearchHeader {
+		& .brand {
+			font-size: 1.4em;
+		}
+	}
+}

@@ -76,10 +76,7 @@ export class SearchOptions extends React.Component {
 
 	render() {
 		return (
-			<div className="SearchOptions">
-				<div className="optionsHeader">
-					<strong>Filter</strong>
-				</div>
+			<div className="SearchOptions">				
 				<FormGroup>
 					<ControlLabel>
 						Datasources:
@@ -128,20 +125,6 @@ export class SearchOptions extends React.Component {
 					/>
 					<HelpBlock>
 						Only search results with less than the number of participants displayed above will be shown. Alternatively, leave blank to disable maximum filtering.
-					</HelpBlock>
-				</FormGroup>
-				<div className="optionsHeader">
-					<strong>Search Options</strong>
-				</div>
-				<FormGroup>
-					<ControlLabel>
-						Enhanced Search:
-					</ControlLabel>
-					<div onClick={() => this.updateFilter("enhance", this.state.enhance !== "false" ? "false" : "true")}>
-						<Toggle checked={this.state.enhance !== "false"} onChange={() => {/* No op */}}/>
-					</div>
-					<HelpBlock>
-						Toggles advanced search query parsing; a system which attempts to refine search relevance, on or off. More information on what it does and how it works is available in the FAQ.
 					</HelpBlock>
 				</FormGroup>
 			</div>

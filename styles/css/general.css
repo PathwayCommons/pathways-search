@@ -1,5 +1,6 @@
 body {
 	overflow-x: hidden;
+	min-width: var(--screen-min-width);
 }
 
 .visibilityHidden {

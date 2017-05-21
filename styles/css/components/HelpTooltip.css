@@ -1,5 +1,5 @@
 .HelpTooltip {
-	position: relative;
+	/*position: relative;
 	cursor: pointer;
 
 	& .helpText {
@@ -10,5 +10,5 @@
 	& .clickable {
 		color: var(--lightBlue);
 		text-decoration: underline;
-	}
+	}*/
 }

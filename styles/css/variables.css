@@ -12,6 +12,15 @@
 	--darkGrey: #999;
 	--darkGreen: #2F4154;
 	--turquoise: #1ABC9C;
+	--pomegranate: #C0392B;
+	--clouds: #ECF0F1;
+	--silver: #BDC3C7;
+	--concrete: #95A5A6;
+	--asbestos: #7F8C8D;
+	--midnightBlue: #2C3E50;
+
+	/* Device */
+	--screen-min-width: 310px;
 
 	/* Bootstrap breakpoints */
 	--screen-xs-min: 480px;
@@ -25,6 +34,7 @@
 	--screen-md-max: calc(var(--screen-lg-min) - 1);
 
 	/* Declare custom-media for postCSS media queries using hardcoded values as variables are unsupported (Src: https://github.com/MoOx/postcss-cssnext/issues/253) */
+	@custom-media --screen-xxs (max-width: 480px);
 	@custom-media --screen-xs (max-width: 767px);
 	@custom-media --screen-sm (max-width: 991px);
 	@custom-media --screen-md (max-width: 1199px);

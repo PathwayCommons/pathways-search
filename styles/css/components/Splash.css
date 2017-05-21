@@ -1,8 +1,4 @@
-.SearchList {
-	& .paginationContainer {
-		overflow-x: hidden;
-		width: 100%;
-	}
+.Splash {
 
 	& .modal-dialog {
 		& .modal-content{
@@ -15,40 +11,25 @@
 
 	& .splashModal {
 		position: relative;
-		z-index: 1000;
+
 		& .splashText {
-			font-size: 16px;
-		}
-	}
-
-	& .splashImage {
-		margin: 20px auto;
-	}
-
-	& a {
-		cursor: pointer;
-	}
-
-
-	& .moreResults {
-		& .btn {
-			margin: 1em auto;
-			background-color: var(--clouds);
-			width: 12em;
-			opacity: 0.9;
+			text-align: center;
 			color: var(--midnightBlue);
 			font-size: 1.2em;
 		}
 	}
 
-	/* Flat-UI mobile view css fix */
-	& .pagination {
-		padding: 0;
+	& .splashImage {
+		margin: 1.2em auto;
+	}
+
+	& a {
+		cursor: pointer;
 	}
 }
 
 @media (--screen-xxs) {
-	.SearchList {
+	.Splash {
 		& .modal-dialog {
 			& .modal-content{
 				& .modal-body{
@@ -63,9 +44,8 @@
 
 		& .splashModal {
 			& .splashText {
-				font-size: 14px;
+				font-size: 1em;
 			}
 		}
 	}
-
 }

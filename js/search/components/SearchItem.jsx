@@ -34,15 +34,15 @@ export class SearchItem extends React.Component {
 		var data = this.props.data;
 		return (
 			<div className="SearchItem clearfix">
-				<Col xs={3} className="src-thumbnail-container">
+				<Col sm={3} className="src-thumbnail-container hidden-xs">
 					<div className="src-thumbnail">
-						<Image src={this.state.imageSource}/>
+						<Image src={this.state.imageSource} />
 					</div>
 				</Col>
-				<Col xs={9}>
+				<Col className="metadata-wrapper" xs={12} sm={9}>
 					<div className="header">
-							<Link className="title" to={{pathname: "/pathway", search: queryString.stringify({uri: data.uri})}} target="_blank">
-								<strong>{data.name}</strong>
+							<Link to={{pathname: "/pathway", search: queryString.stringify({uri: data.uri})}} target="_blank">
+								<span className="title">{data.name}</span>
 							</Link>
 					</div>
 					<div className="subtext">
