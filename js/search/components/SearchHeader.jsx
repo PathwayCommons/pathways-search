@@ -77,7 +77,7 @@ export class SearchHeader extends React.Component {
 				Refine search results by number of participants or data provider.
 			</Popover>
 		);
-
+		
 		const form_search = (
 			<FormControl
 				type="text"
@@ -93,42 +93,42 @@ export class SearchHeader extends React.Component {
 					<Row>
 						<Form horizontal>
 							{ !this.props.embed &&
-								<div>
-									<Col xsOffset={3} xs={5} smOffset={0} sm={2} componentClass={ControlLabel}>
-										<Link to={{ pathname: "/" }} onClick={() => hardReload()}>
-											<span className="brand">Search</span>
+							<div>
+								<Col xsOffset={3} xs={5} smOffset={0} sm={2} componentClass={ControlLabel}>
+									<Link to={{ pathname: "/" }} onClick={() => hardReload()}>
+										<span className="brand">Search</span>
+									</Link>
+								</Col>
+								<Col xs={4} sm={2} smPush={8}>
+									<Button>
+										<Link to="/faq">
+											<Glyphicon glyph="question-sign" />
 										</Link>
-									</Col>
-									<Col xs={4} sm={2} smPush={8}>
-										<Button>
-											<Link to="/faq">
-												<Glyphicon glyph="info-sign" />
-											</Link>
-										</Button>
-									</Col>
-								</div>
-							}
-					      <Col xs={12}
-									sm={!this.props.embed ? 8 : 12}
-									smPull={!this.props.embed ? 2 : 0} >
-									<FormGroup controlId="formHorizontalEmail">
-										{ showAdvancedButton ?
-											(<InputGroup>
-												{form_search}
-												<InputGroup.Addon>
-													<OverlayTrigger delayShow={1000} placement="left" overlay={tip_filter}>
-														<Glyphicon
-															glyph="filter"
-															onClick={() => this.toggleFilterMenu(true)}/>
-												 	</OverlayTrigger>
-								        </InputGroup.Addon>
-											</InputGroup>)
-											:
-											form_search
-										}
-									</FormGroup>
-					      </Col>
-							</Form>
+									</Button>
+								</Col>
+							</div>
+						 	}
+				     	<Col xs={12}
+								sm={!this.props.embed ? 8 : 12}
+								smPull={!this.props.embed ? 2 : 0} >
+								<FormGroup controlId="formHorizontalEmail">
+									{ showAdvancedButton ?
+										(<InputGroup>
+											{form_search}
+											<InputGroup.Addon>
+												<OverlayTrigger delayShow={1000} placement="left" overlay={tip_filter}>
+													<Glyphicon
+														glyph="filter"
+														onClick={() => this.toggleFilterMenu(true)}/>
+											 	</OverlayTrigger>
+							        </InputGroup.Addon>
+										</InputGroup>)
+										:
+										form_search
+									}
+								</FormGroup>
+				      </Col>
+						</Form>
 					</Row>
 				</Grid>
 				<Modal show={this.state.showFilterMenu} onHide={() => this.toggleFilterMenu(false)}>

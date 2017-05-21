@@ -18,6 +18,10 @@
 		}
 	}
 
+	& .glyph-search-hit {
+		font-size: 1.6em;
+	}
+
 	& .metadata-wrapper {
 
 		& .title {

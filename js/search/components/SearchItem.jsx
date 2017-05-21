@@ -1,5 +1,5 @@
 import React from 'react';
-import {Col, Image} from 'react-bootstrap';
+import {Col, Image, Button } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import isEqual from 'lodash/isEqual';
 import queryString from 'query-string';
@@ -44,11 +44,12 @@ export class SearchItem extends React.Component {
 							<Link to={{pathname: "/pathway", search: queryString.stringify({uri: data.uri})}} target="_blank">
 								<span className="title">{data.name}</span>
 							</Link>
+							{ this.props.extras }
 					</div>
 					<div className="subtext">
 							<span className="source">{data.sourceInfo.name}</span>
 							<br/>
-							<span className="participants">{(data.numParticipants || "0") + " Participants"}</span>
+							<span className="participants">{(data.numParticipants || "0") + " Participants"} </span>
 					</div>
 				</Col>
 			</div>

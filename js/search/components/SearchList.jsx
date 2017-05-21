@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pagination, Modal, Image, Media, Button, OverlayTrigger, Popover} from 'react-bootstrap';
+import {Pagination, Modal, Image, Media, Button, Glyphicon, OverlayTrigger, Popover} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
@@ -36,10 +36,18 @@ export class SearchList extends React.Component {
 		var hitList = [];
 		var noResults = null;
 		var listCutoff = 5;
+
 		const tip_hit = (
-			<Popover className={ !this.props.help ? "hidden" : ""} id="popover-filter" placement="bottom" title="Search Results">
-				This shows the top {listCutoff} pathways returned by Pathway Commons. Click on 'More Results' to display the remaining 100 search hits returned. Participants refers to the number of physical entities such as proteins and small molecules.
-			</Popover>);
+			<Popover className="info-tip" id="popover-hit" placement="bottom" title="Search Hit">
+				Shown are each pathway's 'display name' and the original data source. 'Participants' refers to the number of physical entities including proteins and small molecules.
+			</Popover>
+		);
+
+		const tip_more_results = (
+			<Popover className="info-tip" id="popover-more-results" placement="bottom" title="More Results">
+				By default the top 5 pathways are displayed. Click to display up to 100 of the remaining search hits.
+			</Popover>
+		);
 
 		if(!isEmpty(searchData)) {
 			var hitList = searchData.searchHit;
@@ -53,13 +61,17 @@ export class SearchList extends React.Component {
 				<div className="SearchList">
 					{
 						hitList
-						.map((item, index) => <SearchItem key={index} data={item}/>)
+						.map((item, index) => { return index === 0 ?
+							(<SearchItem key={index} data={item} extras={(<span>{'      '}<OverlayTrigger placement="bottom" overlay={tip_hit} >
+								<Glyphicon className="glyph-search-hit" glyph="info-sign" /></OverlayTrigger></span>)} />) :
+							(<SearchItem key={index} data={item} />)
+						})
 						.slice(0, !this.state.expanded ? listCutoff : undefined)
 					}
 					{
 						!this.state.expanded && hitList.length > listCutoff ?
 						<div className="moreResults" onClick={() => this.setState({expanded: true})}>
-							<OverlayTrigger placement="left" overlay={tip_hit} >
+							<OverlayTrigger delayShow={1000} placement="top" overlay={tip_more_results} >
 								<Button bsSize="large" block>More Results</Button>
 							</OverlayTrigger>
 						</div>
