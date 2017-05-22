@@ -22,3 +22,7 @@ body {
 .Index.iframe {
 	min-height: inherit;
 }
+
+a.clickable:hover {
+	cursor: pointer;	
+}

@@ -4,7 +4,6 @@ import {Col, Glyphicon} from 'react-bootstrap';
 import {get, traverse} from 'pathway-commons';
 
 import {ErrorMessage} from '../components/ErrorMessage.jsx';
-import {HelpTooltip} from '../components/HelpTooltip.jsx';
 import {Graph} from './tabs/Graph.jsx';
 import {ModalFramework} from './components/ModalFramework.jsx';
 

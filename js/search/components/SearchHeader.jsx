@@ -72,12 +72,28 @@ export class SearchHeader extends React.Component {
 	}
 
 	render() {
+
+		const tip_brand = (
+			<Popover className="info-tip" id="popover-brand" placement="bottom" title="Search!">
+				Access metabolic pathways, signalling pathways and gene regulatory networks sourced from public pathway databases.
+				<br/>
+				<br/>
+				<a className="clickable" onClick={e => this.populateWithExample(e, "ACVR2A BMP2 BMPR1B SMAD4")}>e.g. Gene list: 'Signaling by BMP' (Reactome)</a>
+			</Popover>
+		);
+
+		const tip_faq = (
+			<Popover className="info-tip" id="popover-faq" placement="bottom" title="Frequently Asked Questions">
+				Find answers to common questions along with links to our forum and code reponsitory.
+			</Popover>
+		);
+
 		const tip_filter = (
 			<Popover className="info-tip" id="popover-filter" placement="bottom" title="Filter">
 				Refine search results by number of participants or data provider.
 			</Popover>
 		);
-		
+
 		const form_search = (
 			<FormControl
 				type="text"
@@ -96,15 +112,17 @@ export class SearchHeader extends React.Component {
 							<div>
 								<Col xsOffset={3} xs={5} smOffset={0} sm={2} componentClass={ControlLabel}>
 									<Link to={{ pathname: "/" }} onClick={() => hardReload()}>
-										<span className="brand">Search</span>
+										<OverlayTrigger delayShow={1000} delayHide={2000} placement="bottom" overlay={tip_brand}>
+											<span className="brand">Search</span>
+										</OverlayTrigger>
 									</Link>
 								</Col>
 								<Col xs={4} sm={2} smPush={8}>
-									<Button>
-										<Link to="/faq">
-											<Glyphicon glyph="question-sign" />
-										</Link>
-									</Button>
+									<Link to="/faq">
+										<OverlayTrigger delayShow={1000} placement="left" overlay={tip_faq}>
+											<Glyphicon id="link-faq" glyph="question-sign" />
+										</OverlayTrigger>
+									</Link>
 								</Col>
 							</div>
 						 	}

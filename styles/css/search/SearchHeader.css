@@ -12,6 +12,11 @@
 		text-align: center;
 	}
 
+	& #link-faq {
+		margin-top: 4px;
+		font-size: 2em;
+	}
+
 	& .glyphicon {
 		font-size: 1.3em;
 		cursor: pointer;
