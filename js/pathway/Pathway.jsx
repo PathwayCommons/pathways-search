@@ -49,7 +49,7 @@ export class Pathway extends React.Component {
 		);
 		const tip_downloads = (
 			<Popover className="info-tip" id="popover-downloads" placement="bottom" title="Downloads">
-				List of data formats you can download for this pathway.
+				Download this pathway in several different formats.
 			</Popover>
 		);
 		const tip_metadata = (
@@ -68,18 +68,20 @@ export class Pathway extends React.Component {
 							<Nav>
 								<NavItem eventKey={1} onClick={() => this.setState({active: "Information"})}>
 									<OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_metadata}>
-										<span id="metadata">{this.state.name} | {this.state.datasource}</span>
+										<div className="truncate-ellipsis">
+											<span id="metadata">{this.state.name} | {this.state.datasource}</span>
+										</div>
 									</OverlayTrigger>
 								</NavItem>
 							</Nav>
 							<Nav pullRight>
 								<NavItem eventKey={1} onClick={() => this.props.graphImage(false)}>
-									<OverlayTrigger delayShow={1000} placement="left" overlay={tip_screenshot}>
+									<OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_screenshot}>
 										<span className="navitem-label">Screenshot</span>
 									</OverlayTrigger>
 								</NavItem>
 								<NavItem eventKey={2} onClick={() => this.setState({active: "Downloads"})}>
-									<OverlayTrigger delayShow={1000} placement="left" overlay={tip_downloads}>
+									<OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_downloads}>
 										<span className="navitem-label">Downloads</span>
 									</OverlayTrigger>
 								</NavItem>

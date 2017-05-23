@@ -84,7 +84,7 @@ export class SearchHeader extends React.Component {
 
 		const tip_faq = (
 			<Popover className="info-tip" id="popover-faq" placement="bottom" title="Frequently Asked Questions">
-				Find answers to common questions along with links to our forum and code reponsitory.
+				Find answers to common questions along with links to our forum and code repository.
 			</Popover>
 		);
 
