@@ -76,10 +76,10 @@ export class SearchOptions extends React.Component {
 
 	render() {
 		return (
-			<div className="SearchOptions">				
+			<div className="SearchOptions">
 				<FormGroup>
 					<ControlLabel>
-						Datasources:
+						Datasources
 					</ControlLabel>
 					{
 						!isEmpty(this.state.datasourceRef) ?
@@ -101,7 +101,7 @@ export class SearchOptions extends React.Component {
 				</FormGroup>
 				<FormGroup>
 					<ControlLabel>
-						Minimum participants:
+						Minimum participants
 					</ControlLabel>
 					<FormControl
 						type="text"
@@ -115,7 +115,7 @@ export class SearchOptions extends React.Component {
 				</FormGroup>
 				<FormGroup>
 					<ControlLabel>
-						Maximum participants:
+						Maximum participants
 					</ControlLabel>
 					<FormControl
 						type="text"

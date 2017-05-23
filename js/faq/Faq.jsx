@@ -1,5 +1,6 @@
 import React from 'react';
 import {	Glyphicon } from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import {FaqEntry} from './component/FaqEntry.jsx';
 
 // Faq
@@ -10,9 +11,10 @@ export class Faq extends React.Component {
 		var hostName = window.location.protocol + "//" + window.location.host + window.location.pathname;
 		return (
 			<div className="Faq">
-				<h4 className="text-center">
-					Frequently Asked Questions
-				</h4>
+				<p className="header-title">
+					Frequently Asked Questions - <Link to="/"> Search</Link>
+				</p>
+				<hr/>
 
 				<FaqEntry header="Where can I ask a question or post a comment?">
 					Please refer questions or comments to our <a href="https://groups.google.com/forum/#!forum/pathway-commons-help" target="_blank">Pathway Commons help Google group</a>.

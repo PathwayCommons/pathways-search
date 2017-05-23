@@ -97,7 +97,10 @@ export class SearchHeader extends React.Component {
 		const form_search = (
 			<FormControl
 				type="text"
-				placeholder="Search pathways by name, gene names or type a URI"
+				placeholder={ !this.props.embed ?
+					"Search pathways by name, gene names or type a URI" :
+					"Search for pathways in Pathway Commons"
+				}
 				defaultValue={this.props.query.q}
 				onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)} />
 		);
@@ -110,17 +113,17 @@ export class SearchHeader extends React.Component {
 						<Form horizontal>
 							{ !this.props.embed &&
 							<div>
-								<Col xsOffset={3} xs={5} smOffset={0} sm={2} componentClass={ControlLabel}>
+								<Col xsOffset={1} xs={9} smOffset={0} sm={2} componentClass={ControlLabel}>
 									<Link to={{ pathname: "/" }} onClick={() => hardReload()}>
 										<OverlayTrigger delayShow={1000} delayHide={2000} placement="bottom" overlay={tip_brand}>
 											<span className="brand">Search</span>
 										</OverlayTrigger>
 									</Link>
 								</Col>
-								<Col xs={4} sm={2} smPush={8}>
+								<Col xs={1} sm={2} smPush={8}>
 									<Link to="/faq">
 										<OverlayTrigger delayShow={1000} placement="left" overlay={tip_faq}>
-											<Glyphicon id="link-faq" glyph="question-sign" />
+											<Glyphicon className="glyph-tip" id="link-faq" glyph="question-sign" />
 										</OverlayTrigger>
 									</Link>
 								</Col>
@@ -136,6 +139,7 @@ export class SearchHeader extends React.Component {
 											<InputGroup.Addon>
 												<OverlayTrigger delayShow={1000} placement="left" overlay={tip_filter}>
 													<Glyphicon
+														id="glyph-filter"
 														glyph="filter"
 														onClick={() => this.toggleFilterMenu(true)}/>
 											 	</OverlayTrigger>
@@ -151,7 +155,7 @@ export class SearchHeader extends React.Component {
 				</Grid>
 				<Modal show={this.state.showFilterMenu} onHide={() => this.toggleFilterMenu(false)}>
 					<Modal.Header>
-						<h4 className="text-center">Filter Options</h4>
+						<p className="header-title">Filter Options</p>
 					</Modal.Header>
 					<Modal.Body>
 						<SearchOptions {...this.props}/>

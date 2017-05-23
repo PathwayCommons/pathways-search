@@ -1,6 +1,6 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
-import {Col, Glyphicon} from 'react-bootstrap';
+import {Col, Glyphicon, Navbar, Nav, NavItem, NavDropdown, MenuItem, OverlayTrigger, Popover} from 'react-bootstrap';
 import {get, traverse} from 'pathway-commons';
 
 import {ErrorMessage} from '../components/ErrorMessage.jsx';
@@ -42,22 +42,50 @@ export class Pathway extends React.Component {
 	}
 
 	render() {
+		const tip_screenshot = (
+			<Popover className="info-tip" id="popover-screenshot" placement="bottom" title="Screenshot">
+				Click to download an image (png) of the current view.
+			</Popover>
+		);
+		const tip_downloads = (
+			<Popover className="info-tip" id="popover-downloads" placement="bottom" title="Downloads">
+				List of data formats you can download for this pathway.
+			</Popover>
+		);
+		const tip_metadata = (
+			<Popover className="info-tip" id="popover-metadata" placement="bottom" title="Info">
+				Click to see any description and information provided by the original datasource.
+			</Popover>
+		);
 		if(this.state.pathwayData) {
 			return(
 				<div className="Pathway">
-					<div className="nameHeader jumbotron clearfix">
-						<Col className="header" xs={8} lg={10}>
-							<span className="name">{this.state.name}</span>
-							<span className="datasource">{this.state.datasource}</span>
-							<span className="info-button" onClick={() => this.setState({active: "Information"})}>Info</span>
-						</Col>
-						<Col className="tab-button" xs={4} sm={2} lg={1} onClick={() => this.props.graphImage(false)}>
-							Screenshot
-						</Col>
-						<Col className="tab-button" xsHidden sm={2} lg={1} onClick={() => this.setState({active: "Downloads"})}>
-							Downloads
-						</Col>
-					</div>
+					<Navbar collapseOnSelect>
+						<Navbar.Header>
+							<Navbar.Toggle />
+						</Navbar.Header>
+						<Navbar.Collapse>
+							<Nav>
+								<NavItem eventKey={1} onClick={() => this.setState({active: "Information"})}>
+									<OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_metadata}>
+										<span id="metadata">{this.state.name} | {this.state.datasource}</span>
+									</OverlayTrigger>
+								</NavItem>
+							</Nav>
+							<Nav pullRight>
+								<NavItem eventKey={1} onClick={() => this.props.graphImage(false)}>
+									<OverlayTrigger delayShow={1000} placement="left" overlay={tip_screenshot}>
+										<span className="navitem-label">Screenshot</span>
+									</OverlayTrigger>
+								</NavItem>
+								<NavItem eventKey={2} onClick={() => this.setState({active: "Downloads"})}>
+									<OverlayTrigger delayShow={1000} placement="left" overlay={tip_downloads}>
+										<span className="navitem-label">Downloads</span>
+									</OverlayTrigger>
+								</NavItem>
+							</Nav>
+						</Navbar.Collapse>
+					</Navbar>
 					<Graph pathwayData={this.state.pathwayData} {...this.props}/>
 					{/* Menu Modal */}
 					<ModalFramework onHide={() => this.setState({active: ""})} {...this.state} {...this.props}/>

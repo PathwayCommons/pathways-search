@@ -56,7 +56,7 @@ export class Downloads extends React.Component {
 							this.toggleLoading();
 							setTimeout(() => this.props.graphImage(true, () => this.toggleLoading()), 10);
 					}}>
-						Dowloads an image of the entire pathway. If you wish to capture only a subsection of the pathway, use the 'Screenshot' link on the top left of the main viewer.
+						Download an image of the entire pathway. If you wish to capture only a subsection of the pathway, use the 'Screenshot' link in the main viewer.
 						<br/><br/>
 						Format: PNG
 					</DownloadCard>

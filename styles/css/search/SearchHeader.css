@@ -14,14 +14,12 @@
 
 	& #link-faq {
 		margin-top: 4px;
-		font-size: 2em;
+		color: var(--midnightBlue);
 	}
 
-	& .glyphicon {
+	& #glyph-filter {
 		font-size: 1.3em;
-		cursor: pointer;
 	}
-
 }
 
 @media (--screen-xxs) {

@@ -1,9 +1,9 @@
 .Pathway {
-	& .nameHeader {
-		line-height: 50px;
-		padding: 0px;
-		margin-bottom: 2px;
-		text-transform: capitalize;
+	& #metadata {
+		font-size: 1.2em;
+		color: var(--belizeHole);
+		text-decoration: underline;
+		font-weight: bold;
 	}
 
 	& .name {
@@ -35,5 +35,13 @@
 
 	& .nav-tabs {
 		margin-bottom: 1px;
+	}
+}
+
+@media (--screen-xs) {
+	.Pathway {
+		& #metadata {
+			font-size: 1em;
+		}
 	}
 }

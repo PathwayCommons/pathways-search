@@ -18,10 +18,6 @@
 		}
 	}
 
-	& .glyph-search-hit {
-		font-size: 1.8em;
-	}
-
 	& .metadata-wrapper {
 
 		& .title {
@@ -35,6 +31,26 @@
 			& .participants {
 				font-size: 1.1em;
 				color: var(--asbestos);
+			}
+		}
+	}
+}
+
+@media (--screen-xxs) {
+	.SearchItem {
+		& .metadata-wrapper {
+
+			& .title {
+				font-size: 1.3em;
+			}
+
+			& .subtext {
+				& .source {
+					font-size: 1.1em;
+				}
+				& .participants {
+					font-size: 1em;
+				}
 			}
 		}
 	}

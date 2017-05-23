@@ -24,5 +24,25 @@ body {
 }
 
 a.clickable:hover {
-	cursor: pointer;	
+	cursor: pointer;
+}
+
+.header-title {
+	color: var(	--midnightBlue);
+	margin: 0.5em auto;
+	font-size: 1.5em;
+	font-weight: bold;
+	text-align: center;
+}
+
+.glyph-tip {
+	font-size: 2em;
+}
+
+@media (--screen-xxs) {
+
+	.glyph-tip {
+		font-size: 1.5em;
+	}
+
 }
