@@ -1,6 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
+
+import cytoscape from 'cytoscape';
+import sbgnStyleSheet from 'sbgn-renderer';
+import klay from 'cytoscape-klay';
+import klayjs from 'klayjs';
+
 import SBGNRenderer from 'sbgn-renderer';
 import convertSbgn from 'sbgnml-to-cytoscape';
 import coseBilkent from 'cytoscape-cose-bilkent';
@@ -11,8 +17,9 @@ import {Spinner} from '../../components/Spinner.jsx';
 import {base64toBlob} from '../../helpers/converters.js';
 import {ErrorMessage} from '../../components/ErrorMessage.jsx';
 
-expandCollapse( SBGNRenderer.__proto__ );
-coseBilkent( SBGNRenderer.__proto__ );
+expandCollapse( cytoscape );
+coseBilkent( cytoscape );
+klay( cytoscape, klayjs ); // cytoscape 3.x extension register
 
 // Graph
 // Prop Dependencies ::
@@ -39,7 +46,10 @@ export class Graph extends React.Component {
 
 	componentDidMount() {
 		var graphContainer = document.getElementById(this.state.graphId);
-		var graphInstance = new SBGNRenderer({container: graphContainer});
+		var graphInstance = cytoscape({
+			container: graphContainer,
+			style: sbgnStyleSheet(cytoscape)
+		});
 		graphInstance.expandCollapse({
 			fisheye: true,
 			animate: true,
@@ -233,28 +243,19 @@ export class Graph extends React.Component {
 			.nodes('[class="complex"], [class="complex multimer"]');
 		api.collapseRecursively(complexNodes);
 
-		// taken from newt
-		// https://github.com/iVis-at-Bilkent/newt/blob/unstable/app/js/app-utilities.js#L14
 		this.state.graphInstance.layout({
-			name: 'cose-bilkent',
-			paddingCompound: 50,
-			nodeRepulsion: 4500,
-			fit: true,
-			idealEdgeLength: 50,
-			edgeElasticity: 0.45,
-			nestingFactor: 0.1,
-			gravity: 0.25,
-			numIter: 2500,
-			tile: false,
-			animationEasing: 'cubic-bezier(0.19, 1, 0.22, 1)',
-			animate: 'end',
-			animationDuration: 1000,
-			randomize: false,
-			tilingPaddingVertical: 20,
-			tilingPaddingHorizontal: 20,
-			gravityRangeCompound: 1.5,
-			gravityCompound: 1.0,
-			gravityRange: 3.8
+			name: 'klay',
+			klay: {
+			  borderSpacing: 20,
+			  separateConnectedComponents: true,
+			  aspectRatio: 1.9,
+			  thoroughness: 7,
+			  compactComponents: false,
+			  spacing: 20,
+			  edgeSpacingFactor: 0.5,
+			  layoutHierarchy: true
+			},
+			nodeDimensionsIncludeLabels: true
 		}).run();
 	};
 
