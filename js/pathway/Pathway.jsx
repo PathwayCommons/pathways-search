@@ -68,9 +68,7 @@ export class Pathway extends React.Component {
 							<Nav>
 								<NavItem eventKey={1} onClick={() => this.setState({active: "Information"})}>
 									<OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_metadata}>
-										<div className="truncate-ellipsis">
-											<span id="metadata">{this.state.name} | {this.state.datasource}</span>
-										</div>
+										<span id="metadata">{this.state.name ? this.state.name : this.props.query.uri} | {this.state.datasource}</span>
 									</OverlayTrigger>
 								</NavItem>
 							</Nav>
