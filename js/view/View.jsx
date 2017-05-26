@@ -7,14 +7,14 @@ import {ErrorMessage} from '../components/ErrorMessage.jsx';
 import {Graph} from './tabs/Graph.jsx';
 import {ModalFramework} from './components/ModalFramework.jsx';
 
-// Pathway
+// View
 // Prop Dependencies ::
 // - query
-export class Pathway extends React.Component {
+export class View extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			pathwayData: {},
+			data: {},
 			name: "",
 			datasource: "",
 			show: false
@@ -24,7 +24,7 @@ export class Pathway extends React.Component {
 			.uri(this.props.query.uri)
 			.format("SBGN")
 			.fetch()
-			.then(responseText => this.setState({pathwayData: responseText}));
+			.then(responseText => this.setState({data: responseText}));
 
 		traverse()
 			.uri(this.props.query.uri)
@@ -49,24 +49,28 @@ export class Pathway extends React.Component {
 		);
 		const tip_downloads = (
 			<Popover className="info-tip hidden-xs" id="popover-downloads" placement="bottom" title="Downloads">
-				Download this pathway in several different formats.
+				Download in several different formats.
 			</Popover>
 		);
 		const tip_metadata = (
 			<Popover className="info-tip hidden-xs" id="popover-metadata" placement="bottom" title="Info">
-				Click to see any description and information provided by the original datasource.
+				Click to see information provided by the original datasource.
 			</Popover>
 		);
-		if(this.state.pathwayData) {
+		const tip_help = (
+			<Popover className="info-tip hidden-xs" id="popover-help" placement="bottom" title="Help">
+				Information about the viewer.
+			</Popover>
+		);
+		if(this.state.data) {
 			return(
-				<div className="Pathway">
+				<div className="View">
 					{ !this.props.embed &&
 						(<Navbar collapseOnSelect>
 							<Navbar.Header>
 								<Col xsOffset={1} xs={9} smOffset={0} sm={2}>
 									<span className="brand">View</span>
 								</Col>
-
 					      <Navbar.Toggle />
 							</Navbar.Header>
 							<Navbar.Collapse>
@@ -87,20 +91,20 @@ export class Pathway extends React.Component {
 										<OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_downloads}>
 											<span className="navitem-label">Downloads</span>
 										</OverlayTrigger>
-									</NavItem>
+									</NavItem>									
 								</Nav>
 							</Navbar.Collapse>
 						</Navbar>)
 					}
-					<Graph pathwayData={this.state.pathwayData} {...this.props}/>
+					<Graph data={this.state.data} {...this.props}/>
 					{/* Menu Modal */}
 					<ModalFramework onHide={() => this.setState({active: ""})} {...this.state} {...this.props}/>
 				</div>
 			);
 		}
-		else if(this.state.pathwayData === null) {
+		else if(this.state.data === null) {
 			return (
-				<ErrorMessage className="Pathway">
+				<ErrorMessage className="View">
 					Invalid URI
 				</ErrorMessage>
 			);

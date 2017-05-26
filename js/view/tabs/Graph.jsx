@@ -25,7 +25,7 @@ klay( cytoscape, klayjs ); // cytoscape 3.x extension register
 // Prop Dependencies ::
 // - updateGlobal
 // - deleteGlobal
-// - pathwayData
+// - data
 export class Graph extends React.Component {
 	constructor(props) {
 		super(props);
@@ -169,11 +169,11 @@ export class Graph extends React.Component {
 			graphInstance: graphInstance,
 			graphContainer: graphContainer
 		});
-		this.checkRenderGraph(this.props.pathwayData);
+		this.checkRenderGraph(this.props.data);
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		this.checkRenderGraph(nextProps.pathwayData);
+		this.checkRenderGraph(nextProps.data);
 		return true;
 	}
 
@@ -272,8 +272,8 @@ export class Graph extends React.Component {
 	}
 
 	resetImage() {
-		if (!isEmpty(this.props.pathwayData)) {
-			this.renderGraph(this.state.graphInstance, this.props.pathwayData);
+		if (!isEmpty(this.props.data)) {
+			this.renderGraph(this.state.graphInstance, this.props.data);
 		}
 	}
 

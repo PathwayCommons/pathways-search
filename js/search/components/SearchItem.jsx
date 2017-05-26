@@ -41,7 +41,7 @@ export class SearchItem extends React.Component {
 				</Col>
 				<Col className="metadata-wrapper" xs={12} sm={9}>
 					<div className="header">
-							<Link to={{pathname: "/pathway", search: queryString.stringify({uri: data.uri})}} target="_blank">
+							<Link to={{pathname: "/view", search: queryString.stringify({uri: data.uri})}} target="_blank">
 								<span className="title">{data.name}</span>
 							</Link>
 							{ this.props.extras }

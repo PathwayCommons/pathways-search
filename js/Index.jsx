@@ -7,7 +7,7 @@ import {Alert} from 'react-bootstrap';
 
 import {Faq} from './faq/Faq.jsx';
 import {Search} from './search/Search.jsx';
-import {Pathway} from './pathway/Pathway.jsx';
+import {View} from './view/View.jsx';
 import {PageNotFound} from './PageNotFound.jsx';
 
 // Index
@@ -65,7 +65,7 @@ export class Index extends React.Component {
 		}, this.getAllGlobals());
 
 		return (
-			<div className={classNames("Index", this.state.embed ? "iframe" : "", this.props.className)}>			
+			<div className={classNames("Index", this.state.embed ? "iframe" : "", this.props.className)}>
 				<div className={this.state.embed ? "" : "Content"}>
 					{
 						this.state.pcOnline ? null : (
@@ -78,7 +78,7 @@ export class Index extends React.Component {
 						<Route exact path="/" render={() => <Redirect to="/search"/>}/>
 						<Route path="/search" render={props => <Search {...props} {...globalObject}/>}/>
 						<Route path="/faq" render={props => <Faq {...props} {...globalObject}/>}/>
-						<Route path="/pathway" render={props => <Pathway {...props} {...globalObject}/>}/>
+						<Route path="/view" render={props => <View {...props} {...globalObject}/>}/>
 						<Route path="*" render={props => <PageNotFound {...props} {...globalObject}/>}/>
 					</Switch>
 				</div>

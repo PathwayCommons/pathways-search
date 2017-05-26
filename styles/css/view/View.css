@@ -1,4 +1,4 @@
-.Pathway {
+.View {
 
 	& #metadata {
 		font-size: 1.2em;
@@ -41,25 +41,25 @@
 }
 
 @media (--screen-md){
-	.Pathway {
+	.View {
 
 		& #metadata {
-			max-width: 35em;
+			max-width: 32em;
 		}
 	}
 }
 
 @media (--screen-sm){
-	.Pathway {
+	.View {
 
 		& #metadata {
-			max-width: 20em;
+			max-width: 18em;
 		}
 	}
 }
 
 @media (--screen-xs) {
-	.Pathway {
+	.View {
 
 		& .brand {
 			font-size: 2em;
