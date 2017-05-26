@@ -15,7 +15,7 @@
 		& .splashText {
 			text-align: center;
 			color: var(--midnightBlue);
-			font-size: 1.2em;
+			font-size: 1.4em;
 		}
 	}
 
@@ -26,6 +26,10 @@
 	& a {
 		cursor: pointer;
 	}
+	
+	& #pub-link {
+		font-size: 1.1em;
+	}
 }
 
 @media (--screen-xxs) {
@@ -35,16 +39,6 @@
 				& .modal-body{
 					padding: 1em;
 				}
-			}
-		}
-
-		& .splashImage {
-			margin: 20px auto;
-		}
-
-		& .splashModal {
-			& .splashText {
-				font-size: 1em;
 			}
 		}
 	}

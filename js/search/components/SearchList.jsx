@@ -62,7 +62,7 @@ export class SearchList extends React.Component {
 					{
 						hitList
 						.map((item, index) => { return index === 0 ?
-							(<SearchItem key={index} data={item} extras={(<span>{'      '}<OverlayTrigger placement="bottom" overlay={tip_hit} >
+							(<SearchItem key={index} data={item} extras={(<span>{'        '}<OverlayTrigger placement="bottom" overlay={tip_hit} >
 								<Glyphicon className="glyph-tip" glyph="info-sign" /></OverlayTrigger></span>)} />) :
 							(<SearchItem key={index} data={item} />)
 						})

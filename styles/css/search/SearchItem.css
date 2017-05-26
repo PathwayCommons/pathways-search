@@ -34,24 +34,16 @@
 			}
 		}
 	}
+
+	& .glyph-tip {
+		font-size: 2em;
+	}
 }
 
 @media (--screen-xxs) {
 	.SearchItem {
-		& .metadata-wrapper {
-
-			& .title {
-				font-size: 1.3em;
-			}
-
-			& .subtext {
-				& .source {
-					font-size: 1.1em;
-				}
-				& .participants {
-					font-size: 1em;
-				}
-			}
+		& .glyph-tip {
+			font-size: 1.9em;
 		}
 	}
 }

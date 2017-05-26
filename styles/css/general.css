@@ -34,15 +34,3 @@ a.clickable:hover {
 	font-weight: bold;
 	text-align: center;
 }
-
-.glyph-tip {
-	font-size: 2em;
-}
-
-@media (--screen-xxs) {
-
-	.glyph-tip {
-		font-size: 1.5em;
-	}
-
-}

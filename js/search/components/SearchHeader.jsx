@@ -73,7 +73,7 @@ export class SearchHeader extends React.Component {
 
 	render() {
 
-		const tip_brand = (
+		const tip_search = (
 			<Popover className="info-tip" id="popover-brand" placement="bottom" title="Search!">
 				Access metabolic pathways, signalling pathways and gene regulatory networks sourced from public pathway databases.
 				<br/>
@@ -89,20 +89,9 @@ export class SearchHeader extends React.Component {
 		);
 
 		const tip_filter = (
-			<Popover className="info-tip" id="popover-filter" placement="bottom" title="Filter">
+			<Popover className="info-tip hidden-xs" id="popover-filter" placement="bottom" title="Filter">
 				Refine search results by number of participants or data provider.
 			</Popover>
-		);
-
-		const form_search = (
-			<FormControl
-				type="text"
-				placeholder={ !this.props.embed ?
-					"Search pathways by name, gene names or type a URI" :
-					"Search for pathways in Pathway Commons"
-				}
-				defaultValue={this.props.query.q}
-				onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)} />
 		);
 
 		var showAdvancedButton = this.props.query.q && !this.props.embed;
@@ -115,9 +104,7 @@ export class SearchHeader extends React.Component {
 							<div>
 								<Col xsOffset={1} xs={9} smOffset={0} sm={2} componentClass={ControlLabel}>
 									<Link to={{ pathname: "/" }} onClick={() => hardReload()}>
-										<OverlayTrigger delayShow={1000} delayHide={2000} placement="bottom" overlay={tip_brand}>
-											<span className="brand">Search</span>
-										</OverlayTrigger>
+										<span className="brand">Search</span>
 									</Link>
 								</Col>
 								<Col xs={1} sm={2} smPush={8}>
@@ -132,22 +119,40 @@ export class SearchHeader extends React.Component {
 				     	<Col xs={12}
 								sm={!this.props.embed ? 8 : 12}
 								smPull={!this.props.embed ? 2 : 0} >
-								<FormGroup controlId="formHorizontalEmail">
-									{ showAdvancedButton ?
-										(<InputGroup>
-											{form_search}
+								<FormGroup>
+										<InputGroup bsSize="large">
+											<FormControl
+												className="hidden-xs"
+												type="text"
+												placeholder={ !this.props.embed ?
+													"Search pathways by name, gene names or type a URI" :
+													"Search pathways in Pathway Commons"
+												}
+											defaultValue={this.props.query.q}
+											onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)} />
+											<FormControl
+												className="hidden-sm hidden-md hidden-lg"
+												type="text"
+												placeholder="Search pathways by name"
+											defaultValue={this.props.query.q}
+											onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)} />
 											<InputGroup.Addon>
-												<OverlayTrigger delayShow={1000} placement="left" overlay={tip_filter}>
-													<Glyphicon
-														id="glyph-filter"
-														glyph="filter"
-														onClick={() => this.toggleFilterMenu(true)}/>
-											 	</OverlayTrigger>
+												{ showAdvancedButton ?
+													(<OverlayTrigger delayShow={1000} placement="left" overlay={tip_filter}>
+														<Glyphicon
+															id="glyph-filter"
+															glyph="filter"
+															onClick={() => this.toggleFilterMenu(true)}/>
+												 	</OverlayTrigger>) :
+													(<OverlayTrigger delayShow={1000} delayHide={2000} placement="left" overlay={tip_search}>
+														<Glyphicon
+															id="glyph-search"
+															glyph="search"
+															onClick={() => this.updateTerm()}/>
+												 	</OverlayTrigger>)
+												}
 							        </InputGroup.Addon>
-										</InputGroup>)
-										:
-										form_search
-									}
+										</InputGroup>
 								</FormGroup>
 				      </Col>
 						</Form>
