@@ -34,3 +34,14 @@ a.clickable:hover {
 	font-weight: bold;
 	text-align: center;
 }
+
+.navbar {
+	padding-top: 1em;
+	padding-bottom: 0.5em;
+
+	& .brand {
+		font-size: 2.2em;
+		color: var(--midnightBlue);
+		font-weight: 700;
+	}
+}

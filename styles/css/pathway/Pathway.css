@@ -1,9 +1,11 @@
 .Pathway {
+
 	& #metadata {
 		font-size: 1.2em;
 		color: var(--belizeHole);
 		text-decoration: underline;
 		font-weight: bold;
+		max-width: 40em;
 	}
 
 	& .name {
@@ -38,10 +40,34 @@
 	}
 }
 
+@media (--screen-md){
+	.Pathway {
+
+		& #metadata {
+			max-width: 35em;
+		}
+	}
+}
+
+@media (--screen-sm){
+	.Pathway {
+
+		& #metadata {
+			max-width: 20em;
+		}
+	}
+}
+
 @media (--screen-xs) {
 	.Pathway {
+
+		& .brand {
+			font-size: 2em;
+		}
+
 		& #metadata {
 			font-size: 1em;
+			max-width: 100%;
 		}
 	}
 }

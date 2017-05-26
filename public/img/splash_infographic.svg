@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 1937 618" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
-    <g transform="matrix(1,0,0,1,-300.297,-1461)">
+<svg width="100%" height="100%" viewBox="0 0 1885 634" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-325.569,-1461)">
         <g transform="matrix(13.9288,0,0,13.9288,2016,1738)">
             <g transform="matrix(1,0,0,1,-13.928,-13.928)">
                 <clipPath id="_clip1">
@@ -17,20 +17,20 @@
                 <path d="M51.6,96.7C62.6,96.7 72.6,92.8 80.4,86.2L115.4,121.2C116.2,122 117.2,122.4 118.3,122.4C119.4,122.4 120.4,122 121.2,121.2C122.8,119.6 122.8,117 121.2,115.4L86.2,80.4C92.7,72.6 96.7,62.5 96.7,51.6C96.7,26.7 76.5,6.5 51.6,6.5C26.8,6.5 6.5,26.8 6.5,51.6C6.5,76.5 26.8,96.7 51.6,96.7ZM51.6,14.7C72,14.7 88.5,31.3 88.5,51.6C88.5,72 72,88.5 51.6,88.5C31.2,88.5 14.7,71.9 14.7,51.6C14.7,31.3 31.3,14.7 51.6,14.7Z" style="fill:rgb(52,73,94);fill-rule:nonzero;"/>
             </g>
         </g>
-        <g transform="matrix(1.20814,0,0,1.06207,-210.213,507.6)">
-            <g transform="matrix(0.827715,0,0,0.941558,72.1873,81.3506)">
-                <text x="419px" y="1463.63px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:100px;fill:none;">Query</text>
+        <g transform="matrix(1.03846,0,0,0.324138,1340.88,1570.2)">
+            <g transform="matrix(0.962963,0,0,3.08511,15.5185,-2902.47)">
+                <text x="541.029px" y="1463.63px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:100px;fill:none;">V<tspan x="605.922px 628.139px " y="1463.63px 1463.63px ">ie</tspan>w</text>
             </g>
-            <g transform="matrix(0.827715,0,0,0.941558,72.1873,81.3506)">
-                <text x="419px" y="1463.63px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:100px;fill:rgb(52,73,94);">Query</text>
+            <g transform="matrix(0.962963,0,0,3.08511,15.5185,-2902.47)">
+                <text x="541.029px" y="1463.63px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:100px;fill:rgb(52,73,94);">V<tspan x="605.922px 628.139px " y="1463.63px 1463.63px ">ie</tspan>w</text>
             </g>
         </g>
-        <g transform="matrix(1.03846,0,0,0.324138,1376.88,1535.2)">
+        <g transform="matrix(1.03846,0,0,0.324138,-185.115,1570.2)">
             <g transform="matrix(0.962963,0,0,3.08511,15.5185,-2902.47)">
-                <text x="449.306px" y="1463.63px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:100px;fill:none;">V<tspan x="514.198px 536.415px " y="1463.63px 1463.63px ">is</tspan>ualize</text>
+                <text x="490.077px" y="1463.63px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:100px;fill:none;">Search</text>
             </g>
             <g transform="matrix(0.962963,0,0,3.08511,15.5185,-2902.47)">
-                <text x="449.306px" y="1463.63px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:100px;fill:rgb(52,73,94);">V<tspan x="514.198px 536.415px " y="1463.63px 1463.63px ">is</tspan>ualize</text>
+                <text x="490.077px" y="1463.63px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:100px;fill:rgb(52,73,94);">Search</text>
             </g>
         </g>
         <g transform="matrix(10.1,0,0,10.1,1240,1764)">
