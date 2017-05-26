@@ -4,7 +4,7 @@ import {Col, Glyphicon, Navbar, Nav, NavItem, NavDropdown, MenuItem, OverlayTrig
 import {get, traverse} from 'pathway-commons';
 
 import {ErrorMessage} from '../components/ErrorMessage.jsx';
-import {Graph} from './tabs/Graph.jsx';
+import {Graph} from './tabs/graph/Graph.jsx';
 import {ModalFramework} from './components/ModalFramework.jsx';
 
 // View
@@ -91,7 +91,7 @@ export class View extends React.Component {
 										<OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_downloads}>
 											<span className="navitem-label">Downloads</span>
 										</OverlayTrigger>
-									</NavItem>									
+									</NavItem>
 								</Nav>
 							</Navbar.Collapse>
 						</Navbar>)
