@@ -16,6 +16,7 @@
     "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
     "cytoscape": "https://github.com/d2fong/cytoscape.js.git#tmp",
+    "cytoscape-cola": "^1.6.0",
     "cytoscape-cose-bilkent": "^1.6.5",
     "cytoscape-expand-collapse": "^3.0.3",
     "cytoscape-klay": "^1.0.0",

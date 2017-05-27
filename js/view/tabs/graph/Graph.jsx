@@ -8,7 +8,7 @@ import convertSbgn from 'sbgnml-to-cytoscape';
 
 import {initGraph} from './init';
 import {reduceGraphComplexity} from './complexityReduction';
-import {performLayout} from './layout';
+import {defaultLayout, layoutNames, performLayout} from './layout';
 import {saveAs} from 'file-saver';
 import {Spinner} from '../../../components/Spinner.jsx';
 import {base64toBlob} from '../../../helpers/converters.js';
@@ -30,7 +30,7 @@ export class Graph extends React.Component {
 			graphEmpty: false,
 			width: "100vw",
 			height: "85vh",
-			layout: 'klay'
+			layout: defaultLayout
 		};
 	}
 
@@ -51,6 +51,7 @@ export class Graph extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		this.checkRenderGraph(nextProps.data);
+		console.log('called');
 		this.checkLayoutGraph(nextState.layout);
 		return true;
 	}
@@ -81,8 +82,7 @@ export class Graph extends React.Component {
 	}
 
 	checkLayoutGraph(layout) {
-		return;
-		console.log(layout);
+		performLayout(layout, this.state.graphInstance);
 	}
 
 	// Graph rendering is not tracked by React
@@ -106,7 +106,7 @@ export class Graph extends React.Component {
 
 		reduceGraphComplexity(this.state.graphInstance);
 
-		// performLayout(this.state.layout);
+		performLayout(this.state.layout, this.state.graphInstance, graphJSON);
 		this.state.graphInstance.layout({
 			name: 'klay',
 			klay: {
@@ -142,6 +142,12 @@ export class Graph extends React.Component {
 	}
 
 	render() {
+		const layoutDropdownItems = layoutNames.map((layoutName) =>
+			<MenuItem key={layoutName} onClick={() => this.setState({layout: layoutName})}>
+				{layoutName}
+			</MenuItem>
+		);
+
 		if (!this.state.graphEmpty) {
 			return (
 				<div className={classNames("Graph", this.props.hidden
@@ -150,11 +156,7 @@ export class Graph extends React.Component {
 					<div className="graphMenuContainer">
 						<div className="graphMenu">
 							<DropdownButton id="layout" bsSize="large" block title="perform layout">
-								<MenuItem onClick={() => this.setState({layout: 'stratified'})} eventKey="stratified">stratified1</MenuItem>
-								<MenuItem onSelect={() => this.setState({layout: 'stratified-klay'})} eventKey="stratified-klay" active>stratified2</MenuItem>
-								<MenuItem onSelect={() => this.setState({layout: 'cose'})} eventKey="cose">cose</MenuItem>
-								<MenuItem onSelect={() => this.setState({layout: 'cose-bilkent'})} eventKey="cose-bilkent">cose-bilkent</MenuItem>
-								<MenuItem onSelect={() => this.setState({layout: 'cola'})} eventKey="cola">cola</MenuItem>
+							  {layoutDropdownItems}
 							</DropdownButton>
 						</div>
 					</div>
