@@ -8,7 +8,7 @@ import convertSbgn from 'sbgnml-to-cytoscape';
 
 import {initGraph} from './init';
 import {reduceGraphComplexity} from './complexityReduction';
-import {performLayout} from './layout';
+import {defaultLayout, layoutNames, layoutMap} from './layout';
 import {saveAs} from 'file-saver';
 import {Spinner} from '../../../components/Spinner.jsx';
 import {base64toBlob} from '../../../helpers/converters.js';
@@ -30,8 +30,14 @@ export class Graph extends React.Component {
 			graphEmpty: false,
 			width: "100vw",
 			height: "85vh",
-			layout: 'klay'
+			layout: defaultLayout
 		};
+	}
+
+	componentWillUpdate(nextProps, nextState) {
+		if (nextState.layout !== this.state.layout) {
+			this.performLayout(nextState.layout, this.state.graphInstance);
+		}
 	}
 
 	componentWillUnmount() {
@@ -51,7 +57,6 @@ export class Graph extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		this.checkRenderGraph(nextProps.data);
-		this.checkLayoutGraph(nextState.layout);
 		return true;
 	}
 
@@ -80,11 +85,6 @@ export class Graph extends React.Component {
 		}
 	}
 
-	checkLayoutGraph(layout) {
-		return;
-		console.log(layout);
-	}
-
 	// Graph rendering is not tracked by React
 	renderGraph(sbgnString) {
 		this.handleResize();
@@ -106,22 +106,12 @@ export class Graph extends React.Component {
 
 		reduceGraphComplexity(this.state.graphInstance);
 
-		// performLayout(this.state.layout);
-		this.state.graphInstance.layout({
-			name: 'klay',
-			klay: {
-			  borderSpacing: 20,
-			  separateConnectedComponents: true,
-			  aspectRatio: 1.9,
-			  thoroughness: 7,
-			  compactComponents: false,
-			  spacing: 20,
-			  edgeSpacingFactor: 0.5,
-			  layoutHierarchy: true
-			},
-			nodeDimensionsIncludeLabels: true
-		}).run();
+		this.performLayout(this.state.layout, graphJSON);
 	};
+
+	performLayout(layoutName, graphJSON={}, options={}) {
+		layoutMap.get(layoutName)(this.state.graphInstance, options);
+	}
 
 	exportImage(isFullscreen, cb) {
 		if (!isEmpty(this.state.graphInstance)) {
@@ -142,6 +132,12 @@ export class Graph extends React.Component {
 	}
 
 	render() {
+		const layoutDropdownItems = layoutNames.map((layoutName) =>
+			<MenuItem key={layoutName} onClick={() => this.setState({layout: layoutName})}>
+				{layoutName}
+			</MenuItem>
+		);
+
 		if (!this.state.graphEmpty) {
 			return (
 				<div className={classNames("Graph", this.props.hidden
@@ -150,11 +146,7 @@ export class Graph extends React.Component {
 					<div className="graphMenuContainer">
 						<div className="graphMenu">
 							<DropdownButton id="layout" bsSize="large" block title="perform layout">
-								<MenuItem onClick={() => this.setState({layout: 'stratified'})} eventKey="stratified">stratified1</MenuItem>
-								<MenuItem onSelect={() => this.setState({layout: 'stratified-klay'})} eventKey="stratified-klay" active>stratified2</MenuItem>
-								<MenuItem onSelect={() => this.setState({layout: 'cose'})} eventKey="cose">cose</MenuItem>
-								<MenuItem onSelect={() => this.setState({layout: 'cose-bilkent'})} eventKey="cose-bilkent">cose-bilkent</MenuItem>
-								<MenuItem onSelect={() => this.setState({layout: 'cola'})} eventKey="cola">cola</MenuItem>
+							  {layoutDropdownItems}
 							</DropdownButton>
 						</div>
 					</div>

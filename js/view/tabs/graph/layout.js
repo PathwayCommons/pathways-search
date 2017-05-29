@@ -1,53 +1,24 @@
-const colaOpts = {
-  name: 'cola',
-  fit: true,
-  nodeSpacing: function( node ){
-    if (node.data('class').includes('process')) {
-      return 40;
-    } else {
-      return 0;
-    }
-  } // extra spacing around nodes
-};
+// import {colaLayout} from './layout/cola';
+import colaLayout from './layout/cola.js';
+import coseBilkentLayout from './layout/coseBilkent';
+import presetLayout from './layout/preset';
+import klayLayout from './layout/klay';
+import stratifiedLayout from './layout/stratified';
+import stratifiedKlayLayout from './layout/stratifiedKlay';
 
-const klayOpts = {
-  name: 'klay',
-  klay: {
-    borderSpacing: 20,
-    separateConnectedComponents: true,
-    aspectRatio: 1.8,
-    thoroughness: 7,
-    compactComponents: false,
-    spacing: 20,
-    edgeSpacingFactor: 0.5,
-    layoutHierarchy: true
-  },
-  nodeDimensionsIncludeLabels: true
-};
-
-const coseBilkentOpts = {
-  name: 'cose-bilkent',
-  paddingCompound: 50,
-  fit: true,
-  nodeRepulsion: 4500,
-  idealEdgeLength: 50,
-  edgeElasticity: 0.45,
-  nestingFactor: 0.1,
-  gravity: 0.25,
-  numIter: 2500,
-  tile: false,
-  animationEasing: 'cubic-bezier(0.19, 1, 0.22, 1)',
-  animate: 'end',
-  animationDuration: 1000,
-  randomize: true,
-  tilingPaddingVertical: 20,
-  tilingPaddingHorizontal: 20,
-  gravityRangeCompound: 1.5,
-  gravityCompound: 1.0,
-  gravityRange: 3.8,
-};
+export const layoutMap = new Map()
+.set('cola', colaLayout)
+.set('preset', presetLayout)
+.set('klay', klayLayout)
+.set('stratified', stratifiedLayout)
+.set('stratified-klay', stratifiedKlayLayout)
+.set('cose-bilkent', coseBilkentLayout);
 
 
-export const performLayout = (cy, layout) => {
-  return;
+export const defaultLayout = 'klay';
+
+export const layoutNames = [...layoutMap.keys()];
+
+export const performLayout = (layout, cy, graphJSON={}, options={}) => {
+  return layoutMap.get(layout)(cy, graphJSON, options);
 };
