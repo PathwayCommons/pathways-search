@@ -1,10 +1,8 @@
-const presetLayout = (cy, graphJSON) => {
+const presetLayout = (cy) => {
   const nodePositions = {};
-  for (let i = 0; i < graphJSON.nodes.length; i++) {
-    const xPos = graphJSON.nodes[i].data.bbox.x;
-    const yPos = graphJSON.nodes[i].data.bbox.y;
-    nodePositions[graphJSON.nodes[i].data.id] = {'x': xPos, 'y': yPos};
-  }
+  cy.nodes().forEach(function (ele) {
+    nodePositions[ele.data('id')] = {x: ele.data('bbox').x, y: ele.data('bbox').y};
+  })
 
   cy.layout({
     name: 'preset',

@@ -8,7 +8,7 @@ import convertSbgn from 'sbgnml-to-cytoscape';
 
 import {initGraph} from './init';
 import {reduceGraphComplexity} from './complexityReduction';
-import {defaultLayout, layoutNames, performLayout} from './layout';
+import {defaultLayout, layoutNames, layoutMap} from './layout';
 import {saveAs} from 'file-saver';
 import {Spinner} from '../../../components/Spinner.jsx';
 import {base64toBlob} from '../../../helpers/converters.js';
@@ -34,6 +34,12 @@ export class Graph extends React.Component {
 		};
 	}
 
+	componentWillUpdate(nextProps, nextState) {
+		if (nextState.layout !== this.state.layout) {
+			this.performLayout(nextState.layout, this.state.graphInstance);
+		}
+	}
+
 	componentWillUnmount() {
 		this.props.deleteGlobal("graphImage");
 	}
@@ -51,8 +57,6 @@ export class Graph extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		this.checkRenderGraph(nextProps.data);
-		console.log('called');
-		this.checkLayoutGraph(nextState.layout);
 		return true;
 	}
 
@@ -81,10 +85,6 @@ export class Graph extends React.Component {
 		}
 	}
 
-	checkLayoutGraph(layout) {
-		performLayout(layout, this.state.graphInstance);
-	}
-
 	// Graph rendering is not tracked by React
 	renderGraph(sbgnString) {
 		this.handleResize();
@@ -106,22 +106,12 @@ export class Graph extends React.Component {
 
 		reduceGraphComplexity(this.state.graphInstance);
 
-		performLayout(this.state.layout, this.state.graphInstance, graphJSON);
-		this.state.graphInstance.layout({
-			name: 'klay',
-			klay: {
-			  borderSpacing: 20,
-			  separateConnectedComponents: true,
-			  aspectRatio: 1.9,
-			  thoroughness: 7,
-			  compactComponents: false,
-			  spacing: 20,
-			  edgeSpacingFactor: 0.5,
-			  layoutHierarchy: true
-			},
-			nodeDimensionsIncludeLabels: true
-		}).run();
+		this.performLayout(this.state.layout, graphJSON);
 	};
+
+	performLayout(layoutName, graphJSON={}, options={}) {
+		layoutMap.get(layoutName)(this.state.graphInstance, options);
+	}
 
 	exportImage(isFullscreen, cb) {
 		if (!isEmpty(this.state.graphInstance)) {

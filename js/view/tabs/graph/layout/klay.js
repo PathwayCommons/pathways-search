@@ -1,5 +1,4 @@
 const klayLayout = (cy) => {
-  console.log(cy);
   cy.layout({
     name: 'klay',
     klay: {
