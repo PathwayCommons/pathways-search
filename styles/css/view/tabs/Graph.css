@@ -10,6 +10,8 @@
 		position: absolute;
 		left: 0;
 		right: 0;
+		width: 0;
+		height: 0;
 	}
 
 	& .graphMenu {
@@ -24,5 +26,17 @@
 		background-color: var(--lightGrey);
 		cursor: pointer;
 		margin-right: 1px;
+	}
+	& #layout {
+		border: 0;
+	}
+
+	& #layout:focus {
+		background-color: white;
+		outline: 0;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		-webkit-transition: none;
+		transition: none;
 	}
 }

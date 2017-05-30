@@ -110,7 +110,7 @@ export class Graph extends React.Component {
 	};
 
 	performLayout(layoutName, graphJSON={}, options={}) {
-		layoutMap.get(layoutName)(this.state.graphInstance, options);
+ 		layoutMap.get(layoutName)(this.state.graphInstance, options);
 	}
 
 	exportImage(isFullscreen, cb) {
@@ -145,8 +145,8 @@ export class Graph extends React.Component {
 					: "")}>
 					<div className="graphMenuContainer">
 						<div className="graphMenu">
-							<DropdownButton id="layout" bsSize="large" block title="perform layout">
-							  {layoutDropdownItems}
+							<DropdownButton id="layout" bsStyle="default" pullRight={true} bsSize="large" block title={`layout | ${this.state.layout}`}>
+								{layoutDropdownItems}
 							</DropdownButton>
 						</div>
 					</div>
