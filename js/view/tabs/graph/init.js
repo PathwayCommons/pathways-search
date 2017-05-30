@@ -7,12 +7,14 @@ import cola from 'cytoscape-cola';
 import klay from 'cytoscape-klay';
 import klayjs from 'klayjs';
 import coseBilkent from 'cytoscape-cose-bilkent';
+import dagre from 'cytoscape-dagre';
 
 import expandCollapse from 'cytoscape-expand-collapse';
 
 expandCollapse( cytoscape );   // TODO use cytoscape 3.x when these are compatible
 cytoscape.use( cola );
 cytoscape.use( coseBilkent );
+cytoscape.use( dagre );
 cytoscape.use( klay, klayjs ); // cytoscape 3.x extension register
 
 // set the sbgn style sheet

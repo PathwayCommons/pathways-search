@@ -18,6 +18,7 @@
     "cytoscape": "https://github.com/d2fong/cytoscape.js.git#tmp",
     "cytoscape-cola": "^1.6.0",
     "cytoscape-cose-bilkent": "^1.6.5",
+    "cytoscape-dagre": "^1.6.0",
     "cytoscape-expand-collapse": "^3.0.3",
     "cytoscape-klay": "^1.0.0",
     "fast-memoize": "^2.2.7",

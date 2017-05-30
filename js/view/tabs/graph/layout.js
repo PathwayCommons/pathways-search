@@ -1,6 +1,7 @@
 // import {colaLayout} from './layout/cola';
 import colaLayout from './layout/cola.js';
 import coseBilkentLayout from './layout/coseBilkent';
+import dagreLayout from './layout/dagre';
 import presetLayout from './layout/preset';
 import klayLayout from './layout/klay';
 import stratifiedLayout from './layout/stratified';
@@ -8,6 +9,7 @@ import stratifiedKlayLayout from './layout/stratifiedKlay';
 
 export const layoutMap = new Map()
 .set('cola', colaLayout)
+.set('dagre', dagreLayout)
 .set('preset', presetLayout)
 .set('klay', klayLayout)
 .set('stratified', stratifiedLayout)
