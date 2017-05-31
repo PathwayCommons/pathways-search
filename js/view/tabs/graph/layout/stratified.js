@@ -18,6 +18,12 @@ const stratifiedLayout = function (cy) {
 
 
   compartments.forEach(function (compartment) {
+
+    const api = cy.expandCollapse('get');
+    const collapsibleNodes = api.collapsibleNodes(cy.nodes('[class="complex"]'));
+
+    api.collapseRecursively(collapsibleNodes);
+
     let children = compartment.children();
     const childrenProportion = compartment.children().size() / totalChildren;
     const regionH = Math.max(childrenProportion * compartmentRegionH, 100, childrenProportion * 100, children.size() * 10);
