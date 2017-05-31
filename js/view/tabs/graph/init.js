@@ -113,7 +113,6 @@ export const initGraph = (graphContainer) => {
 
   let parentPos;
   graphInstance.on('expandcollapse.beforeexpand', function (evt) {
-    console.log(evt);
     parentPos = evt.target.position();
   });
 
