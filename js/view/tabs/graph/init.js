@@ -111,9 +111,16 @@ export const initGraph = (graphContainer) => {
     });
   });
 
+  let parentPos;
+  graphInstance.on('expandcollapse.beforeexpand', function (evt) {
+    console.log(evt);
+    parentPos = evt.target.position();
+  });
+
   graphInstance.on('expandcollapse.afterexpand', function (evt) {
     const node = evt.target;
     graphInstance.zoomingEnabled(false);
+    node.children().position(parentPos);
     node.children().layout({
       name:'grid',
       fit: 'false',
