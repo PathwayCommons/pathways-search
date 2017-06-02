@@ -30,7 +30,7 @@
 @import './css/search/SearchItem.css';
 
 @import './css/view/View.css';
-@import './css/view/tabs/Graph.css';
-@import './css/view/tabs/Interactions.css';
-@import './css/view/tabs/Downloads.css';
-@import './css/view/tabs/DownloadCard.css';
+@import './css/view/components/Graph.css';
+@import './css/view/components/Interactions.css';
+@import './css/view/components/Downloads.css';
+@import './css/view/components/DownloadCard.css';
