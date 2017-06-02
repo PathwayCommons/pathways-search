@@ -8,16 +8,16 @@ import stratifiedLayout from './layout/stratified';
 import stratifiedKlayLayout from './layout/stratifiedKlay';
 
 export const layoutMap = new Map()
-.set('force directed (cola)', colaLayout)
-.set('force directed (CoSE-Bilkent)', coseBilkentLayout)
-.set('heirarchical (dagre)', dagreLayout)
-.set('preset', presetLayout)
-.set('layered (klay)', klayLayout)
+.set('cola - force directed', colaLayout)
+.set('CoSE-Bilkent - force directed', coseBilkentLayout)
+.set('dagre - tree / heirarchical', dagreLayout)
+.set('chilay - Pathway Commons Server Layout', presetLayout)
+.set('klay - layered', klayLayout)
 .set('stratified force directed', stratifiedLayout)
 .set('stratified layered', stratifiedKlayLayout);
 
 
-export const defaultLayout = 'layered (klay)';
+export const defaultLayout = 'klay - layered';
 
 export const layoutNames = [...layoutMap.keys()];
 
