@@ -20,7 +20,7 @@ export class Faq extends React.Component {
 					Please refer questions or comments to our <a href="https://groups.google.com/forum/#!forum/pathway-commons-help" target="_blank">Pathway Commons help Google group</a>.
 				</FaqEntry>
 				<FaqEntry header="How does the app get its data?">
-					All data is retrieved using the <a href="http://www.pathwaycommons.org/pc2/">Pathway Commons web service API</a>.
+					All data is retrieved using the <a href="http://www.pathwaycommons.org/pc2/" target="_blank">Pathway Commons web service API</a>.
 				</FaqEntry>
 				<FaqEntry header="Does the app return everything that matches my query in Pathway Commons?">
 					<p>
@@ -56,7 +56,8 @@ export class Faq extends React.Component {
 								In this case, the phrase is broken into space-separated terms and each is run through a series of tests to determine if it conforms to any external database identifiers recognized by Pathway Commons (i.e. HGNC, CHEBI, UniProt). For all remaining tokens that are not identifiers, Pathway Commons will be instructed to match only within a pathway's <code>name</code> Lucene index field. Those pathways containing all terms are returned. For example, the input <code>cell cycle</code> will match pathways named <code>Krebs cycle in cell mitochondria</code> but not <code>Krebs cycle in mitochondria</code>.
 							</li>
 						</ul>
-						<li>Match any words</li>
+						<li>Match any words, using the <code>name</code> Lucene field when appropriate</li>
+						<li>Match any words, anywhere</li>
 					</ol>
 
 				</FaqEntry>
@@ -75,7 +76,10 @@ export class Faq extends React.Component {
 							<a href="http://www.uniprot.org/" target="_blank">UniProt</a>
 						</li>
 						<li>
-							<a href="https://www.ebi.ac.uk/chebi/" target="_blank">Chemical Entities of Biological Interest (ChEBI)</a>.
+							<a href="https://www.ebi.ac.uk/chebi/" target="_blank">Chemical Entities of Biological Interest (ChEBI)</a>
+						</li>
+						<li>
+							<a href="https://www.ncbi.nlm.nih.gov/refseq/" target="_blank"> Reference Sequence (RefSeq)</a>
 						</li>
 					</ul>
 				</FaqEntry>
@@ -85,18 +89,36 @@ export class Faq extends React.Component {
 				<FaqEntry header="Why can’t I find a pathway that I believe exists in Pathway Commons?">
 					A likely cause is that your pathway is being filtered out by the default settings declared in the 'Filter' menu. Try to turn off filtering and see if the expected pathway appears: Clear entries for the maximum and minimum number of pathway participants (default maximum is 100;  default minimum is 3).
 				</FaqEntry>
-				<FaqEntry header="How do I embed the search box or pathway view in my web page?">
+				<FaqEntry header="How can I use the search or view in my web page?">
 					<p>
-						You can easily embed the search box or a specific pathway view on your page using an <a href="https://developer.mozilla.org/en/docs/Web/HTML/Element/iframe" target="_blank">iframe</a>.
+						You have a few options here.
 					</p>
-					<p>
-						<strong>Embedding a search box</strong><br/> Use the following URL in an iframe, <code>{hostName + "#/search/embed"}</code>.
-					</p>
-					<p>
-						<strong>Embedding a pathway view</strong><br/> Once you have viewed a pathway in the app, modify the URL to contain the path <code>/#/pathway/embed</code>. For example, if you used the app to view a pathway with the URL:
-						<code>{hostName + "#/pathway?uri=http%3A%2F%2Fidentifiers.org%2Freactome%2FR-HSA-157118"}</code>,
-						the corresponding embeddable URL would be <code>{hostName + "#/pathway/embed?uri=http%3A%2F%2Fidentifiers.org%2Freactome%2FR-HSA-157118"}</code>.
-					</p>
+
+					<dl>
+						<dt>
+							Formulate a URL with a search query
+						</dt>
+						<dd>
+							Construct the following URL <code>{hostName + "#/search?gt=3&lt=250&type=Pathway&q="}</code> where you supply the value of the query parameter <code>q</code>. For example, this could be the contents of a text form. Don't forget to <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent" target="_blank">encode</a> the contents.
+						</dd>
+						<br/>
+					  <dt>
+							Embedding a search box in an <a href="https://developer.mozilla.org/en/docs/Web/HTML/Element/iframe" target="_blank">iframe</a>
+						</dt>
+					  <dd>
+							Use the following URL <code>{hostName + "#/search/embed"}</code>.
+						</dd>
+						<br/>
+						<dt>
+							Embedding a view in an iframe
+						</dt>
+					  <dd>
+							Once you have viewed a pathway in the app, modify the URL to contain the path <code>/#/pathway/embed</code>.<br/>
+							For example, if you used the app to view Reactome's 'Signaling by BMP' via the URL:
+							<a href={hostName + "#/view?uri=http%3A%2F%2Fidentifiers.org%2Freactome%2FR-HSA-201451"} target="_blank">{hostName + "#/view?uri=http%3A%2F%2Fidentifiers.org%2Freactome%2FR-HSA-201451"}</a>,
+							the corresponding embeddable URL would be <a href={hostName + "#/view/embed?uri=http%3A%2F%2Fidentifiers.org%2Freactome%2FR-HSA-201451"} target="_blank">{hostName + "#/view"}<strong>{"/embed"}</strong>{"?uri=http%3A%2F%2Fidentifiers.org%2Freactome%2FR-HSA-201451"}</a>.
+						</dd>
+					</dl>
 				</FaqEntry>
 				<FaqEntry header="Where is the source code for this web app?">
 					This web app is an open source project <a href="https://github.com/PathwayCommons/pathways-search">hosted on Github</a> where you can view instructions on how to download, build and run the project on your computer.
