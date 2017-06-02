@@ -2,11 +2,10 @@ import React from 'react';
 import {Redirect} from 'react-router-dom';
 import {Modal, Button} from 'react-bootstrap';
 
-import {ErrorMessage} from '../../components/ErrorMessage.jsx';
-import {HelpTooltip} from '../../components/HelpTooltip.jsx';
-import {Interactions} from '../tabs/Interactions.jsx';
-import {Information} from '../tabs/Information.jsx';
-import {Downloads} from '../tabs/Downloads.jsx';
+import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
+import {Interactions} from './Interactions.jsx';
+import {Information} from './Information.jsx';
+import {Downloads} from './Downloads.jsx';
 
 // ModalFramework
 // Prop Dependencies ::

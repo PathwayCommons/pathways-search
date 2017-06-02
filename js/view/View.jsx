@@ -4,8 +4,8 @@ import {Col, Glyphicon, Navbar, Nav, NavItem, NavDropdown, MenuItem, OverlayTrig
 import {get, traverse} from 'pathway-commons';
 
 import {ErrorMessage} from '../components/ErrorMessage.jsx';
-import {Graph} from './tabs/graph/Graph.jsx';
-import {ModalFramework} from './components/ModalFramework.jsx';
+import {Graph} from './components/graph/Graph.jsx';
+import {ModalFramework} from './components/menu/ModalFramework.jsx';
 
 // View
 // Prop Dependencies ::
@@ -42,14 +42,19 @@ export class View extends React.Component {
 	}
 
 	render() {
+		const tip_help = (
+			<Popover className="info-tip hidden-xs" id="popover-help" placement="bottom" title="Help">
+				A field guide to interpreting the display.
+			</Popover>
+		);
 		const tip_screenshot = (
 			<Popover className="info-tip hidden-xs" id="popover-screenshot" placement="bottom" title="Screenshot">
 				Click to download an image (png) of the current view.
 			</Popover>
 		);
 		const tip_downloads = (
-			<Popover className="info-tip hidden-xs" id="popover-downloads" placement="bottom" title="Downloads">
-				Download in several different formats.
+			<Popover className="info-tip hidden-xs" id="popover-downloads" placement="bottom" title="Downloads Menu">
+				View the different file formats available.
 			</Popover>
 		);
 		const tip_metadata = (
@@ -57,11 +62,7 @@ export class View extends React.Component {
 				Click to see information provided by the original datasource.
 			</Popover>
 		);
-		const tip_help = (
-			<Popover className="info-tip hidden-xs" id="popover-help" placement="bottom" title="Help">
-				Information about the viewer.
-			</Popover>
-		);
+
 		if(this.state.data) {
 			return(
 				<div className="View">
@@ -83,14 +84,34 @@ export class View extends React.Component {
 								</Nav>
 								<Nav pullRight>
 									<NavItem eventKey={1} onClick={() => this.props.graphImage(false)}>
-										<OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_screenshot}>
+										<Col xsHidden >
+											<OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_screenshot}>
+												<Glyphicon className="glyph-tip" glyph="picture" />
+											</OverlayTrigger>
+										</Col>
+										<Col smHidden mdHidden lgHidden>
 											<span className="navitem-label">Screenshot</span>
-										</OverlayTrigger>
+										</Col>
 									</NavItem>
 									<NavItem eventKey={2} onClick={() => this.setState({active: "Downloads"})}>
-										<OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_downloads}>
+										<Col xsHidden >
+											<OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_downloads}>
+												<Glyphicon className="glyph-tip" glyph="download-alt" />
+											</OverlayTrigger>
+										</Col>
+										<Col smHidden mdHidden lgHidden >
 											<span className="navitem-label">Downloads</span>
-										</OverlayTrigger>
+										</Col>
+									</NavItem>
+									<NavItem eventKey={3} onClick={() => this.setState({active: "Help"})}>
+										<Col xsHidden >
+											<OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_help}>
+												<Glyphicon className="glyph-tip" glyph="question-sign" />
+											</OverlayTrigger>
+										</Col>
+										<Col smHidden mdHidden lgHidden >
+											<span className="navitem-label">Help</span>
+										</Col>
 									</NavItem>
 								</Nav>
 							</Navbar.Collapse>

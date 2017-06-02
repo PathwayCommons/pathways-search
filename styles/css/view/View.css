@@ -38,6 +38,10 @@
 	& .nav-tabs {
 		margin-bottom: 1px;
 	}
+
+	& .navbar-collapse.collapse .nav.navbar-nav.navbar-right > li > a {
+		padding: 0.5em 0.8em 0;
+	}
 }
 
 @media (--screen-md){
@@ -68,6 +72,10 @@
 		& #metadata {
 			font-size: 1em;
 			max-width: 100%;
+		}
+
+		& .navbar-collapse.collapse .nav.navbar-nav.navbar-right > li > a {
+			padding: 0.8em;
 		}
 	}
 }

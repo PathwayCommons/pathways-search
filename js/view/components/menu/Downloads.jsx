@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import {saveAs} from 'file-saver';
 import {get} from 'pathway-commons';
 import {DownloadCard} from './DownloadCard.jsx';
-import {Spinner} from '../../components/Spinner.jsx';
+import {Spinner} from '../../../components/Spinner.jsx';
 
 // Downloads
 // Prop Dependencies ::
