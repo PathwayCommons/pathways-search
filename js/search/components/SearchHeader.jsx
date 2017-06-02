@@ -32,7 +32,6 @@ export class SearchHeader extends React.Component {
 	}
 
 	updateTerm() {
-		// var q = this.state.q.indexOf("%") === -1 ? this.state.q : decodeURIComponent(this.state.q);
 		if (this.state.q.match(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/)) {
 			this.props.history.push({pathname: "/view", search: queryString.stringify({uri: this.state.q})});
 		}
