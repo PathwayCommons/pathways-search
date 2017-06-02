@@ -21,6 +21,16 @@
 		font-size: 2.5em;
 	}
 
+	& .form-horizontal {
+		& .form-group {
+			& .input-group {
+				& .input-group-addon {
+					cursor: pointer;					
+				}
+			}
+		}
+	}
+
 }
 
 @media (--screen-xs) {

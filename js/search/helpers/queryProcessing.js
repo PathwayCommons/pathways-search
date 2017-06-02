@@ -5,7 +5,7 @@ var checkList = [
 	"uniprot",
 	"chebi",
 	"smpdb",
-	"keggpathway"
+	"refseq"
 ];
 
 var nameBlacklist = [
@@ -24,7 +24,7 @@ let parseFile = text => {
 	.filter(symbol => nameBlacklist.indexOf(symbol) == -1); // Filter out ridiculous names
 };
 
-let hgncData = fetch("hgncSymbols.txt", {method: 'get', mode: 'no-cors'})
+let getHGNCData = fetch("hgncSymbols.txt", {method: 'get', mode: 'no-cors'})
 	.then(res => res.text())
 	.then(parseFile)
 	.then(dataArray => new Set(dataArray));
@@ -37,15 +37,24 @@ let escapeSpaces = (inputString) => {
 	return inputString.replace(/(\s+)/g, "\\$1");
 }
 
-let failureLimit = 2;
+let tokenPrefix = ( phrase, collection ) => {
+	return phrase
+		.split(/\s+/g)
+		.map(token => {
+			// Add a Lucene prefix 'name' to any white-space separted tokens that are NOT symbols that match any of the categories decalred in checkList array
+			let isSymbol;
+			// Conduct regex checks
+			isSymbol = checkList.some( ds => utilities.sourceCheck( ds, token ) );
+			// Conduct more expensive HGNC check
+			if(!isSymbol) {
+				isSymbol = collection.has( token.toUpperCase() );
+			}
+			token = escapeLucene(token);
+			return isSymbol ? token : ( "name:" + "*" + token + "*" );
+		});
+}
 
 export let queryProcessing = (query, failureCount = 0) => { // Pass in all query parameters
-	if(failureCount > failureLimit) { // All fallbacks exhausted, conclude no results available and return null
-		return Promise.resolve(null);
-	}
-
-	var enhance = query.enhance !== "false";
-	var output = "";
 
 	// Check q to ensure it contains a valid value otherwise return q
 	if(typeof query.q === "string" && query.q.length) {
@@ -55,33 +64,25 @@ export let queryProcessing = (query, failureCount = 0) => { // Pass in all query
 		return Promise.resolve(query.q);
 	}
 
-	if( enhance && failureCount < failureLimit ) {
-		return hgncData // AND then OR all tokens
-			.then(hgncData => words
-				.split(/\s+/g)
-				.map(word => { // Process each word individually
-					let isSymbol;
-					// Conduct regex checks
-					isSymbol = checkList.some( ds => utilities.sourceCheck( ds, word ) );
-					// Conduct more expensive HGNC check
-					if(!isSymbol) {
-						isSymbol = hgncData.has( word.toUpperCase() );
-					}
-					// When using enhanced search Lucene is always escaped
-					word = escapeLucene(word);
-					return (isSymbol ? word : "name:" + "*" + word + "*" );
-				})
-			).then(
-				result => {
-					let q = failureCount ? ("(" + result.join(" OR ") + ")") :
-						( "(name:" + escapeSpaces( words ) + ") OR (" +
-				      "name:*" + escapeSpaces( words ) + "*) OR (" +
-						   result.join(" AND ") + ")" );												
-					return q;
-				}
-			);
+	if( failureCount === 0 ) {
+		// Perform strict search
+		// Prefix non-symbol tokens with Lucene index field 'name'
+		return getHGNCData
+			.then( tokenPrefix.bind( null, words ) ) //implicit Promise result
+			.then( result => "(name:" + escapeSpaces( words ) + ") OR (" + "name:*" + escapeSpaces( words ) + "*) OR (" + result.join(" AND ") + ")" );
+
+	} else if ( failureCount === 1 ) {
+		// Perform less strict search -- separated from the groups above because I found it slower on the backend
+		return getHGNCData
+			.then( tokenPrefix.bind( null, words ) )
+			.then( result => "(" + result.join(" OR ") + ")" );
 	}
-	else {
-			return Promise.resolve( words );
+	else if ( failureCount === 2 ) {
+		// Perform search for matches with any white-space separated token
+		return Promise.resolve( words );
+
+	} else {
+		 // All fallbacks exhausted, conclude no results available and return null
+		return Promise.resolve(null);
 	}
 }
