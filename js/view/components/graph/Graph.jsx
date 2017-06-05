@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 
-import {DropdownButton, MenuItem} from 'react-bootstrap';
+import {Col, Row, DropdownButton, MenuItem} from 'react-bootstrap';
 
 import convertSbgn from 'sbgnml-to-cytoscape';
 
@@ -143,13 +143,13 @@ export class Graph extends React.Component {
 				<div className={classNames("Graph", this.props.hidden
 					? "visibilityHidden"
 					: "")}>
-					<div className="graphMenuContainer">
-						<div className="graphMenu">
-							<DropdownButton id="layout" bsStyle="default" pullRight={true} bsSize="large" block title={`layout | ${this.state.layout}`}>
+					<Row>
+						<Col xsOffset={1} xs={9} smOffset={2} sm={2}>
+							<DropdownButton id="layout" bsStyle="default" pullRight={true} bsSize="large" block title={`Layout | ${this.state.layout}`}>
 								{layoutDropdownItems}
 							</DropdownButton>
-						</div>
-					</div>
+						</Col>
+					</Row>
 					<div className="SpinnerContainer">
 						<Spinner hidden={this.state.graphRendered}/>
 					</div>
