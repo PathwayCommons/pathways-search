@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pagination, Modal, Image, Media, Button, Glyphicon, OverlayTrigger, Popover} from 'react-bootstrap';
+import {Pagination, Modal, Media, Button, Glyphicon, OverlayTrigger, Popover} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
