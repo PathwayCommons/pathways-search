@@ -15,15 +15,9 @@ export class ModalFramework extends React.Component {
 		var active = this.props.active || "";
 		return (
 			<div className="ModalFramework">
-				{
-					//<Modal bsSize="large" show={Boolean(active)} onHide={() => this.props.onHide()}>
-				}
-				<Modal bsSize="large" show={true} onHide={() => this.props.onHide()}>
+				<Modal bsSize="large" show={Boolean(active)} onHide={() => this.props.onHide()}>
 					<Modal.Body>
-						{
-							//<Help hidden={"Help" != active} />
-						}
-						<Help hidden={false} />
+						<Help hidden={"Help" != active} />						
 						<Information hidden={"Information" != active} uri={this.props.query.uri}/>
 						<Downloads hidden={"Downloads" != active} uri={this.props.query.uri} name={this.props.name} pathwayData={this.props.pathwayData} graphImage={this.props.graphImage}/>
 					</Modal.Body>
