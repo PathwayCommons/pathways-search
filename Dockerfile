@@ -20,4 +20,4 @@ RUN chown -R nodejs:nodejs /webapps/pathway_search
 EXPOSE 8080
 USER nodejs
 
-CMD ["npm", "start"]
+CMD ["http-server", "./public", "-p", "8080"]
