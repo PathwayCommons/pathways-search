@@ -1,6 +1,7 @@
-FROM node:7.10.0
+FROM node:8.0.0-alpine
 
-RUN groupadd -r nodejs && useradd -m -r -g nodejs nodejs
+RUN addgroup -S nodejs && adduser -S -g nodejs nodejs
+RUN apk add --no-cache bash sed git openssh
 
 RUN cd /tmp && git clone -b integration https://github.com/PathwayCommons/pathways-search.git
 RUN cd /tmp/pathways-search && npm install
