@@ -60,7 +60,7 @@ export class Help extends React.Component {
 							Hovering over a node triggers a highlight of the nearest neighbouring nodes and associated edges. Use this to following along a path of interest.
 							<Thumbnail className="help-figure" src="img/view/help/help_highlightNeighbour.png" alt="highligh-neighbours">
 								<p>
-									<strong>Highlighting neighbouring nodes and edges. </strong> The auto-phosphorylation of BMP2 in complex with receptors (BMPRI/II). Hovering over the process node (square) higlights  reaction participants and edges that are otherwise coloured light grey.
+									<strong>Highlighting neighbouring nodes and edges. </strong> The trans-phosphorylation of BMP2 in complex with receptors (BMPRI/II). Hovering over the process node (square) higlights  reaction participants and edges that are otherwise coloured light grey.
 								</p>
 				      </Thumbnail>
 						</dd>
@@ -103,7 +103,7 @@ export class Help extends React.Component {
 					<hr/>
 					<p className="lead">Example walkthough</p>
 					<p>
-						To illustrate the interpretation of an SBGN-PD view, we examine a portion of the <a href="http://www.reactome.org/PathwayBrowser/#/R-HSA-201451" target="_blank">'Signaling by BMP' </a> pathway from <a href="http://www.reactome.org/" target="_blank">Reactome</a>. In particular, we focus our attention on a single 'reaction' within the pathway that depicts <a href="http://www.reactome.org/PathwayBrowser/#/R-HSA-201451&SEL=R-HSA-201443&PATH=R-HSA-162582" target="_blank"> auto-phosphorylation of the Type I receptor by the Type II receptor upon BMP ligand binding</a>. The original view from the Reactome web site is shown below.
+						To illustrate the interpretation of an SBGN-PD view, we examine a portion of the <a href="http://www.reactome.org/PathwayBrowser/#/R-HSA-201451" target="_blank">'Signaling by BMP' </a> pathway from <a href="http://www.reactome.org/" target="_blank">Reactome</a>. In particular, we focus our attention on a single 'reaction' within the pathway that depicts <a href="http://www.reactome.org/PathwayBrowser/#/R-HSA-201451&SEL=R-HSA-201443&PATH=R-HSA-162582" target="_blank"> trans-phosphorylation of the Type I receptor by the Type II receptor following binding of the BMP ligand</a>. The original view from the Reactome web site is shown below.
 					</p>
 					<Thumbnail className="help-figure" src="img/view/help/help_walkthrough_reactome_sigBMP.png" alt="help-walkthrough-signallingByBMP">
 						<p>
@@ -117,7 +117,7 @@ export class Help extends React.Component {
 
 					<Thumbnail className="help-figure" src="img/view/help/help_walkthrough_search_sigBMP_expanded.png" alt="help-walkthrough-search">
 						<p>
-							<strong>View of Reactome's 'Signaling by BMP' sourced from Pathway Commons.</strong> The octagonal shapes represent biological complexes - 'compound' nodes - that contain other entities. The square node represents a biological conversion and is known as a 'process' node. In this case, the unphosphorylated receptor transitions to a phosphorylated state via autophosphorylation upon engagement of a BMP2 ligand. The arc terminating in a circle depicts a catalytic control of the conversion.
+							<strong>View of Reactome's 'Signaling by BMP' sourced from Pathway Commons.</strong> The octagonal shapes represent biological complexes - 'compound' nodes - that contain other entities. The square node represents a biological conversion and is known as a 'process' node. In this case, the unphosphorylated Type I receptor transitions to a phosphorylated state via trans-phosphorylation upon engagement of a BMP2 ligand. The arc terminating in a circle depicts a catalytic control of the conversion.
 						</p>
 					</Thumbnail>
 
@@ -125,7 +125,7 @@ export class Help extends React.Component {
 						An important conceptual aspect of SBGN-PD is that physical entities do not act directly upon other physical entities; Rather, entities influence ('control') processes ('conversions') that describe those changes.
 					</p>
 					<p>
-						Concretely, to describe the change in phosphorylation state of the BMP ligand-receptor (BMP:BMPR), the complex is shown to be a participant in a catalysis (arc terminating in a circle) that acts to promote a biochemical reaction (square) in which the ATP is applied to the Type I receptor. The manner in which a ligand-receptor complex acts upon a phosphorylation reaction is in contrast the the more common depiction of this process whereby an unphosphorylated receptor simply adds phosphates to itself.
+						Concretely, to describe the change in phosphorylation state of the BMP ligand-receptor (BMP:BMPR), the complex is shown to be both a participant and controller of a catalysis (arc terminating in a circle) that acts to promote a biochemical reaction (square) describing addition of ATP to the Type I receptor. The manner in which a ligand-receptor complex acts upon a phosphorylation reaction is in contrast the the more common depiction of this process whereby an unphosphorylated receptor simply adds phosphates to itself.
 					</p>
 					<hr/>
 					<h4>Quick reference: SBGN-PD Glyphs</h4>
