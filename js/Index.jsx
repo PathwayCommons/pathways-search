@@ -5,7 +5,6 @@ import queryString from 'query-string';
 import {utilities} from 'pathway-commons';
 import {Alert} from 'react-bootstrap';
 
-import {Faq} from './faq/Faq.jsx';
 import {Search} from './search/Search.jsx';
 import {View} from './view/View.jsx';
 import {PageNotFound} from './PageNotFound.jsx';
@@ -77,7 +76,6 @@ export class Index extends React.Component {
 					<Switch>
 						<Route exact path="/" render={() => <Redirect to="/search"/>}/>
 						<Route path="/search" render={props => <Search {...props} {...globalObject}/>}/>
-						<Route path="/faq" render={props => <Faq {...props} {...globalObject}/>}/>
 						<Route path="/view" render={props => <View {...props} {...globalObject}/>}/>
 						<Route path="*" render={props => <PageNotFound {...props} {...globalObject}/>}/>
 					</Switch>

@@ -38,6 +38,7 @@ a.clickable:hover {
 .glyph-tip {
 	color: var(--midnightBlue);
 	font-size: 2.5em;
+	cursor: pointer;
 }
 
 .navbar.navbar-default {

@@ -23,8 +23,7 @@
 @import './css/components/ErrorMessage.css';
 @import './css/components/HelpTooltip.css';
 
-@import './css/faq/Faq.css';
-
+@import './css/search/SearchFaq.css';
 @import './css/search/SearchHeader.css';
 @import './css/search/SearchList.css';
 @import './css/search/SearchItem.css';

@@ -1,36 +1,29 @@
 import React from 'react';
-import {	Glyphicon } from 'react-bootstrap';
-import {Link} from 'react-router-dom';
-import {FaqEntry} from './component/FaqEntry.jsx';
+import { Panel, Glyphicon } from 'react-bootstrap';
 
-// Faq
+// SearchFaq
 // Prop Dependencies ::
 // none
-export class Faq extends React.Component {
+export class SearchFaq extends React.Component {
 	render() {
 		var hostName = window.location.protocol + "//" + window.location.host + window.location.pathname;
 		return (
-			<div className="Faq">
-				<p className="header-title">
-					Frequently Asked Questions - <Link to="/"> Search</Link>
-				</p>
-				<hr/>
-
-				<FaqEntry header="Where can I ask a question or post a comment?">
+			<div className="SearchFaq">
+				<Panel header="Where can I ask a question or post a comment?">
 					Please refer questions or comments to our <a href="https://groups.google.com/forum/#!forum/pathway-commons-help" target="_blank">Pathway Commons help Google group</a>.
-				</FaqEntry>
-				<FaqEntry header="How does the app get its data?">
+				</Panel>
+				<Panel header="How does the app get its data?">
 					All data is retrieved using the <a href="http://www.pathwaycommons.org/pc2/" target="_blank">Pathway Commons web service API</a>.
-				</FaqEntry>
-				<FaqEntry header="Does the app return everything that matches my query in Pathway Commons?">
+				</Panel>
+				<Panel header="Does the app return everything that matches my query in Pathway Commons?">
 					<p>
 						No, the app fetches those items designated as 'pathways'.
 					</p>
 					<p>
 						Pathway Commons stores biological data in a standardized format called <a href="http://biopax.org/" target="_blank">BioPAX</a> that provides rich descriptions of many biological concepts or <a href="http://www.pathwaycommons.org/pc2/#biopax_types" target="_blank">'types'</a> (e.g. 'Gene', 'Complex', 'Pathway'). The search app performs queries specifically for BioPAX objects of type 'pathway'. For more general queries, please see the documentation for the <a href="http://www.pathwaycommons.org/pc2/" target="_blank">Pathway Commons web service API</a>.
 					</p>
-				</FaqEntry>
-				<FaqEntry header="How does search work?">
+				</Panel>
+				<Panel header="How does search work?">
 					<p>
 						The search app uses the <a href="http://www.pathwaycommons.org/pc2/">Pathway Commons web service API</a> which provides a powerful and flexible full-text search capability. The underlying format of the instructions passed on to the Pathway Commons web service conforms to the <a href="http://lucene.apache.org/core/3_6_2/queryparsersyntax.html">Lucene query syntax</a>.
 					</p>
@@ -60,13 +53,13 @@ export class Faq extends React.Component {
 						<li>Match any words, anywhere</li>
 					</ol>
 
-				</FaqEntry>
-				<FaqEntry header="How do I perform a more specific search?">
+				</Panel>
+				<Panel header="How do I perform a more specific search?">
 					After submitting a query, an 'Filter' icon <Glyphicon
 						glyph="filter"
 						onClick={() => this.toggleFilterMenu(true)}/> provides access to an options menu to tailor your search. You may filter the results that are returned by data provider and/or restrict pathways containing a certain minimum or maximum number of participants. To remove filtering altogether, simply remove any entries for data sources and participants.
-				</FaqEntry>
-				<FaqEntry header="What types of identifiers or symbols will the app recognize?">
+				</Panel>
+				<Panel header="What types of identifiers or symbols will the app recognize?">
 					The search app accepts a list of gene identifiers as input. The app will recognize names approved by:
 					<ul>
 						<li>
@@ -82,14 +75,14 @@ export class Faq extends React.Component {
 							<a href="https://www.ncbi.nlm.nih.gov/refseq/" target="_blank"> Reference Sequence (RefSeq)</a>
 						</li>
 					</ul>
-				</FaqEntry>
-				<FaqEntry header="How many results are returned?">
+				</Panel>
+				<Panel header="How many results are returned?">
 					By default, the top five search results are returned. Click the 'More Results' link below to display up to a maximum of 100 results.
-				</FaqEntry>
-				<FaqEntry header="Why can’t I find a pathway that I believe exists in Pathway Commons?">
+				</Panel>
+				<Panel header="Why can’t I find a pathway that I believe exists in Pathway Commons?">
 					A likely cause is that your pathway is being filtered out by the default settings declared in the 'Filter' menu. Try to turn off filtering and see if the expected pathway appears: Clear entries for the maximum and minimum number of pathway participants (default maximum is 100;  default minimum is 3).
-				</FaqEntry>
-				<FaqEntry header="How can I use the search or view in my web page?">
+				</Panel>
+				<Panel header="How can I use the search or view in my web page?">
 					<p>
 						You have a few options here.
 					</p>
@@ -119,10 +112,10 @@ export class Faq extends React.Component {
 							the corresponding embeddable URL would be <a href={hostName + "#/view/embed?uri=http%3A%2F%2Fidentifiers.org%2Freactome%2FR-HSA-201451"} target="_blank">{hostName + "#/view"}<strong>{"/embed"}</strong>{"?uri=http%3A%2F%2Fidentifiers.org%2Freactome%2FR-HSA-201451"}</a>.
 						</dd>
 					</dl>
-				</FaqEntry>
-				<FaqEntry header="Where is the source code for this web app?">
+				</Panel>
+				<Panel header="Where is the source code for this web app?">
 					This web app is an open source project <a href="https://github.com/PathwayCommons/pathways-search">hosted on Github</a> where you can view instructions on how to download, build and run the project on your computer.
-				</FaqEntry>
+				</Panel>
 			</div>
 		);
 	}

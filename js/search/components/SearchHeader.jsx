@@ -14,6 +14,8 @@ import {Link} from 'react-router-dom';
 import queryString from 'query-string';
 import {hardReload} from '../../App.js';
 import {SearchOptions} from './SearchOptions.jsx';
+import {SearchFaq} from './SearchFaq.jsx';
+
 
 // SearchHeader
 // Prop Dependencies ::
@@ -27,7 +29,8 @@ export class SearchHeader extends React.Component {
 		super(props);
 		this.state = {
 			q: this.props.query.q || "",
-			showFilterMenu: false
+			showFilterMenu: false,
+			showSearchFaq: false
 		};
 	}
 
@@ -60,6 +63,12 @@ export class SearchHeader extends React.Component {
 	toggleFilterMenu(state) {
 		this.setState({
 			showFilterMenu: state != null ? state : !this.state.showFilterMenu
+		});
+	}
+
+	toggleSearchFaq(state) {
+		this.setState({
+			showSearchFaq: state != null ? state : !this.state.showSearchFaq
 		});
 	}
 
@@ -107,11 +116,13 @@ export class SearchHeader extends React.Component {
 									</Link>
 								</Col>
 								<Col xs={1} sm={2} smPush={8}>
-									<Link to="/faq">
-										<OverlayTrigger delayShow={1000} placement="left" overlay={tip_faq}>
-											<Glyphicon className="glyph-tip" id="link-faq" glyph="question-sign" />
-										</OverlayTrigger>
-									</Link>
+									<OverlayTrigger delayShow={1000} placement="left" overlay={tip_faq}>
+										<Glyphicon
+											className="glyph-tip"
+											id="link-faq"
+											glyph="question-sign"
+											onClick={() => this.toggleSearchFaq(true)}/>
+									</OverlayTrigger>
 								</Col>
 							</div>
 						 	}
@@ -166,6 +177,17 @@ export class SearchHeader extends React.Component {
 					</Modal.Body>
 					<Modal.Footer>
 						<Button onClick={() => this.toggleFilterMenu(false)}>Close</Button>
+					</Modal.Footer>
+				</Modal>
+				<Modal bsSize="large" show={this.state.showSearchFaq} onHide={() => this.toggleSearchFaq(false)}>
+					<Modal.Header>
+						<p className="header-title">Frequently Asked Questions</p>
+					</Modal.Header>
+					<Modal.Body>
+						<SearchFaq/>
+					</Modal.Body>
+					<Modal.Footer>
+						<Button onClick={() => this.toggleSearchFaq(false)}>Close</Button>
 					</Modal.Footer>
 				</Modal>
 			</div>
