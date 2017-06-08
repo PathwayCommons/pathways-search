@@ -115,7 +115,11 @@ export class Graph extends React.Component {
 
 	exportImage(isFullscreen, cb) {
 		if (!isEmpty(this.state.graphInstance)) {
-			var imgString = this.state.graphInstance.png({scale: 5, full: Boolean(isFullscreen)});
+			var imgString = this.state.graphInstance.png({
+				scale: 5,
+				bg: 'white',
+				full: Boolean(isFullscreen)
+			});
 			imgString = imgString.substring(imgString.indexOf(",") + 1);
 			var blob = base64toBlob(imgString, "image/png");
 			saveAs(blob, "Graph" + this.state.graphId + ".png");
