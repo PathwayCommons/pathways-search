@@ -12,6 +12,10 @@
 	& .splashModal {
 		position: relative;
 
+		& .splashImage {
+			margin: 1.2em auto;
+		}
+
 		& .splashText {
 			text-align: center;
 			color: var(--midnightBlue);
@@ -19,14 +23,10 @@
 		}
 	}
 
-	& .splashImage {
-		margin: 1.2em auto;
-	}
-
 	& a {
 		cursor: pointer;
 	}
-	
+
 	& #pub-link {
 		font-size: 1.1em;
 	}
@@ -37,8 +37,17 @@
 		& .modal-dialog {
 			& .modal-content{
 				& .modal-body{
-					padding: 1em;
+					padding: 0.8em;
 				}
+			}
+		}
+
+		& .splashModal {
+			& .splashImage {
+				display: none;
+			}
+			& .splashText {
+				font-size: 1.2em;
 			}
 		}
 	}

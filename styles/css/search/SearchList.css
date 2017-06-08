@@ -12,19 +12,6 @@
 		}
 	}
 
-
-	& .splashModal {
-		position: relative;
-		z-index: 1000;
-		& .splashText {
-			font-size: 16px;
-		}
-	}
-
-	& .splashImage {
-		margin: 20px auto;
-	}
-
 	& a {
 		cursor: pointer;
 	}
@@ -54,16 +41,6 @@
 				& .modal-body{
 					padding: 1em;
 				}
-			}
-		}
-
-		& .splashImage {
-			margin: 20px auto;
-		}
-
-		& .splashModal {
-			& .splashText {
-				font-size: 14px;
 			}
 		}
 	}
