@@ -1,15 +1,15 @@
 const colaLayout = (cy) => {
-  cy.layout({
-    name: 'cola',
-    fit: true,
-    nodeSpacing: function( node ){
-      if (node.data('class').includes('process')) {
-        return 40;
-      } else {
-        return 0;
-      }
-    } // extra spacing around nodes
-  }).run();
+	cy.layout({
+		name: 'cola',
+		fit: true,
+		nodeSpacing: function( node ){
+			if (node.data('class').includes('process')) {
+				return 40;
+			} else {
+				return 0;
+			}
+		} // extra spacing around nodes
+	}).run();
 };
 
 export default colaLayout;

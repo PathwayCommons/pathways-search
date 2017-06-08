@@ -49,6 +49,8 @@
     "cross-env": "^5.0.0",
     "css-loader": "^0.28.0",
     "cssnano": "^3.10.0",
+    "eslint": "^3.19.0",
+    "eslint-plugin-react": "^7.0.1",
     "file-loader": "^0.11.0",
     "postcss-cssnext": "^2.9.0",
     "postcss-import": "^9.1.0",

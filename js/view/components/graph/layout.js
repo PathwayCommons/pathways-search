@@ -22,5 +22,5 @@ export const defaultLayout = 'layered (klay)';
 export const layoutNames = [...layoutMap.keys()];
 
 export const performLayout = (layout, cy, graphJSON={}, options={}) => {
-  return layoutMap.get(layout)(cy, graphJSON, options);
+	return layoutMap.get(layout)(cy, graphJSON, options);
 };

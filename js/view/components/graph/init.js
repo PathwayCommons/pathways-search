@@ -1,6 +1,5 @@
 import cytoscape from 'cytoscape';
 import sbgnStyleSheet from 'sbgn-renderer';
-import convertSbgn from 'sbgnml-to-cytoscape';
 
 //layouts
 import cola from 'cytoscape-cola';
@@ -20,131 +19,131 @@ cytoscape.use( klay, klayjs ); // cytoscape 3.x extension register
 // set the sbgn style sheet
 // bind interaction events (mouse hovering, collapsing)
 export const initGraph = (graphContainer) => {
-  const graphInstance = cytoscape({
-    container: graphContainer,
-    style: sbgnStyleSheet(cytoscape),
-    minZoom: 0.2,
-    maxZoom: 2
-  });
+	const graphInstance = cytoscape({
+		container: graphContainer,
+		style: sbgnStyleSheet(cytoscape),
+		minZoom: 0.2,
+		maxZoom: 2
+	});
 
-  graphInstance.expandCollapse({
-    fisheye: true,
-    animate: true,
-    undoable: false,
-    cueEnabled: false
-  });
+	graphInstance.expandCollapse({
+		fisheye: true,
+		animate: true,
+		undoable: false,
+		cueEnabled: false
+	});
 
-  graphInstance.style().selector('edge').css({'opacity': 0.3});
+	graphInstance.style().selector('edge').css({'opacity': 0.3});
 
-  graphInstance.on('mouseover', 'node', function (evt) {
-    const node = evt.target;
-    if (node.data('class') === 'compartment') {
-      return;
-    }
-    const neighborhood = node.neighborhood();
+	graphInstance.on('mouseover', 'node', function (evt) {
+		const node = evt.target;
+		if (node.data('class') === 'compartment') {
+			return;
+		}
+		const neighborhood = node.neighborhood();
 
-    node.style({
-      'background-color': 'blue',
-      'opacity': 1
-    });
-    neighborhood.nodes().style({
-      'background-color': 'blue',
-      'opacity': 1,
-      'z-compound-depth': 'top'
-    });
-    neighborhood.edges().style({
-      'line-color': 'orange',
-      'opacity': 1
-    });
-  });
+		node.style({
+			'background-color': 'blue',
+			'opacity': 1
+		});
+		neighborhood.nodes().style({
+			'background-color': 'blue',
+			'opacity': 1,
+			'z-compound-depth': 'top'
+		});
+		neighborhood.edges().style({
+			'line-color': 'orange',
+			'opacity': 1
+		});
+	});
 
-  graphInstance.on('mouseout', 'node', function (evt) {
-    const node = evt.target;
-    if (node.data('class') === 'compartment') {
-      return;
-    }
-    const neighborhood = node.neighborhood();
+	graphInstance.on('mouseout', 'node', function (evt) {
+		const node = evt.target;
+		if (node.data('class') === 'compartment') {
+			return;
+		}
+		const neighborhood = node.neighborhood();
 
-    node.style({
-      'background-color': 'white',
-    });
-    neighborhood.nodes().style({
-      'background-color': 'white',
-      'z-compound-depth': 'auto'
-    });
-    neighborhood.edges().style({
-      'line-color': 'black',
-      'opacity': 0.3
-    });
-  });
+		node.style({
+			'background-color': 'white',
+		});
+		neighborhood.nodes().style({
+			'background-color': 'white',
+			'z-compound-depth': 'auto'
+		});
+		neighborhood.edges().style({
+			'line-color': 'black',
+			'opacity': 0.3
+		});
+	});
 
-  graphInstance.on('mouseover', 'edge', function (evt) {
-    const edge = evt.target;
-    edge.style({
-      'line-color': 'orange',
-      'opacity': 1
-    });
+	graphInstance.on('mouseover', 'edge', function (evt) {
+		const edge = evt.target;
+		edge.style({
+			'line-color': 'orange',
+			'opacity': 1
+		});
 
-    edge.source().style({
-      'background-color': 'blue',
-      'z-compound-depth': 'top'
+		edge.source().style({
+			'background-color': 'blue',
+			'z-compound-depth': 'top'
 
-    });
-    edge.target().style({
-      'background-color': 'blue',
-      'z-compound-depth': 'top'
-    });
-  });
+		});
+		edge.target().style({
+			'background-color': 'blue',
+			'z-compound-depth': 'top'
+		});
+	});
 
-  graphInstance.on('mouseout', 'edge', function (evt) {
-    const edge = evt.target;
-    edge.style({
-      'line-color': 'black',
-      'opacity': 0.3
-    });
+	graphInstance.on('mouseout', 'edge', function (evt) {
+		const edge = evt.target;
+		edge.style({
+			'line-color': 'black',
+			'opacity': 0.3
+		});
 
-    edge.source().style({
-      'background-color': 'white',
-      'z-compound-depth': 'auto'
-    });
-    edge.target().style({
-      'background-color': 'white',
-      'z-compound-depth': 'auto'
-    });
-  });
+		edge.source().style({
+			'background-color': 'white',
+			'z-compound-depth': 'auto'
+		});
+		edge.target().style({
+			'background-color': 'white',
+			'z-compound-depth': 'auto'
+		});
+	});
 
-  let parentPos;
-  graphInstance.on('expandcollapse.beforeexpand', function (evt) {
-    parentPos = evt.target.position();
-  });
+	let parentPos;
+	graphInstance.on('expandcollapse.beforeexpand', function (evt) {
+		parentPos = evt.target.position();
+	});
 
-  graphInstance.on('expandcollapse.afterexpand', function (evt) {
-    const node = evt.target;
-    graphInstance.zoomingEnabled(false);
-    node.children().position(parentPos);
-    node.children().layout({
-      name:'grid',
-      fit: 'false',
-      avoidOverlap: true,
-      condense: true,
-      animate: true,
-      rows: node.children().size() / 2,
-      cols: node.children().size() / 2,
-      boundingBox: node.boundingBox()
-    }).run();
-    graphInstance.zoomingEnabled(true);
-  });
+	graphInstance.on('expandcollapse.afterexpand', function (evt) {
+		const node = evt.target;
+		graphInstance.zoomingEnabled(false);
+		node.children().position(parentPos);
+		node.children().layout({
+			name:'grid',
+			fit: 'false',
+			avoidOverlap: true,
+			condense: true,
+			animate: true,
+			rows: node.children().size() / 2,
+			cols: node.children().size() / 2,
+			boundingBox: node.boundingBox()
+		}).run();
+		graphInstance.zoomingEnabled(true);
+	});
 
-  graphInstance.on('tap', 'node[class="complex"], node[class="complex multimer"]', function (evt) {
-    evt.preventDefault();
-    const node = evt.target;
-    const api = graphInstance.expandCollapse('get');
-    if (api.isCollapsible(node)) {
-      api.collapse(node);
-    } else {
-      api.expand(node);
-    }
-  });
+	graphInstance.on('tap', 'node[class="complex"], node[class="complex multimer"]', function (evt) {
+		evt.preventDefault();
+		const node = evt.target;
+		const api = graphInstance.expandCollapse('get');
+		if (api.isCollapsible(node)) {
+			api.collapse(node);
+		} else {
+			api.expand(node);
+		}
+	});
 
-  return graphInstance;
-}
+	return graphInstance;
+};

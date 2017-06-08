@@ -28,8 +28,8 @@ export class Graph extends React.Component {
 			graphInstance: {},
 			graphRendered: false,
 			graphEmpty: false,
-			width: "100vw",
-			height: "85vh",
+			width: '100vw',
+			height: '85vh',
 			layout: defaultLayout
 		};
 	}
@@ -41,7 +41,7 @@ export class Graph extends React.Component {
 	}
 
 	componentWillUnmount() {
-		this.props.deleteGlobal("graphImage");
+		this.props.deleteGlobal('graphImage');
 	}
 
 	componentDidMount() {
@@ -96,7 +96,7 @@ export class Graph extends React.Component {
 		}
 
 		// Set global graphImage
-		this.props.updateGlobal("graphImage", (isFullscreen, cb) => this.exportImage(isFullscreen, cb));
+		this.props.updateGlobal('graphImage', (isFullscreen, cb) => this.exportImage(isFullscreen, cb));
 
 		// Perform render
 		this.state.graphRendered = true;
@@ -107,10 +107,10 @@ export class Graph extends React.Component {
 		reduceGraphComplexity(this.state.graphInstance);
 
 		this.performLayout(this.state.layout, graphJSON);
-	};
+	}
 
 	performLayout(layoutName, graphJSON={}, options={}) {
- 		layoutMap.get(layoutName)(this.state.graphInstance, options);
+		layoutMap.get(layoutName)(this.state.graphInstance, options);
 	}
 
 	exportImage(isFullscreen, cb) {
@@ -120,9 +120,9 @@ export class Graph extends React.Component {
 				bg: 'white',
 				full: Boolean(isFullscreen)
 			});
-			imgString = imgString.substring(imgString.indexOf(",") + 1);
-			var blob = base64toBlob(imgString, "image/png");
-			saveAs(blob, "Graph" + this.state.graphId + ".png");
+			imgString = imgString.substring(imgString.indexOf(',') + 1);
+			var blob = base64toBlob(imgString, 'image/png');
+			saveAs(blob, 'Graph' + this.state.graphId + '.png');
 		}
 		if(cb) {
 			cb();
@@ -144,9 +144,9 @@ export class Graph extends React.Component {
 
 		if (!this.state.graphEmpty) {
 			return (
-				<div className={classNames("Graph", this.props.hidden
-					? "visibilityHidden"
-					: "")}>
+				<div className={classNames('Graph', this.props.hidden
+					? 'visibilityHidden'
+					: '')}>
 					<Row>
 						<Col xsOffset={1} xs={9} smOffset={2} sm={2}>
 							<DropdownButton id="layout" bsStyle="default" pullRight={true} bsSize="large" block title={`Layout | ${this.state.layout}`}>
@@ -166,7 +166,7 @@ export class Graph extends React.Component {
 		}
 		else {
 			return (
-				<ErrorMessage className={classNames("Graph", this.props.hidden ? "visibilityHidden" : "")}>
+				<ErrorMessage className={classNames('Graph', this.props.hidden ? 'visibilityHidden' : '')}>
 					No Paths Found
 				</ErrorMessage>
 			);
