@@ -1,6 +1,7 @@
 const dagreLayout = (cy) => {
 	cy.layout({
-		name: 'dagre'
+		name: 'dagre',
+		rankDir: 'LR'
 	}).run();
 };
 
