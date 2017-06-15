@@ -1,5 +1,5 @@
 import cytoscape from 'cytoscape';
-import sbgnStyleSheet from 'sbgn-renderer';
+import sbgnStyleSheet from 'cytoscape-sbgn-stylesheet';
 
 //layouts
 import cola from 'cytoscape-cola';
