@@ -11,7 +11,6 @@ import {reduceGraphComplexity} from './complexityReduction';
 import {defaultLayout, layoutNames, layoutMap} from './layout';
 import {saveAs} from 'file-saver';
 import {Spinner} from '../../../components/Spinner.jsx';
-import {base64toBlob} from '../../../helpers/converters.js';
 import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
 
 // Graph
@@ -116,14 +115,13 @@ export class Graph extends React.Component {
 
 	exportImage(isFullscreen, cb) {
 		if (!isEmpty(this.state.graphInstance)) {
-			var imgString = this.state.graphInstance.png({
+			var imgBlob = this.state.graphInstance.png({
+				output: 'blob',
 				scale: 5,
 				bg: 'white',
 				full: Boolean(isFullscreen)
 			});
-			imgString = imgString.substring(imgString.indexOf(',') + 1);
-			var blob = base64toBlob(imgString, 'image/png');
-			saveAs(blob, 'Graph' + this.state.graphId + '.png');
+			saveAs(imgBlob, 'Graph' + this.state.graphId + '.png');
 		}
 		if(cb) {
 			cb();
