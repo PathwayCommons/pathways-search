@@ -19,4 +19,4 @@ export let base64toBlob = (base64Data, contentType) => {
 	return new Blob(byteArrays, {
 		type: contentType
 	});
-}
+};

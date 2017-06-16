@@ -50,7 +50,7 @@ export class SearchList extends React.Component {
 		);
 
 		if(!isEmpty(searchData)) {
-			var hitList = searchData.searchHit;
+			hitList = searchData.searchHit;
 			noResults = hitList.length === 0;
 		}
 
@@ -64,7 +64,7 @@ export class SearchList extends React.Component {
 						.map((item, index) => { return index === 0 ?
 							(<SearchItem key={index} data={item} extras={(<span>{'        '}<OverlayTrigger placement="bottom" overlay={tip_hit} >
 								<Glyphicon className="glyph-tip" glyph="info-sign" /></OverlayTrigger></span>)} />) :
-							(<SearchItem key={index} data={item} />)
+							(<SearchItem key={index} data={item} />);
 						})
 						.slice(0, !this.state.expanded ? listCutoff : undefined)
 					}

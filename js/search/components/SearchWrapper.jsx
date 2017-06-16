@@ -33,7 +33,7 @@ export class SearchWrapper extends React.Component {
 	}
 
 	handleLoading( isLoading ){
-		this.setState({loading: isLoading})
+		this.setState({loading: isLoading});
 	}
 
 	getSearchResult(queryObject) {
@@ -44,7 +44,7 @@ export class SearchWrapper extends React.Component {
 					searchResult: searchResult,
 					loading: false
 				});
-		});
+			});
 	}
 
 	updateSearchArg(updateObject) {
