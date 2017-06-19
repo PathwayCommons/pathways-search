@@ -1,6 +1,6 @@
 import React from 'react';
-import isArray from 'lodash/isArray';
-import isEqual from 'lodash/isEqual';
+import isArray from 'lodash.isarray';
+import isEqual from 'lodash.isequal';
 import queryString from 'query-string';
 import {search, datasources} from 'pathway-commons';
 import {queryFetch} from '../helpers/queryFetch.js';

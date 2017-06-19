@@ -1,7 +1,7 @@
 import React from 'react';
 import {Col, Image, Button } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import isEqual from 'lodash/isEqual';
+import isEqual from 'lodash.isequal';
 import queryString from 'query-string';
 
 import {datasources} from 'pathway-commons';

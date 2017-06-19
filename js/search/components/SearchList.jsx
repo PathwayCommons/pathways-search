@@ -1,7 +1,7 @@
 import React from 'react';
 import {Pagination, Modal, Media, Button, Glyphicon, OverlayTrigger, Popover} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import isEmpty from 'lodash/isEmpty';
+import isEmpty from 'lodash.isempty';
 import classNames from 'classnames';
 import {SearchItem} from './SearchItem.jsx';
 import {Splash} from '../../components/Splash.jsx';

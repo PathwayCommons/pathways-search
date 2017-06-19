@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import {Col, Button, Glyphicon} from 'react-bootstrap';
-import isEmpty from 'lodash/isEmpty';
+import isEmpty from 'lodash.isempty';
 import {saveAs} from 'file-saver';
 import {get} from 'pathway-commons';
 import {DownloadCard} from './DownloadCard.jsx';

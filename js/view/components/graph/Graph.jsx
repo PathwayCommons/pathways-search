@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import isEmpty from 'lodash/isEmpty';
+import isEmpty from 'lodash.isempty';
 
 import {Col, Row, DropdownButton, MenuItem} from 'react-bootstrap';
 
@@ -125,12 +125,6 @@ export class Graph extends React.Component {
 		}
 		if(cb) {
 			cb();
-		}
-	}
-
-	resetImage() {
-		if (!isEmpty(this.props.data)) {
-			this.renderGraph(this.state.graphInstance, this.props.data);
 		}
 	}
 
