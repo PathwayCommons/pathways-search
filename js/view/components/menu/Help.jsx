@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import {traverse} from 'pathway-commons';
-import isEmpty from 'lodash.isempty';
+import isEmpty from 'lodash/isEmpty';
 import {Thumbnail} from 'react-bootstrap';
 
 // Interactions
@@ -23,22 +23,19 @@ export class Help extends React.Component {
 						<dd>
 							<ul>
 								<li>
-									<a href="http://marvl.infotech.monash.edu/webcola/" target="_blank">Cola</a> - Constraint-based layout
+									<a href="http://marvl.infotech.monash.edu/webcola/" target="_blank">force-directed (cola)</a> - The Cola.js physics simulation layout for Cytoscape.js
 								</li>
 								<li>
-									<a href="https://github.com/cytoscape/cytoscape.js-dagre" target="_blank">Dagre</a> - Hierarchical and tree-like diagrams
+									<a href="http://www.sciencedirect.com/science/article/pii/S0020025508004799" target="_blank">force-directed (Cose-Bilkent)</a> - A force-directed layout algorithm for undirected compound graphs
 								</li>
 								<li>
-									<a href="https://github.com/OpenKieler/klayjs" target="_blank">Klay</a> - Directional node-link diagrams
+									<a href="https://github.com/cytoscape/cytoscape.js-dagre" target="_blank">tree / hierarchical (dagre)</a> - The Dagre layout for DAGs and trees for Cytoscape.js
 								</li>
 								<li>
-									<a href="http://www.cs.bilkent.edu.tr/~ivis/chilay.html" target="_blank">Chilay (Chisio Layout)</a> - Default using <a href="http://www.cs.bilkent.edu.tr/~ivis/cose.html" target="_blank">Compound Spring Embedder (CoSE)</a> for handling compound graphs
+									<a href="https://github.com/OpenKieler/klayjs" target="_blank">layered (klay)</a> - Layer-based layout for node-link diagrams
 								</li>
 								<li>
-									<a href="http://www.sciencedirect.com/science/article/pii/S0020025508004799" target="_blank">Cose-Bilkent</a> - A force-directed layout algorithm for undirected compound graphs
-								</li>
-								<li>
-									Stratified - Cellular compartments layered vertically
+									stratified (force-directed / layered) - Vertical ordering of common cellular compartments
 								</li>
 							</ul>
 						</dd>
@@ -46,10 +43,10 @@ export class Help extends React.Component {
 							Expand - collapse
 						</dt>
 						<dd>
-							Initially, 'compound' nodes - those entities composed of others - are collapsed to reduce complexity. Click the octogonal shape to show or hide contents.
+							Initially, complexes - those entities composed of others - are collapsed to reduce complexity. Click the octogonal shape to show or hide contents.
 							<Thumbnail className="help-figure" src="img/view/help/help_figure_collapse.png" alt="highligh-neighbours">
 								<p>
-									<strong>Expanding and collapsing nodes. </strong> A complex of the Bone Morphogenic Protein 2 (BMP) with its cognate Type I and Type II receptors (BMPR).
+									<strong>Expanding and collapsing complexes. </strong> A complex of the Bone Morphogenic Protein 2 (BMP) with its cognate Type I and Type II receptors (BMPR).
 								</p>
 				      </Thumbnail>
 						</dd>
@@ -57,7 +54,7 @@ export class Help extends React.Component {
 							Nearest neighbours
 						</dt>
 						<dd>
-							Hovering over a node triggers a highlight of the nearest neighbouring nodes and associated edges. Use this to following along a path of interest.
+							Hovering over a node triggers a highlight of the nearest neighbouring nodes and associated edges. Use this to follow a path of interest.
 							<Thumbnail className="help-figure" src="img/view/help/help_highlightNeighbour.png" alt="highligh-neighbours">
 								<p>
 									<strong>Highlighting neighbouring nodes and edges. </strong> The trans-phosphorylation of BMP2 in complex with receptors (BMPRI/II). Hovering over the process node (square) higlights  reaction participants and edges that are otherwise coloured light grey.
