@@ -1,7 +1,7 @@
 const coseBilkentLayout = (cy) => {
 	cy.layout({
 		name: 'cose-bilkent',
-		paddingCompound: 50,
+		paddingCompound: 90,
 		fit: true,
 		nodeRepulsion: 4500,
 		idealEdgeLength: 50,
