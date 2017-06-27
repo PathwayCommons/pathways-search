@@ -18,7 +18,7 @@ module.exports = {
         "react/jsx-uses-vars": [2],
         "indent": [
             "error",
-            "tab"
+            2
         ],
         "linebreak-style": [
             "error",
