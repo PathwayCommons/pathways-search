@@ -16,11 +16,20 @@ export const layoutMap = new Map()
 .set('stratified force directed', stratifiedLayout)
 .set('stratified layered', stratifiedKlayLayout);
 
-
 export const defaultLayout = 'layered (klay)';
 
 export const layoutNames = [...layoutMap.keys()];
 
-export const performLayout = (layout, cy, graphJSON={}, options={}) => {
-	return layoutMap.get(layout)(cy, graphJSON, options);
+export const getDefaultLayout = (cy) => {
+  let layout = 'layered (klay)';
+
+  if (cy.nodes().size() <= 75) {
+    layout = 'force directed (CoSE-Bilkent)';
+  }
+
+  return layout;
+};
+
+export const performLayout = (layout, cy, graphJSON = {}, options = {}) => {
+  return layoutMap.get(layout)(cy, graphJSON, options);
 };

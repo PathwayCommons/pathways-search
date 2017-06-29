@@ -8,7 +8,7 @@ import convertSbgn from 'sbgnml-to-cytoscape';
 
 import {initGraph} from './init';
 import {reduceGraphComplexity} from './complexityReduction';
-import {defaultLayout, layoutNames, layoutMap} from './layout';
+import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout';
 import {saveAs} from 'file-saver';
 import {Spinner} from '../../../components/Spinner.jsx';
 import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
@@ -99,14 +99,17 @@ export class Graph extends React.Component {
 		this.props.updateGlobal('graphImage', (isFullscreen, cb) => this.exportImage(isFullscreen, cb));
 
 		// Perform render
-		this.state.graphRendered = true;
 		const graphJSON = convertSbgn(sbgnString);
-		this.state.graphInstance.remove('*');
-		this.state.graphInstance.add(graphJSON);
+		const cy = this.state.graphInstance;
+		cy.remove('*');
+		cy.add(graphJSON);
 
-		reduceGraphComplexity(this.state.graphInstance);
+		const layout = getDefaultLayout(cy);
 
-		this.performLayout(this.state.layout, graphJSON);
+		reduceGraphComplexity(cy);
+
+		this.performLayout(layout, graphJSON);
+		this.state.graphRendered = true;
 	}
 
 	performLayout(layoutName, graphJSON={}, options={}) {
