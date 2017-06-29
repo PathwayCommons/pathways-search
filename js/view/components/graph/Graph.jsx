@@ -109,6 +109,8 @@ export class Graph extends React.Component {
 		reduceGraphComplexity(cy);
 
 		this.performLayout(layout, graphJSON);
+
+		this.state.layout = layout;
 		this.state.graphRendered = true;
 	}
 
