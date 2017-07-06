@@ -10,7 +10,7 @@ import stratifiedKlayLayout from './layout/stratifiedKlay';
 export const layoutMap = new Map()
 .set('force directed (cola)', colaLayout)
 .set('force directed (CoSE-Bilkent)', coseBilkentLayout)
-.set('tree / heirarchical (dagre)', dagreLayout)
+.set('tree / hierarchical (dagre)', dagreLayout)
 .set('Pathway Commons Preset', presetLayout)
 .set('layered (klay)', klayLayout)
 .set('stratified force directed', stratifiedLayout)
