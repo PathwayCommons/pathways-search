@@ -79,7 +79,7 @@ export const initGraph = (graphContainer) => {
     const neighborhoodEdgeStyleProps = ['arrow-scale', 'line-color', 'opacity'];
     neighborhood.edges().forEach((edge) => edge.scratch('_hover-style-before', storeStyle(edge, neighborhoodEdgeStyleProps)));
     neighborhood.edges().style({
-      'arrow-scale': 2,
+      'arrow-scale': 3,
       'line-color': 'orange',
       'opacity': 1
     });
@@ -108,9 +108,10 @@ export const initGraph = (graphContainer) => {
 
   graphInstance.on('mouseover', 'edge', function (evt) {
     const edge = evt.target;
-    const edgeStyleProps = ['line-color', 'opacity'];
+    const edgeStyleProps = ['line-color', 'opacity', 'arrow-scale'];
     edge.scratch('_hover-style-before', storeStyle(edge, edgeStyleProps));
     edge.style({
+      'arrow-scale': 3,
       'line-color': 'orange',
       'opacity': 1
     });
