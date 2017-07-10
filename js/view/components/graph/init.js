@@ -35,20 +35,20 @@ export const initGraph = (graphContainer) => {
     cueEnabled: false
   });
 
+  const storeStyle = (ele, keys) => {
+    const storedStyleProps = {};
+
+    for (let key of keys) {
+      storedStyleProps[key] = ele.style(key);
+    }
+
+    return storedStyleProps;
+  };
+  
   graphInstance.on('mouseover', 'node', function (evt) {
     const node = evt.target;
     
     if (node.data('class') === 'compartment') { return; }
-
-    const storeStyle = (ele, keys) => {
-      const storedStyleProps = {};
-
-      for (let key of keys) {
-        storedStyleProps[key] = ele.style(key);
-      }
-
-      return storedStyleProps;
-    };
 
     const neighborhood = node.neighborhood();
 
@@ -108,16 +108,22 @@ export const initGraph = (graphContainer) => {
 
   graphInstance.on('mouseover', 'edge', function (evt) {
     const edge = evt.target;
+    const edgeStyleProps = ['line-color', 'opacity'];
+    edge.scratch('_hover-style-before', storeStyle(edge, edgeStyleProps));
     edge.style({
       'line-color': 'orange',
       'opacity': 1
     });
 
+    const sourceStyleProps = ['bkacground-color', 'z-compound-depth'];
+    edge.source().scratch('_hover-style-before', storeStyle(edge.source(), sourceStyleProps));
     edge.source().style({
       'background-color': 'blue',
       'z-compound-depth': 'top'
 
     });
+
+    edge.target().scratch('_hover-style-before', storeStyle(edge.target(), sourceStyleProps));
     edge.target().style({
       'background-color': 'blue',
       'z-compound-depth': 'top'
@@ -126,19 +132,15 @@ export const initGraph = (graphContainer) => {
 
   graphInstance.on('mouseout', 'edge', function (evt) {
     const edge = evt.target;
-    edge.style({
-      'line-color': 'black',
-      'opacity': 0.3
-    });
 
-    edge.source().style({
-      'background-color': 'white',
-      'z-compound-depth': 'auto'
-    });
-    edge.target().style({
-      'background-color': 'white',
-      'z-compound-depth': 'auto'
-    });
+    edge.style(edge.scratch('_hover-style-before'));
+    edge.removeScratch('_hover-style-before');
+
+    edge.source().style(edge.source().scratch('_hover-style-before'));
+    edge.source().removeScratch('_hover-style-before');
+
+    edge.target().style(edge.target().scratch('_hover-style-before'));
+    edge.target().removeScratch('_hover-style-before');
   });
 
   graphInstance.on('tap', 'node[class="complex"], node[class="complex multimer"]', function (evt) {
