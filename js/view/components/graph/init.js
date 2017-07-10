@@ -115,16 +115,26 @@ export const initGraph = (graphContainer) => {
       'opacity': 1
     });
 
-    const sourceStyleProps = ['bkacground-color', 'z-compound-depth'];
+    const sourceStyleProps = ['font-size', 'color', 'text-outline-color', 'text-outline-width', 'background-color', 'opacity', 'z-compound-depth'];
+
     edge.source().scratch('_hover-style-before', storeStyle(edge.source(), sourceStyleProps));
     edge.source().style({
+      'font-size': 40,
+      'color': 'white',
+      'text-outline-color': 'black',
+      'text-outline-width': 3,
+      'opacity': 1,
       'background-color': 'blue',
       'z-compound-depth': 'top'
-
     });
 
     edge.target().scratch('_hover-style-before', storeStyle(edge.target(), sourceStyleProps));
     edge.target().style({
+      'font-size': 40,
+      'color': 'white',
+      'text-outline-color': 'black',
+      'text-outline-width': 3,
+      'opacity': 1,
       'background-color': 'blue',
       'z-compound-depth': 'top'
     });
