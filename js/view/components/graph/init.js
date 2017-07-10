@@ -10,18 +10,14 @@ import dagre from 'cytoscape-dagre';
 
 import expandCollapse from 'cytoscape-expand-collapse';
 
-cytoscape.use( expandCollapse );   // TODO use cytoscape 3.x when these are compatible
+import stylesheet from './stylesheet';
+
+
+cytoscape.use( expandCollapse );
 cytoscape.use( cola );
 cytoscape.use( coseBilkent );
 cytoscape.use( dagre );
 cytoscape.use( klay, klayjs ); // cytoscape 3.x extension register
-
-
-const styleSheet = sbgnStyleSheet(cytoscape)
-.selector('edge')
-.css({
-  'opacity': 0.3
-});
 
 // set the sbgn style sheet
 // bind interaction events (mouse hovering, collapsing)
@@ -146,7 +142,7 @@ export const initGraph = (graphContainer) => {
 =======
 	const graphInstance = cytoscape({
 		container: graphContainer,
-		style: styleSheet,
+		style: stylesheet,
 		minZoom: 0.2,
 		maxZoom: 2
 	});
