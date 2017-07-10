@@ -1,5 +1,4 @@
 import cytoscape from 'cytoscape';
-import sbgnStyleSheet from 'cytoscape-sbgn-stylesheet';
 
 //layouts
 import cola from 'cytoscape-cola';
@@ -22,10 +21,9 @@ cytoscape.use( klay, klayjs ); // cytoscape 3.x extension register
 // set the sbgn style sheet
 // bind interaction events (mouse hovering, collapsing)
 export const initGraph = (graphContainer) => {
-<<<<<<< 7affa00960d722d1e0c8d50506076039672f0216
   const graphInstance = cytoscape({
     container: graphContainer,
-    style: sbgnStyleSheet(cytoscape),
+    style: stylesheet,
     minZoom: 0.2,
     maxZoom: 2
   });
@@ -37,25 +35,51 @@ export const initGraph = (graphContainer) => {
     cueEnabled: false
   });
 
-  graphInstance.style().selector('edge').css({'opacity': 0.3});
-
   graphInstance.on('mouseover', 'node', function (evt) {
     const node = evt.target;
-    if (node.data('class') === 'compartment') {
-      return;
-    }
+    
+    if (node.data('class') === 'compartment') { return; }
+
+    const storeStyle = (ele, keys) => {
+      const storedStyleProps = {};
+
+      for (let key of keys) {
+        storedStyleProps[key] = ele.style(key);
+      }
+
+      return storedStyleProps;
+    };
+
     const neighborhood = node.neighborhood();
 
+    const nodeStyleProps = ['font-size', 'color', 'text-outline-color', 'text-outline-width', 'background-color', 'opacity'];
+    node.scratch('_hover-style-before', storeStyle(node, nodeStyleProps));
     node.style({
+      'font-size': 40,
+      'color': 'white',
+      'text-outline-color': 'black',
+      'text-outline-width': 3,
       'background-color': 'blue',
       'opacity': 1
     });
+
+
+    const neighborhoodNodeStyleProps = ['font-size', 'color', 'text-outline-color', 'text-outline-width', 'background-color', 'opacity', 'z-compound-depth'];
+    neighborhood.nodes().forEach((node) => node.scratch('_hover-style-before', storeStyle(node, neighborhoodNodeStyleProps)));	
     neighborhood.nodes().style({
+      'font-size': 40,
+      'color': 'white',
+      'text-outline-color': 'black',
+      'text-outline-width': 3,
       'background-color': 'blue',
       'opacity': 1,
       'z-compound-depth': 'top'
     });
+    
+    const neighborhoodEdgeStyleProps = ['arrow-scale', 'line-color', 'opacity'];
+    neighborhood.edges().forEach((edge) => edge.scratch('_hover-style-before', storeStyle(edge, neighborhoodEdgeStyleProps)));
     neighborhood.edges().style({
+      'arrow-scale': 2,
       'line-color': 'orange',
       'opacity': 1
     });
@@ -68,16 +92,17 @@ export const initGraph = (graphContainer) => {
     }
     const neighborhood = node.neighborhood();
 
-    node.style({
-      'background-color': 'white',
+    node.style(node.scratch('_hover-style-before'));
+    node.removeScratch('_hover-style-before');
+
+    neighborhood.nodes().forEach((node) => {
+      node.style(node.scratch('_hover-style-before'));
+      node.removeScratch('_hover-style-before');
     });
-    neighborhood.nodes().style({
-      'background-color': 'white',
-      'z-compound-depth': 'auto'
-    });
-    neighborhood.edges().style({
-      'line-color': 'black',
-      'opacity': 0.3
+    
+    neighborhood.edges().forEach((edge) => {
+      edge.style(edge.scratch('_hover-style-before'));
+      edge.removeScratch('_hover-style-before');
     });
   });
 
@@ -124,150 +149,6 @@ export const initGraph = (graphContainer) => {
       api.collapse(node);
     } else {
       api.expand(node, {
-        layoutBy: () => {
-          node.children().layout({
-            name: 'grid',
-            fit: false,
-            avoidOverlap: true,
-            condense: true,
-            animate: true,
-            boundingBox: node.boundingBox({includeLabels: false})
-          }).run();
-        }
-      });
-    }
-  });
-
-  return graphInstance;
-=======
-	const graphInstance = cytoscape({
-		container: graphContainer,
-		style: stylesheet,
-		minZoom: 0.2,
-		maxZoom: 2
-	});
-
-	graphInstance.expandCollapse({
-		fisheye: true,
-		animate: true,
-		undoable: false,
-		cueEnabled: false
-	});
-
-	graphInstance.on('mouseover', 'node', function (evt) {
-		const node = evt.target;
-		
-		if (node.data('class') === 'compartment') { return; }
-
-		const storeStyle = (ele, keys) => {
-      const storedStyleProps = {};
-
-			for (let key of keys) {
-				storedStyleProps[key] = ele.style(key);
-			}
-
-			return storedStyleProps;
-		};
-
-		const neighborhood = node.neighborhood();
-
-    const nodeStyleProps = ['font-size', 'color', 'text-outline-color', 'text-outline-width', 'background-color', 'opacity'];
-		node.scratch('_hover-style-before', storeStyle(node, nodeStyleProps));
-		node.style({
-			'font-size': 40,
-			'color': 'white',
-			'text-outline-color': 'black',
-			'text-outline-width': 3,
-			'background-color': 'blue',
-			'opacity': 1
-		});
-
-
-    const neighborhoodNodeStyleProps = ['font-size', 'color', 'text-outline-color', 'text-outline-width', 'background-color', 'opacity', 'z-compound-depth'];
-		neighborhood.nodes().forEach((node) => node.scratch('_hover-style-before', storeStyle(node, neighborhoodNodeStyleProps)));	
-		neighborhood.nodes().style({
-      'font-size': 40,
-      'color': 'white',
-      'text-outline-color': 'black',
-      'text-outline-width': 3,
-			'background-color': 'blue',
-			'opacity': 1,
-			'z-compound-depth': 'top'
-		});
-		
-    const neighborhoodEdgeStyleProps = ['arrow-scale', 'line-color', 'opacity'];
-    neighborhood.edges().forEach((edge) => edge.scratch('_hover-style-before', storeStyle(edge, neighborhoodEdgeStyleProps)));
-		neighborhood.edges().style({
-      'arrow-scale': 2,
-			'line-color': 'orange',
-			'opacity': 1
-		});
-	});
-
-	graphInstance.on('mouseout', 'node', function (evt) {
-		const node = evt.target;
-		if (node.data('class') === 'compartment') {
-			return;
-		}
-		const neighborhood = node.neighborhood();
-
-		node.style(node.scratch('_hover-style-before'));
-		node.removeScratch('_hover-style-before');
-
-    neighborhood.nodes().forEach((node) => {
-      node.style(node.scratch('_hover-style-before'));
-      node.removeScratch('_hover-style-before');
-    });
-    
-    neighborhood.edges().forEach((edge) => {
-      edge.style(edge.scratch('_hover-style-before'));
-      edge.removeScratch('_hover-style-before');
-    });
-	});
-
-	graphInstance.on('mouseover', 'edge', function (evt) {
-		const edge = evt.target;
-		edge.style({
-			'line-color': 'orange',
-			'opacity': 1
-		});
-
-		edge.source().style({
-			'background-color': 'blue',
-			'z-compound-depth': 'top'
-
-		});
-		edge.target().style({
-			'background-color': 'blue',
-			'z-compound-depth': 'top'
-		});
-	});
-
-	graphInstance.on('mouseout', 'edge', function (evt) {
-		const edge = evt.target;
-		edge.style({
-			'line-color': 'black',
-			'opacity': 0.3
-		});
-
-		edge.source().style({
-			'background-color': 'white',
-			'z-compound-depth': 'auto'
-		});
-		edge.target().style({
-			'background-color': 'white',
-			'z-compound-depth': 'auto'
-		});
-	});
-
-	graphInstance.on('tap', 'node[class="complex"], node[class="complex multimer"]', function (evt) {
-		evt.preventDefault();
-		const node = evt.target;
-		const api = graphInstance.expandCollapse('get');
-		if (api.isCollapsible(node)) {
-			api.collapse(node);
-		} else {
-			api.expand(node, {
 				layoutBy: () => {
 					node.children().positions(node.position());
 					node.children().layout({
@@ -281,8 +162,7 @@ export const initGraph = (graphContainer) => {
 				}
 			});
 		}
-	});
+  });
 
-	return graphInstance;
->>>>>>> increases readability of labels on hover
+  return graphInstance;
 };
