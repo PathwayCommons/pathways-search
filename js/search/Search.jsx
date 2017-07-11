@@ -1,6 +1,6 @@
 import React from 'react';
 import {SearchWrapper} from './components/SearchWrapper.jsx';
-import {SearchBar} from './components/SearchBar.jsx';
+import {SearchHeader} from './components/SearchHeader.jsx';
 import {SearchList} from './components/SearchList.jsx';
 
 // Search
@@ -13,7 +13,7 @@ export class Search extends React.Component {
 		return (
 			<div className="Search">
 				<SearchWrapper {...this.props}>
-					<SearchBar/>
+					<SearchHeader/>
 					<SearchList/>
 				</SearchWrapper>
 			</div>

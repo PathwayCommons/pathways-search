@@ -2,9 +2,9 @@ import React from 'react';
 import {FormGroup, InputGroup, FormControl, ControlLabel, HelpBlock, Button} from 'react-bootstrap';
 import {Typeahead} from 'react-bootstrap-typeahead';
 import Toggle from 'react-toggle';
-import map from 'lodash/map';
-import isEmpty from 'lodash/isEmpty';
-import clone from 'lodash/clone';
+import map from 'lodash.map';
+import isEmpty from 'lodash.isempty';
+import clone from 'lodash.clone';
 import {datasources} from 'pathway-commons';
 import {queryFetch} from '../helpers/queryFetch.js';
 import {BioPaxClass} from "../../helpers/pc2.js";
@@ -15,8 +15,7 @@ const filterPropList = [
 	"datasource",
 	"lt",
 	"gt",
-	"enhance",
-	"escape"
+	"enhance"
 ]
 
 // SearchOptions
@@ -33,8 +32,7 @@ export class SearchOptions extends React.Component {
 			datasourceRef: [],
 			lt: this.props.query.lt || "",
 			gt: this.props.query.gt || "",
-			enhance: this.props.query.enhance || "",
-			escape: this.props.query.escape || ""
+			enhance: this.props.query.enhance || ""
 		};
 
 		Promise.all([
@@ -79,12 +77,9 @@ export class SearchOptions extends React.Component {
 	render() {
 		return (
 			<div className="SearchOptions">
-				<div className="optionsHeader">
-					<strong>Filter</strong>
-				</div>
 				<FormGroup>
 					<ControlLabel>
-						Datasources:
+						Datasources
 					</ControlLabel>
 					{
 						!isEmpty(this.state.datasourceRef) ?
@@ -106,7 +101,7 @@ export class SearchOptions extends React.Component {
 				</FormGroup>
 				<FormGroup>
 					<ControlLabel>
-						Minimum participants:
+						Minimum participants
 					</ControlLabel>
 					<FormControl
 						type="text"
@@ -120,7 +115,7 @@ export class SearchOptions extends React.Component {
 				</FormGroup>
 				<FormGroup>
 					<ControlLabel>
-						Maximum participants:
+						Maximum participants
 					</ControlLabel>
 					<FormControl
 						type="text"
@@ -130,31 +125,6 @@ export class SearchOptions extends React.Component {
 					/>
 					<HelpBlock>
 						Only search results with less than the number of participants displayed above will be shown. Alternatively, leave blank to disable maximum filtering.
-					</HelpBlock>
-				</FormGroup>
-				<div className="optionsHeader">
-					<strong>Search Options</strong>
-				</div>
-				<FormGroup>
-					<ControlLabel>
-						Enhanced Search:
-					</ControlLabel>
-					<div onClick={() => this.updateFilter("enhance", this.state.enhance !== "false" ? "false" : "true")}>
-						<Toggle checked={this.state.enhance !== "false"} onChange={() => {/* No op */}}/>
-					</div>
-					<HelpBlock>
-						Toggles advanced search query parsing; a system which attempts to refine search relevance, on or off. More information on what it does and how it works is available in the FAQ.
-					</HelpBlock>
-				</FormGroup>
-				<FormGroup>
-					<ControlLabel>
-						Lucene Escape Input:
-					</ControlLabel>
-					<div onClick={() => this.updateFilter("escape", this.state.escape !== "false" ? "false" : "true")}>
-						<Toggle checked={this.state.escape !== "false"} onChange={() => {/* No op */}}/>
-					</div>
-					<HelpBlock>
-						Escapes user input to ensure that any Lucene special characters do not interfere with search. Overridden when search enhance is enabled. Recommend leaving enabled unless you intend to enter Lucene manually.
 					</HelpBlock>
 				</FormGroup>
 			</div>

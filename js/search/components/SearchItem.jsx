@@ -1,7 +1,7 @@
 import React from 'react';
-import {Col, Image} from 'react-bootstrap';
+import {Col, Image, Button } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import isEqual from 'lodash/isEqual';
+import isEqual from 'lodash.isequal';
 import queryString from 'query-string';
 
 import {datasources} from 'pathway-commons';
@@ -34,21 +34,22 @@ export class SearchItem extends React.Component {
 		var data = this.props.data;
 		return (
 			<div className="SearchItem clearfix">
-				<Col xs={3} className="src-thumbnail-container">
+				<Col sm={3} className="src-thumbnail-container hidden-xs">
 					<div className="src-thumbnail">
-						<Image src={this.state.imageSource}/>
+						<Image src={this.state.imageSource} />
 					</div>
 				</Col>
-				<Col xs={9}>
+				<Col className="metadata-wrapper" xs={12} sm={9}>
 					<div className="header">
-							<Link className="title" to={{pathname: "/pathway", search: queryString.stringify({uri: data.uri})}} target="_blank">
-								<strong>{data.name}</strong>
+							<Link to={{pathname: "/view", search: queryString.stringify({uri: data.uri})}} target="_blank">
+								<span className="title">{data.name}</span>
 							</Link>
+							{ this.props.extras }
 					</div>
 					<div className="subtext">
 							<span className="source">{data.sourceInfo.name}</span>
 							<br/>
-							<span className="participants">{(data.numParticipants || "0") + " Participants"}</span>
+							<span className="participants">{(data.numParticipants || "0") + " Participants"} </span>
 					</div>
 				</Col>
 			</div>

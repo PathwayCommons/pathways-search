@@ -4,39 +4,45 @@
 		width: 100%;
 	}
 
-	& .splashModal {
-		position: relative;
-		z-index: 1000;
-	}
-
-	& .splashImage {
-		max-width: 70%;
-		margin: 20px auto;
+	& .modal-dialog {
+		& .modal-content{
+			& .modal-body{
+				padding: 4em;
+			}
+		}
 	}
 
 	& a {
 		cursor: pointer;
 	}
 
-	& .text {
-		line-height: 20px;
-		color: var(--darkGrey);
-	}
-
-	& .subtext {
-		font-size: 12px;
-		color: var(--darkGrey);
-	}
 
 	& .moreResults {
-		cursor: pointer;
-		text-align: center;
-		padding: 30px 0px;
-		color: var(--lightBlue);
+		& .btn {
+			margin: 1em auto;
+			background-color: var(--clouds);
+			width: 12em;
+			opacity: 0.9;
+			color: var(--midnightBlue);
+			font-size: 1.2em;
+		}
 	}
 
 	/* Flat-UI mobile view css fix */
 	& .pagination {
 		padding: 0;
 	}
+}
+
+@media (--screen-xxs) {
+	.SearchList {
+		& .modal-dialog {
+			& .modal-content{
+				& .modal-body{
+					padding: 1em;
+				}
+			}
+		}
+	}
+
 }

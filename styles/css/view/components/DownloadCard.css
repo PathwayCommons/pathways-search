@@ -1,0 +1,19 @@
+.DownloadCard {
+	padding: 1em;
+	margin-bottom: 1em;
+	background-color: var(--clouds);
+
+	& .downloadButton {
+		font-size: 17px;
+		padding: 5px 0px;
+		width: 100%;
+		margin-bottom: 10px;
+		background-color: var(--paleAsphalt);
+		color: var(--clouds);
+	}
+
+	& .descriptiveText {
+		font-size: 15px;
+		text-align: left;
+	}
+}

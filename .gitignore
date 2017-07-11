@@ -5,3 +5,5 @@
 bundle.js
 npm-debug.log
 stats.json
+*.iml
+.idea

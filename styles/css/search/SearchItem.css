@@ -8,35 +8,42 @@
 
 		& .src-thumbnail {
 			display: table-cell;
-			vertical-align: middle;
+			vertical-align: top;
 			text-align: center;
+			padding-top: 5px;
 		}
 
 		& img {
 			max-height: 80px;
-			max-width: 80%;
 		}
 	}
 
-	& .subtext {
-		font-size: 16px;
+	& .metadata-wrapper {
+
+		& .title {
+			font-size: 1.5em;
+		}
+
+		& .subtext {
+			& .source {
+				font-size: 1.2em;
+			}
+			& .participants {
+				font-size: 1.1em;
+				color: var(--asbestos);
+			}
+		}
 	}
 
-	& .title {
-		margin-bottom: 5px;
-		color: var(--darkBlue);
+	& .glyph-tip {
+		font-size: 2em;
 	}
+}
 
-	& .title:hover {
-		cursor: pointer;
-		color: var(--lightBlue);
-		text-decoration: underline;
-	}
-
-	& .participants {
-		border-radius: 10px;
-		background-color: var(--lightBlue);
-		color: var(--white);
-		padding: 2px 10px;
+@media (--screen-xxs) {
+	.SearchItem {
+		& .glyph-tip {
+			font-size: 1.9em;
+		}
 	}
 }
