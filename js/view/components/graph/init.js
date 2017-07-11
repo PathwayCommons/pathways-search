@@ -10,7 +10,7 @@ import dagre from 'cytoscape-dagre';
 
 import expandCollapse from 'cytoscape-expand-collapse';
 
-expandCollapse( cytoscape );   // TODO use cytoscape 3.x when these are compatible
+cytoscape.use( expandCollapse );   // TODO use cytoscape 3.x when these are compatible
 cytoscape.use( cola );
 cytoscape.use( coseBilkent );
 cytoscape.use( dagre );
@@ -112,28 +112,6 @@ export const initGraph = (graphContainer) => {
 		});
 	});
 
-	let parentPos;
-	graphInstance.on('expandcollapse.beforeexpand', function (evt) {
-		parentPos = evt.target.position();
-	});
-
-	graphInstance.on('expandcollapse.afterexpand', function (evt) {
-		const node = evt.target;
-		graphInstance.zoomingEnabled(false);
-		node.children().position(parentPos);
-		node.children().layout({
-			name:'grid',
-			fit: 'false',
-			avoidOverlap: true,
-			condense: true,
-			animate: true,
-			rows: node.children().size() / 2,
-			cols: node.children().size() / 2,
-			boundingBox: node.boundingBox()
-		}).run();
-		graphInstance.zoomingEnabled(true);
-	});
-
 	graphInstance.on('tap', 'node[class="complex"], node[class="complex multimer"]', function (evt) {
 		evt.preventDefault();
 		const node = evt.target;
@@ -141,7 +119,19 @@ export const initGraph = (graphContainer) => {
 		if (api.isCollapsible(node)) {
 			api.collapse(node);
 		} else {
-			api.expand(node);
+			api.expand(node, {
+				layoutBy: () => {
+					node.children().positions(node.position());
+					node.children().layout({
+						name: 'grid',
+						fit: false,
+						avoidOverlap: true,
+						condense: true,
+						animate: true,
+						boundingBox: node.boundingBox()
+					}).run();
+				}
+			});
 		}
 	});
 
