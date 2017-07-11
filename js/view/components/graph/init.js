@@ -121,14 +121,13 @@ export const initGraph = (graphContainer) => {
 		} else {
 			api.expand(node, {
 				layoutBy: () => {
-					node.children().positions(node.position());
 					node.children().layout({
 						name: 'grid',
 						fit: false,
 						avoidOverlap: true,
 						condense: true,
 						animate: true,
-						boundingBox: node.boundingBox()
+						boundingBox: node.boundingBox({includeLabels: false})
 					}).run();
 				}
 			});
