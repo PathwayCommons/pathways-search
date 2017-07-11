@@ -44,9 +44,14 @@ export const initGraph = (graphContainer) => {
 
     return storedStyleProps;
   };
-  
+
   graphInstance.on('mouseover', 'node', function (evt) {
     const node = evt.target;
+
+    const scalingFactor = ( 1 / graphInstance.zoom() );
+    const dynamicFontSize = scalingFactor * 25;
+    const dynamicFontOutlineWidth = scalingFactor * 3;
+    const dynamicArrowSize = scalingFactor * 2.5;
     
     if (node.data('class') === 'compartment') { return; }
 
@@ -55,10 +60,10 @@ export const initGraph = (graphContainer) => {
     const nodeStyleProps = ['font-size', 'color', 'text-outline-color', 'text-outline-width', 'background-color', 'opacity'];
     node.scratch('_hover-style-before', storeStyle(node, nodeStyleProps));
     node.style({
-      'font-size': 40,
+      'font-size': dynamicFontSize,
       'color': 'white',
       'text-outline-color': 'black',
-      'text-outline-width': 3,
+      'text-outline-width': dynamicFontOutlineWidth,
       'background-color': 'blue',
       'opacity': 1
     });
@@ -67,10 +72,10 @@ export const initGraph = (graphContainer) => {
     const neighborhoodNodeStyleProps = ['font-size', 'color', 'text-outline-color', 'text-outline-width', 'background-color', 'opacity', 'z-compound-depth'];
     neighborhood.nodes().forEach((node) => node.scratch('_hover-style-before', storeStyle(node, neighborhoodNodeStyleProps)));	
     neighborhood.nodes().style({
-      'font-size': 40,
+      'font-size': dynamicFontSize,
       'color': 'white',
       'text-outline-color': 'black',
-      'text-outline-width': 3,
+      'text-outline-width': dynamicFontOutlineWidth,
       'background-color': 'blue',
       'opacity': 1,
       'z-compound-depth': 'top'
@@ -79,7 +84,7 @@ export const initGraph = (graphContainer) => {
     const neighborhoodEdgeStyleProps = ['arrow-scale', 'line-color', 'opacity'];
     neighborhood.edges().forEach((edge) => edge.scratch('_hover-style-before', storeStyle(edge, neighborhoodEdgeStyleProps)));
     neighborhood.edges().style({
-      'arrow-scale': 3,
+      'arrow-scale': dynamicArrowSize,
       'line-color': 'orange',
       'opacity': 1
     });
@@ -87,6 +92,7 @@ export const initGraph = (graphContainer) => {
 
   graphInstance.on('mouseout', 'node', function (evt) {
     const node = evt.target;
+
     if (node.data('class') === 'compartment') {
       return;
     }
@@ -108,10 +114,16 @@ export const initGraph = (graphContainer) => {
 
   graphInstance.on('mouseover', 'edge', function (evt) {
     const edge = evt.target;
+
+    const scalingFactor = ( 1 / graphInstance.zoom() );
+    const dynamicFontSize = scalingFactor * 25;
+    const dynamicFontOutlineWidth = scalingFactor * 3;
+    const dynamicArrowSize = scalingFactor * 2.5;
+
     const edgeStyleProps = ['line-color', 'opacity', 'arrow-scale'];
     edge.scratch('_hover-style-before', storeStyle(edge, edgeStyleProps));
     edge.style({
-      'arrow-scale': 3,
+      'arrow-scale': dynamicArrowSize,
       'line-color': 'orange',
       'opacity': 1
     });
@@ -120,10 +132,10 @@ export const initGraph = (graphContainer) => {
 
     edge.source().scratch('_hover-style-before', storeStyle(edge.source(), sourceStyleProps));
     edge.source().style({
-      'font-size': 40,
+      'font-size': dynamicFontSize,
       'color': 'white',
       'text-outline-color': 'black',
-      'text-outline-width': 3,
+      'text-outline-width': dynamicFontOutlineWidth,
       'opacity': 1,
       'background-color': 'blue',
       'z-compound-depth': 'top'
@@ -131,10 +143,10 @@ export const initGraph = (graphContainer) => {
 
     edge.target().scratch('_hover-style-before', storeStyle(edge.target(), sourceStyleProps));
     edge.target().style({
-      'font-size': 40,
+      'font-size': dynamicFontSize,
       'color': 'white',
       'text-outline-color': 'black',
-      'text-outline-width': 3,
+      'text-outline-width': dynamicFontOutlineWidth,
       'opacity': 1,
       'background-color': 'blue',
       'z-compound-depth': 'top'
@@ -162,19 +174,19 @@ export const initGraph = (graphContainer) => {
       api.collapse(node);
     } else {
       api.expand(node, {
-				layoutBy: () => {
-					node.children().positions(node.position());
-					node.children().layout({
-						name: 'grid',
-						fit: false,
-						avoidOverlap: true,
-						condense: true,
-						animate: true,
-						boundingBox: node.boundingBox()
-					}).run();
-				}
-			});
-		}
+        layoutBy: () => {
+          node.children().positions(node.position());
+          node.children().layout({
+            name: 'grid',
+            fit: false,
+            avoidOverlap: true,
+            condense: true,
+            animate: true,
+            boundingBox: node.boundingBox()
+          }).run();
+        }
+      });
+    }
   });
 
   return graphInstance;
