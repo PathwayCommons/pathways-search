@@ -45,13 +45,24 @@ export const initGraph = (graphContainer) => {
     return storedStyleProps;
   };
 
+  const dynamicScalingfactors = (zoom) => {
+    const scalingFactor = ( 1 / zoom );
+
+    const dynamicFontSize = Math.max(scalingFactor * 18, 18);
+    const dynamicFontOutlineWidth = Math.max(scalingFactor * 3, 3);
+    const dynamicArrowScale = Math.max(scalingFactor * 2.5, 2.5);
+
+    return {
+      fontSize: dynamicFontSize,
+      outlineWidth: dynamicFontOutlineWidth,
+      arrowScale: dynamicArrowScale
+    };
+  };
+
   graphInstance.on('mouseover', 'node', function (evt) {
     const node = evt.target;
 
-    const scalingFactor = ( 1 / graphInstance.zoom() );
-    const dynamicFontSize = scalingFactor * 25;
-    const dynamicFontOutlineWidth = scalingFactor * 3;
-    const dynamicArrowSize = scalingFactor * 2.5;
+    const { fontSize, outlineWidth, arrowScale } = dynamicScalingfactors(graphInstance.zoom());
     
     if (node.data('class') === 'compartment') { return; }
 
@@ -60,10 +71,10 @@ export const initGraph = (graphContainer) => {
     const nodeStyleProps = ['font-size', 'color', 'text-outline-color', 'text-outline-width', 'background-color', 'opacity'];
     node.scratch('_hover-style-before', storeStyle(node, nodeStyleProps));
     node.style({
-      'font-size': dynamicFontSize,
+      'font-size': fontSize,
       'color': 'white',
       'text-outline-color': 'black',
-      'text-outline-width': dynamicFontOutlineWidth,
+      'text-outline-width': outlineWidth,
       'background-color': 'blue',
       'opacity': 1
     });
@@ -72,10 +83,10 @@ export const initGraph = (graphContainer) => {
     const neighborhoodNodeStyleProps = ['font-size', 'color', 'text-outline-color', 'text-outline-width', 'background-color', 'opacity', 'z-compound-depth'];
     neighborhood.nodes().forEach((node) => node.scratch('_hover-style-before', storeStyle(node, neighborhoodNodeStyleProps)));	
     neighborhood.nodes().style({
-      'font-size': dynamicFontSize,
+      'font-size': fontSize,
       'color': 'white',
       'text-outline-color': 'black',
-      'text-outline-width': dynamicFontOutlineWidth,
+      'text-outline-width': outlineWidth,
       'background-color': 'blue',
       'opacity': 1,
       'z-compound-depth': 'top'
@@ -84,7 +95,7 @@ export const initGraph = (graphContainer) => {
     const neighborhoodEdgeStyleProps = ['arrow-scale', 'line-color', 'opacity'];
     neighborhood.edges().forEach((edge) => edge.scratch('_hover-style-before', storeStyle(edge, neighborhoodEdgeStyleProps)));
     neighborhood.edges().style({
-      'arrow-scale': dynamicArrowSize,
+      'arrow-scale': arrowScale,
       'line-color': 'orange',
       'opacity': 1
     });
@@ -115,15 +126,12 @@ export const initGraph = (graphContainer) => {
   graphInstance.on('mouseover', 'edge', function (evt) {
     const edge = evt.target;
 
-    const scalingFactor = ( 1 / graphInstance.zoom() );
-    const dynamicFontSize = scalingFactor * 25;
-    const dynamicFontOutlineWidth = scalingFactor * 3;
-    const dynamicArrowSize = scalingFactor * 2.5;
+    const { fontSize, outlineWidth, arrowScale } = dynamicScalingfactors(graphInstance.zoom());
 
     const edgeStyleProps = ['line-color', 'opacity', 'arrow-scale'];
     edge.scratch('_hover-style-before', storeStyle(edge, edgeStyleProps));
     edge.style({
-      'arrow-scale': dynamicArrowSize,
+      'arrow-scale': arrowScale,
       'line-color': 'orange',
       'opacity': 1
     });
@@ -132,10 +140,10 @@ export const initGraph = (graphContainer) => {
 
     edge.source().scratch('_hover-style-before', storeStyle(edge.source(), sourceStyleProps));
     edge.source().style({
-      'font-size': dynamicFontSize,
+      'font-size': fontSize,
       'color': 'white',
       'text-outline-color': 'black',
-      'text-outline-width': dynamicFontOutlineWidth,
+      'text-outline-width': outlineWidth,
       'opacity': 1,
       'background-color': 'blue',
       'z-compound-depth': 'top'
@@ -143,10 +151,10 @@ export const initGraph = (graphContainer) => {
 
     edge.target().scratch('_hover-style-before', storeStyle(edge.target(), sourceStyleProps));
     edge.target().style({
-      'font-size': dynamicFontSize,
+      'font-size': fontSize,
       'color': 'white',
       'text-outline-color': 'black',
-      'text-outline-width': dynamicFontOutlineWidth,
+      'text-outline-width': outlineWidth,
       'opacity': 1,
       'background-color': 'blue',
       'z-compound-depth': 'top'
