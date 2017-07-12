@@ -1,9 +1,10 @@
 import React from 'react';
-import {Pagination, Modal, Image} from 'react-bootstrap';
+import {Pagination, Modal, Media, Button, Glyphicon, OverlayTrigger, Popover} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import isEmpty from 'lodash/isEmpty';
+import isEmpty from 'lodash.isempty';
 import classNames from 'classnames';
 import {SearchItem} from './SearchItem.jsx';
+import {Splash} from '../../components/Splash.jsx';
 import {HelpTooltip} from '../../components/HelpTooltip.jsx';
 import {ErrorMessage} from '../../components/ErrorMessage.jsx';
 
@@ -36,8 +37,20 @@ export class SearchList extends React.Component {
 		var noResults = null;
 		var listCutoff = 5;
 
+		const tip_hit = (
+			<Popover className="info-tip" id="popover-hit" placement="bottom" title="Search Hit">
+				Shown are each pathway's 'display name' and the original data source. 'Participants' refers to the number of physical entities including proteins and small molecules.
+			</Popover>
+		);
+
+		const tip_more_results = (
+			<Popover className="info-tip" id="popover-more-results" placement="bottom" title="More Results">
+				By default the top 5 pathways are displayed. Click to display up to 100 of the remaining search hits.
+			</Popover>
+		);
+
 		if(!isEmpty(searchData)) {
-			var hitList = searchData.searchHit;
+			hitList = searchData.searchHit;
 			noResults = hitList.length === 0;
 		}
 
@@ -46,18 +59,21 @@ export class SearchList extends React.Component {
 		} else if (hitList.length > 0) { // Generate search list if results available
 			return (
 				<div className="SearchList">
-					<HelpTooltip show={this.props.help} title="Search Results" placement="left" positionTop="180px">
-						This shows the top {listCutoff} pathways returned by Pathway Commons. Click on 'Show more results' to display the remaining 100 search hits returned. Participants refers to the number of physical entities such as proteins and small molecules
-					</HelpTooltip>
 					{
 						hitList
-						.map((item, index) => <SearchItem key={index} data={item}/>)
+						.map((item, index) => { return index === 0 ?
+							(<SearchItem key={index} data={item} extras={(<span>{'        '}<OverlayTrigger placement="bottom" overlay={tip_hit} >
+								<Glyphicon className="glyph-tip" glyph="info-sign" /></OverlayTrigger></span>)} />) :
+							(<SearchItem key={index} data={item} />);
+						})
 						.slice(0, !this.state.expanded ? listCutoff : undefined)
 					}
 					{
 						!this.state.expanded && hitList.length > listCutoff ?
 						<div className="moreResults" onClick={() => this.setState({expanded: true})}>
-							Show More Results ...
+							<OverlayTrigger delayShow={1000} placement="top" overlay={tip_more_results} >
+								<Button bsSize="large" block>More Results</Button>
+							</OverlayTrigger>
 						</div>
 						: null
 					}
@@ -72,32 +88,7 @@ export class SearchList extends React.Component {
 		} else {
 			// Assume, either on home page or search results not loaded, generate splash screen
 			return (
-				<div className="SearchList">
-					<Modal.Dialog className="splashModal">
-						<Modal.Body>
-							<h6 className="text-center">
-								Search <a href="http://www.pathwaycommons.org/">Pathway Commons</a>
-							</h6>
-							<div className="text">
-								<Image src='img/splash_infographic.svg' className="splashImage" responsive/>
-								Access the entire collection of metabolic pathways, signalling pathways and gene regulatory networks sourced from  <a href="http://www.pathwaycommons.org/pc2/datasources">public pathway databases</a>.
-							</div>
-							<br/>
-							<div className="subtext text-right">
-								<a href="https://www.ncbi.nlm.nih.gov/pubmed/21071392">Pathway Commons, a web resource for biological pathway data.</a><br/> Cerami E et al. Nucleic Acids Research (2011).
-							</div>
-						</Modal.Body>
-						<Modal.Footer>
-							<Link to="/faq">
-								FAQ
-							</Link>
-							{"  |  "}
-							<a href="https://groups.google.com/forum/#!forum/pathway-commons-help/">
-								Help
-							</a>
-						</Modal.Footer>
-					</Modal.Dialog>
-				</div>
+				<Splash />
 			);
 		}
 	}

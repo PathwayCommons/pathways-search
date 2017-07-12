@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import {traverse} from 'pathway-commons';
-import isEmpty from 'lodash/isEmpty';
+import isEmpty from 'lodash.isempty';
 
 // Interactions
 // Prop Dependencies ::
