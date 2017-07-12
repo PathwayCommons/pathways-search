@@ -4,21 +4,29 @@ import coseBilkentLayout from './layout/coseBilkent';
 import dagreLayout from './layout/dagre';
 import presetLayout from './layout/preset';
 import klayLayout from './layout/klay';
-import stratifiedLayout from './layout/stratified';
-import stratifiedKlayLayout from './layout/stratifiedKlay';
 
 export const layoutMap = new Map()
-.set('force directed (cola)', colaLayout)
-.set('force directed (CoSE-Bilkent)', coseBilkentLayout)
 .set('tree / hierarchical (dagre)', dagreLayout)
-.set('Pathway Commons Preset', presetLayout)
 .set('layered (klay)', klayLayout)
-.set('stratified force directed', stratifiedLayout)
-.set('stratified layered', stratifiedKlayLayout);
+.set('Pathway Commons Preset', presetLayout)
+.set('force directed (cola)', colaLayout)
+.set('force directed (CoSE-Bilkent)', coseBilkentLayout);
 
 export const defaultLayout = 'layered (klay)';
 
-export const layoutNames = [...layoutMap.keys()];
+export const layoutNames = (graphSize) => {
+  let defaults = [...layoutMap.keys()];
+
+  if (graphSize >= 75) {
+    const index = defaults.indexOf('force directed (CoSE-Bilkent)');
+
+    if (index > -1) {
+      defaults.splice(index, 1);
+    }
+  }
+
+  return defaults;
+};
 
 export const getDefaultLayout = (cy) => {
   let layout = 'layered (klay)';

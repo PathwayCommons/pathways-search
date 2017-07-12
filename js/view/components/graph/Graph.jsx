@@ -29,7 +29,8 @@ export class Graph extends React.Component {
 			graphEmpty: false,
 			width: '100vw',
 			height: '85vh',
-			layout: defaultLayout
+			layout: defaultLayout,
+			availableLayouts: []
 		};
 	}
 
@@ -111,6 +112,7 @@ export class Graph extends React.Component {
 		this.performLayout(layout, graphJSON);
 
 		this.state.layout = layout;
+		this.state.availableLayouts = layoutNames(this.state.graphInstance.nodes().size());
 		this.state.graphRendered = true;
 	}
 
@@ -134,7 +136,7 @@ export class Graph extends React.Component {
 	}
 
 	render() {
-		const layoutDropdownItems = layoutNames.map((layoutName) =>
+		const layoutDropdownItems = this.state.availableLayouts.map((layoutName) =>
 			<MenuItem key={layoutName} onClick={() => this.setState({layout: layoutName})}>
 				{layoutName}
 			</MenuItem>
