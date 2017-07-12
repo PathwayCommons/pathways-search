@@ -31,9 +31,9 @@ export const layoutNames = (graphSize) => {
 export const getDefaultLayout = (cy) => {
   let layout = 'layered (klay)';
 
-  if (cy.nodes().size() <= 75) {
-    layout = 'force directed (CoSE-Bilkent)';
-  }
+  // if (cy.nodes().size() <= 75) {
+  //   layout = 'force directed (CoSE-Bilkent)';
+  // }
 
   return layout;
 };
