@@ -1,4 +1,5 @@
 import cytoscape from 'cytoscape';
+import extend from 'extend';
 
 //layouts
 import cola from 'cytoscape-cola';
@@ -50,17 +51,20 @@ export const initGraph = (graphContainer) => {
     const defaults = {
       fontSize: 80,
       outlineWidth: 8,
-      arrowScale: 8
+      arrowScale: 8,
+      edgeWidth: 4,
     };
 
     const dynamicFontSize = Math.min(defaults.fontSize, Math.max(scalingFactor * 18, 18));
     const dynamicFontOutlineWidth = Math.min(defaults.outlineWidth, Math.max(scalingFactor * 3, 3));
     const dynamicArrowScale = Math.min(defaults.arrowScale, Math.max(scalingFactor * 2.5, 2.5));
+    const dynamicEdgewidth = Math.min(defaults.edgeWidth, Math.max(scalingFactor * 2.5, 2.5));
 
     return {
       fontSize: dynamicFontSize,
       outlineWidth: dynamicFontOutlineWidth,
-      arrowScale: dynamicArrowScale
+      arrowScale: dynamicArrowScale,
+      edgeWidth: dynamicEdgewidth
     };
   };
 
@@ -86,35 +90,73 @@ export const initGraph = (graphContainer) => {
     });
   };
 
+  const scaledDimensions = (node, zoom) => {
+    const nw = node.outerWidth();
+    const nh = node.outerHeight();
+
+    if (nw === 0 || nh === 0) { return { w: 0, h: 0};}
+
+    const scaledVal = (1 / zoom) * 3;
+    const aspectRatio = nw / nh;
+    let xIncr = 0;
+    let yIncr = 0;
+
+    if (aspectRatio > 1) {
+      xIncr = nw + scaledVal;
+      yIncr = nh + (scaledVal / aspectRatio);
+    } else {
+      xIncr = nw + (scaledVal / aspectRatio);
+      yIncr = nh + scaledVal;
+    }
+
+    return {
+      w: xIncr,
+      h: yIncr
+    };
+  };
+
+  const baseNodeHoverStyle =  {
+    'background-color': 'blue',
+    'opacity': 1,
+    'z-compound-depth': 'top',
+    'color': 'white',
+    'text-outline-color': 'black'
+  };
+
+  const baseEdgeHoverStyle = {
+    'line-color': 'orange',
+    'opacity': 1
+  };
+
   graphInstance.on('mouseover', 'node', function (evt) {
     const node = evt.target;
+    const currZoom = graphInstance.zoom();
 
     if (node.data('class') === 'compartment') { return; }
     if (node.isParent()) { return; }
 
-    const { fontSize, outlineWidth, arrowScale } = dynamicScalingfactors(graphInstance.zoom());
-    
-    const nodeHoverStyle = {
-      'font-size': fontSize,
-      'color': 'white',
-      'text-outline-color': 'black',
-      'text-outline-width': outlineWidth,
-      'background-color': 'blue',
-      'opacity': 1,
-      'z-compound-depth': 'top'
-    };
+    const { fontSize, outlineWidth, arrowScale, edgeWidth } = dynamicScalingfactors(currZoom);
 
-    const edgeHoverStyle = {
+
+    node.neighborhood().nodes().union(node).forEach((node) => {
+      const { w, h } = scaledDimensions(node, currZoom);
+
+      const nodeHoverStyle = extend({}, baseNodeHoverStyle, {
+        'font-size': fontSize,
+        'text-outline-width': outlineWidth,
+        'width': w,
+        'height': h
+      });
+
+      applyHoverStyle(node, nodeHoverStyle);
+    });
+
+    const edgeHoverStyle = extend({}, baseEdgeHoverStyle, {
       'arrow-scale': arrowScale,
-      'line-color': 'orange',
-      'opacity': 1
-    };
+      'width': edgeWidth
+    });
 
-    const neighborhood = node.neighborhood();
-
-    applyHoverStyle(neighborhood.nodes(), nodeHoverStyle);
-    applyHoverStyle(node, nodeHoverStyle);
-    applyHoverStyle(neighborhood.edges(), edgeHoverStyle);
+    applyHoverStyle(node.neighborhood().edges(), edgeHoverStyle);
   });
 
   graphInstance.on('mouseout', 'node', function (evt) {
@@ -131,28 +173,32 @@ export const initGraph = (graphContainer) => {
 
   graphInstance.on('mouseover', 'edge', function (evt) {
     const edge = evt.target;
+    const currZoom = graphInstance.zoom();
 
-    const { fontSize, outlineWidth, arrowScale } = dynamicScalingfactors(graphInstance.zoom());
+    const { fontSize, outlineWidth, arrowScale, edgeWidth } = dynamicScalingfactors(currZoom);
 
-    const edgeHoverStyle = {
+    const edgeHoverStyle = extend({}, baseEdgeHoverStyle, {
       'arrow-scale': arrowScale,
-      'line-color': 'orange',
-      'opacity': 1
-    };
-
-    const nodeHoverStyle = {
-      'font-size': fontSize,
-      'color': 'white',
-      'text-outline-color': 'black',
-      'text-outline-width': outlineWidth,
-      'opacity': 1,
-      'background-color': 'blue',
-      'z-compound-depth': 'top'
-    };
-
+      'width': edgeWidth
+    });
     applyHoverStyle(edge, edgeHoverStyle);
-    applyHoverStyle(edge.source(), nodeHoverStyle);
-    applyHoverStyle(edge.target(), nodeHoverStyle);
+
+
+    edge.source().union(edge.target()).forEach((node) => {
+      const { w, h } = scaledDimensions(node, currZoom);
+      const nodeHoverStyle = extend({}, baseNodeHoverStyle, {
+        'width': w,
+        'height': h,
+        'font-size': fontSize,
+        'color': 'white',
+        'text-outline-color': 'black',
+        'text-outline-width': outlineWidth,
+        'opacity': 1,
+        'background-color': 'blue',
+        'z-compound-depth': 'top'
+      });
+      applyHoverStyle(node, nodeHoverStyle);
+    });
   });
 
   graphInstance.on('mouseout', 'edge', function (evt) {
