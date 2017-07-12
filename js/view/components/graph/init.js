@@ -90,6 +90,7 @@ export const initGraph = (graphContainer) => {
     const node = evt.target;
 
     if (node.data('class') === 'compartment') { return; }
+    if (node.isParent()) { return; }
 
     const { fontSize, outlineWidth, arrowScale } = dynamicScalingfactors(graphInstance.zoom());
     
