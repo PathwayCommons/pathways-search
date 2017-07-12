@@ -47,10 +47,15 @@ export const initGraph = (graphContainer) => {
 
   const dynamicScalingfactors = (zoom) => {
     const scalingFactor = ( 1 / zoom );
+    const defaults = {
+      fontSize: 80,
+      outlineWidth: 8,
+      arrowScale: 8
+    };
 
-    const dynamicFontSize = Math.max(scalingFactor * 18, 18);
-    const dynamicFontOutlineWidth = Math.max(scalingFactor * 3, 3);
-    const dynamicArrowScale = Math.max(scalingFactor * 2.5, 2.5);
+    const dynamicFontSize = Math.min(defaults.fontSize, Math.max(scalingFactor * 18, 18));
+    const dynamicFontOutlineWidth = Math.min(defaults.outlineWidth, Math.max(scalingFactor * 3, 3));
+    const dynamicArrowScale = Math.min(defaults.arrowScale, Math.max(scalingFactor * 2.5, 2.5));
 
     return {
       fontSize: dynamicFontSize,
@@ -59,30 +64,36 @@ export const initGraph = (graphContainer) => {
     };
   };
 
+  const applyHoverStyle = (eles, style) => {
+    const stylePropNames = Object.keys(style);
+
+    eles.forEach((ele) => {
+      ele.scratch('_hover-style-before', storeStyle(ele, stylePropNames));
+    });
+    
+    graphInstance.batch(function () {
+      eles.style(style);
+    });
+  };
+
+  const removeHoverStyle = (eles) => {
+
+    graphInstance.batch(function () {
+      eles.forEach((ele) => {
+        ele.style(ele.scratch('_hover-style-before'));
+        ele.removeScratch('_hover-style-before');
+      });
+    });
+  };
+
   graphInstance.on('mouseover', 'node', function (evt) {
     const node = evt.target;
 
-    const { fontSize, outlineWidth, arrowScale } = dynamicScalingfactors(graphInstance.zoom());
-    
     if (node.data('class') === 'compartment') { return; }
 
-    const neighborhood = node.neighborhood();
-
-    const nodeStyleProps = ['font-size', 'color', 'text-outline-color', 'text-outline-width', 'background-color', 'opacity'];
-    node.scratch('_hover-style-before', storeStyle(node, nodeStyleProps));
-    node.style({
-      'font-size': fontSize,
-      'color': 'white',
-      'text-outline-color': 'black',
-      'text-outline-width': outlineWidth,
-      'background-color': 'blue',
-      'opacity': 1
-    });
-
-
-    const neighborhoodNodeStyleProps = ['font-size', 'color', 'text-outline-color', 'text-outline-width', 'background-color', 'opacity', 'z-compound-depth'];
-    neighborhood.nodes().forEach((node) => node.scratch('_hover-style-before', storeStyle(node, neighborhoodNodeStyleProps)));	
-    neighborhood.nodes().style({
+    const { fontSize, outlineWidth, arrowScale } = dynamicScalingfactors(graphInstance.zoom());
+    
+    const nodeHoverStyle = {
       'font-size': fontSize,
       'color': 'white',
       'text-outline-color': 'black',
@@ -90,37 +101,31 @@ export const initGraph = (graphContainer) => {
       'background-color': 'blue',
       'opacity': 1,
       'z-compound-depth': 'top'
-    });
-    
-    const neighborhoodEdgeStyleProps = ['arrow-scale', 'line-color', 'opacity'];
-    neighborhood.edges().forEach((edge) => edge.scratch('_hover-style-before', storeStyle(edge, neighborhoodEdgeStyleProps)));
-    neighborhood.edges().style({
+    };
+
+    const edgeHoverStyle = {
       'arrow-scale': arrowScale,
       'line-color': 'orange',
       'opacity': 1
-    });
+    };
+
+    const neighborhood = node.neighborhood();
+
+    applyHoverStyle(neighborhood.nodes(), nodeHoverStyle);
+    applyHoverStyle(node, nodeHoverStyle);
+    applyHoverStyle(neighborhood.edges(), edgeHoverStyle);
   });
 
   graphInstance.on('mouseout', 'node', function (evt) {
     const node = evt.target;
 
-    if (node.data('class') === 'compartment') {
-      return;
-    }
+    if (node.data('class') === 'compartment') { return; }
+
     const neighborhood = node.neighborhood();
 
-    node.style(node.scratch('_hover-style-before'));
-    node.removeScratch('_hover-style-before');
-
-    neighborhood.nodes().forEach((node) => {
-      node.style(node.scratch('_hover-style-before'));
-      node.removeScratch('_hover-style-before');
-    });
-    
-    neighborhood.edges().forEach((edge) => {
-      edge.style(edge.scratch('_hover-style-before'));
-      edge.removeScratch('_hover-style-before');
-    });
+    removeHoverStyle(neighborhood.nodes());
+    removeHoverStyle(node);
+    removeHoverStyle(neighborhood.edges());
   });
 
   graphInstance.on('mouseover', 'edge', function (evt) {
@@ -128,18 +133,13 @@ export const initGraph = (graphContainer) => {
 
     const { fontSize, outlineWidth, arrowScale } = dynamicScalingfactors(graphInstance.zoom());
 
-    const edgeStyleProps = ['line-color', 'opacity', 'arrow-scale'];
-    edge.scratch('_hover-style-before', storeStyle(edge, edgeStyleProps));
-    edge.style({
+    const edgeHoverStyle = {
       'arrow-scale': arrowScale,
       'line-color': 'orange',
       'opacity': 1
-    });
+    };
 
-    const sourceStyleProps = ['font-size', 'color', 'text-outline-color', 'text-outline-width', 'background-color', 'opacity', 'z-compound-depth'];
-
-    edge.source().scratch('_hover-style-before', storeStyle(edge.source(), sourceStyleProps));
-    edge.source().style({
+    const nodeHoverStyle = {
       'font-size': fontSize,
       'color': 'white',
       'text-outline-color': 'black',
@@ -147,31 +147,19 @@ export const initGraph = (graphContainer) => {
       'opacity': 1,
       'background-color': 'blue',
       'z-compound-depth': 'top'
-    });
+    };
 
-    edge.target().scratch('_hover-style-before', storeStyle(edge.target(), sourceStyleProps));
-    edge.target().style({
-      'font-size': fontSize,
-      'color': 'white',
-      'text-outline-color': 'black',
-      'text-outline-width': outlineWidth,
-      'opacity': 1,
-      'background-color': 'blue',
-      'z-compound-depth': 'top'
-    });
+    applyHoverStyle(edge, edgeHoverStyle);
+    applyHoverStyle(edge.source(), nodeHoverStyle);
+    applyHoverStyle(edge.target(), nodeHoverStyle);
   });
 
   graphInstance.on('mouseout', 'edge', function (evt) {
     const edge = evt.target;
 
-    edge.style(edge.scratch('_hover-style-before'));
-    edge.removeScratch('_hover-style-before');
-
-    edge.source().style(edge.source().scratch('_hover-style-before'));
-    edge.source().removeScratch('_hover-style-before');
-
-    edge.target().style(edge.target().scratch('_hover-style-before'));
-    edge.target().removeScratch('_hover-style-before');
+    removeHoverStyle(edge);
+    removeHoverStyle(edge.source());
+    removeHoverStyle(edge.target());
   });
 
   graphInstance.on('tap', 'node[class="complex"], node[class="complex multimer"]', function (evt) {
