@@ -173,9 +173,9 @@ const bindEvents = (cy) => {
     const node = evt.target;
     const api = cy.expandCollapse('get');
     if (api.isCollapsible(node)) {
-      api.collapse(node);
+      api.collapseRecursively(node);
     } else {
-      api.expand(node, {
+      api.expandRecursively(node, {
         layoutBy: () => {
           node.children().positions(node.position());
           node.children().layout({
