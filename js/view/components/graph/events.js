@@ -94,7 +94,7 @@ const baseEdgeHoverStyle = {
 };
 
 const bindEvents = (cy) => {
-  cy.on('mouseover', 'node > node', function (evt) {
+  cy.on('mouseover', 'node[class!="compartment"]', function (evt) {
     const node = evt.target;
     const currZoom = cy.zoom();
 
@@ -121,7 +121,7 @@ const bindEvents = (cy) => {
     applyHoverStyle(cy, node.neighborhood().edges(), edgeHoverStyle);
   });
 
-  cy.on('mouseout', 'node > node', function (evt) {
+  cy.on('mouseout', 'node[class!="compartment"]', function (evt) {
     const node = evt.target;
     const neighborhood = node.neighborhood();
 
