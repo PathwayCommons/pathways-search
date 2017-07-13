@@ -2,16 +2,17 @@ const klayLayout = (cy) => {
   cy.layout({
     name: 'klay',
     klay: {
-      borderSpacing: 50,
+      borderSpacing: 10,
       separateConnectedComponents: true,
       aspectRatio: cy.width() / cy.height(),
-      thoroughness: 7,
+      thoroughness: 100,
       compactComponents: false,
-      spacing: 75,
-      edgeSpacingFactor: 0.5,
+      spacing: 50,
+      edgeSpacingFactor: 0.01,
+      linearSegmentsDeflectionDampening: 3.9,
       layoutHierarchy: true
     },
-    nodeDimensionsIncludeLabels: true
+    nodeDimensionsIncludeLabels: false
   }).run();
 };
 
