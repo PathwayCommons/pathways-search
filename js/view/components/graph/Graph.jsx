@@ -114,9 +114,9 @@ export class Graph extends React.Component {
 
     this.state.layout = layout;
     // set max zoom level to the fit of the graph
-    cy.fit();
+    cy.fit(null, 15);
     cy.maxZoom(1 / cy.zoom());
-    cy.minZoom(cy.zoom());
+    cy.minZoom(cy.zoom() - 0.05);
     this.state.availableLayouts = layoutNames(this.state.graphInstance.nodes().size());
 		this.state.graphRendered = true;
 	}
