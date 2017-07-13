@@ -24,9 +24,7 @@ cytoscape.use( klay, klayjs ); // cytoscape 3.x extension register
 export const initGraph = (graphContainer) => {
   const graphInstance = cytoscape({
     container: graphContainer,
-    style: stylesheet,
-    minZoom: 0.2,
-    maxZoom: 2
+    style: stylesheet
   });
 
   graphInstance.expandCollapse({
