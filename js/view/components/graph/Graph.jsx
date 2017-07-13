@@ -8,7 +8,7 @@ import convertSbgn from 'sbgnml-to-cytoscape';
 
 import {initGraph} from './init';
 import {reduceGraphComplexity} from './complexityReduction';
-import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout';
+import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout/';
 import {saveAs} from 'file-saver';
 import {Spinner} from '../../../components/Spinner.jsx';
 import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
@@ -88,7 +88,10 @@ export class Graph extends React.Component {
 
 	// Graph rendering is not tracked by React
 	renderGraph(sbgnString) {
-		this.handleResize();
+		const graphJSON = convertSbgn(sbgnString);
+		const cy = this.state.graphInstance;
+
+    this.handleResize();
 		// Add listener to take care of resize events
 		if (window.addEventListener) {
 			window.addEventListener('resize', () => {
@@ -100,8 +103,6 @@ export class Graph extends React.Component {
 		this.props.updateGlobal('graphImage', (isFullscreen, cb) => this.exportImage(isFullscreen, cb));
 
 		// Perform render
-		const graphJSON = convertSbgn(sbgnString);
-		const cy = this.state.graphInstance;
 		cy.remove('*');
 		cy.add(graphJSON);
 
@@ -111,8 +112,12 @@ export class Graph extends React.Component {
 
 		this.performLayout(layout, graphJSON);
 
-		this.state.layout = layout;
-		this.state.availableLayouts = layoutNames(this.state.graphInstance.nodes().size());
+    this.state.layout = layout;
+    // set max zoom level to the fit of the graph
+    cy.fit(null, 15);
+    cy.maxZoom(1 / cy.zoom());
+    cy.minZoom(cy.zoom() - 0.05);
+    this.state.availableLayouts = layoutNames(this.state.graphInstance.nodes().size());
 		this.state.graphRendered = true;
 	}
 

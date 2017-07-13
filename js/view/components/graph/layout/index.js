@@ -1,9 +1,8 @@
-// import {colaLayout} from './layout/cola';
-import colaLayout from './layout/cola.js';
-import coseBilkentLayout from './layout/coseBilkent';
-import dagreLayout from './layout/dagre';
-import presetLayout from './layout/preset';
-import klayLayout from './layout/klay';
+import colaLayout from './cola';
+import coseBilkentLayout from './coseBilkent';
+import dagreLayout from './dagre';
+import presetLayout from './preset';
+import klayLayout from './klay';
 
 export const layoutMap = new Map()
 .set('tree / hierarchical (dagre)', dagreLayout)
@@ -17,7 +16,7 @@ export const defaultLayout = 'layered (klay)';
 export const layoutNames = (graphSize) => {
   let defaults = [...layoutMap.keys()];
 
-  if (graphSize >= 75) {
+  if (graphSize >= 120) {
     const index = defaults.indexOf('force directed (CoSE-Bilkent)');
 
     if (index > -1) {
