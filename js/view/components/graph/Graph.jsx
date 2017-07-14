@@ -106,23 +106,27 @@ export class Graph extends React.Component {
     cy.remove('*');
     cy.add(graphJSON);
 
-    const layout = getDefaultLayout(cy);
+    const layout = getDefaultLayout(cy.nodes().size());
 
     reduceGraphComplexity(cy);
 
     this.performLayout(layout, graphJSON);
 
     this.state.layout = layout;
-    // set max zoom level to the fit of the graph
-    cy.fit(null, 15);
-    cy.maxZoom(1 / cy.zoom());
-    cy.minZoom(cy.zoom() - 0.05);
-    this.state.availableLayouts = layoutNames(this.state.graphInstance.nodes().size());
+
+    this.state.availableLayouts = layoutNames(cy.nodes().size());
     this.state.graphRendered = true;
   }
 
   performLayout(layoutName, graphJSON={}, options={}) {
-    layoutMap.get(layoutName)(this.state.graphInstance, options);
+    const cy = this.state.graphInstance;
+    const layout = cy.layout(layoutMap.get(layoutName));
+    layout.pon('layoutstop').then((evt) => {
+      cy.fit(null, 15);
+      cy.maxZoom(1 / cy.zoom());
+      cy.minZoom(cy.zoom() - 0.05);
+    });
+    layout.run();
   }
 
   exportImage(isFullscreen, cb) {
