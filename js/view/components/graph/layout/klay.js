@@ -1,19 +1,16 @@
-const klayLayout = (cy) => {
-  cy.layout({
-    name: 'klay',
-    klay: {
-      borderSpacing: 10,
-      separateConnectedComponents: true,
-      aspectRatio: cy.width() / cy.height(),
-      thoroughness: 100,
-      compactComponents: false,
-      spacing: 50,
-      edgeSpacingFactor: 0.01,
-      linearSegmentsDeflectionDampening: 3.9,
-      layoutHierarchy: true
-    },
-    nodeDimensionsIncludeLabels: false
-  }).run();
+const klayOpts = {
+  name: 'klay',
+  klay: {
+    borderSpacing: 10,
+    separateConnectedComponents: true,
+    thoroughness: 100,
+    compactComponents: false,
+    spacing: 40,
+    edgeSpacingFactor: 2.0,
+
+    layoutHierarchy: true
+  },
+  nodeDimensionsIncludeLabels: false
 };
 
-export default klayLayout;
+export default klayOpts;

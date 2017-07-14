@@ -1,16 +1,16 @@
-const colaLayout = (cy) => {
-  cy.layout({
-    name: 'cola',
-    fit: true,
-    randomize: false,
-    nodeSpacing: function( node ){
-      if (node.data('class').includes('process')) {
-        return 40;
-      } else {
-        return 0;
-      }
-    } // extra spacing around nodes
-  }).run();
+const colaOpts = {
+  name: 'cola',
+  fit: true,
+  randomize: false,
+  nodeSpacing: function( node ){
+    if (node.data('class').includes('process')) {
+      return 40;
+    }
+    if (node.data('class').includes('complex' )) {
+      return 60;
+    }
+    return 10;
+  } // extra spacing around nodes
 };
 
-export default colaLayout;
+export default colaOpts;

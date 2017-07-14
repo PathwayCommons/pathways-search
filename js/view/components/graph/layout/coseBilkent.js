@@ -1,13 +1,12 @@
-const coseBilkentLayout = (cy) => {
-  cy.layout({
-    name: 'cose-bilkent',
-    fit: true,
-    randomize: false,
-    animationEasing: 'ease-out-cubic',
-    animationDuration: 2000,
-    tilingPaddingVertical: 20,
-    tilingPaddingHorizontal: 20
-  }).run();
+const coseBilkentOpts = {
+  name: 'cose-bilkent',
+  fit: true,
+  randomize: false,
+  animate: 'end',
+  animationEasing: 'ease-out-cubic',
+  animationDuration: 1500,
+  tilingPaddingVertical: 20,
+  tilingPaddingHorizontal: 20,
 };
 
-export default coseBilkentLayout;
+export default coseBilkentOpts;

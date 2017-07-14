@@ -13,10 +13,10 @@ const storeStyle = (ele, keys) => {
 const dynamicScalingfactors = (zoom) => {
   const scalingFactor = ( 1 / zoom );
   const defaults = {
-    fontSize: 80,
-    outlineWidth: 8,
-    arrowScale: 4,
-    edgeWidth: 4,
+    fontSize: 40,
+    outlineWidth: 4,
+    arrowScale: 3,
+    edgeWidth: 2,
   };
 
   const dynamicFontSize = Math.min(defaults.fontSize, Math.max(scalingFactor * 18, 18));
