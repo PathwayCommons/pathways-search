@@ -17,13 +17,13 @@ export class Search extends React.Component {
 		this.props.logPageView( this.props.history.location );
 	}
 
-	// THis is bad since it doesn't diff - need to find a better way...
-	componentDidUpdate(prevProps, prevState) {
-		if( this.props.history.location.search ){
+	componentWillReceiveProps( nextProps ) {
+		const locationChanged = nextProps.location !== this.props.location;
+		if( locationChanged ){
 			this.props.logEvent({
 				category: 'Search',
 				action: 'query',
-				label: this.props.history.location.search
+				label: nextProps.location.search
 			});
 		}
 	}
