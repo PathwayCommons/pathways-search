@@ -8,6 +8,7 @@ import {Alert} from 'react-bootstrap';
 import {Search} from './search/Search.jsx';
 import {View} from './view/View.jsx';
 import {PageNotFound} from './PageNotFound.jsx';
+import ReactGA from 'react-ga';
 
 // Index
 // Prop Dependencies ::
@@ -21,6 +22,7 @@ export class Index extends React.Component {
 			pcOnline: true,
 			...this.handlePropUpdates(this.props)
 		};
+		ReactGA.initialize('UA-43341809-7');
 		this.pcLiveCheck();
 	}
 
@@ -30,6 +32,17 @@ export class Index extends React.Component {
 			this.setState(this.handlePropUpdates(nextProps));
 			this.pcLiveCheck();
 		}
+	}
+
+	logPageView( loc ) {
+		// console.log( 'PageView: ', loc.pathname );
+		ReactGA.set( { page: loc.pathname } );
+	  ReactGA.pageview( loc.pathname );
+	}
+
+	logEvent( e ) {
+		// console.log( 'Event: ', e );
+		ReactGA.event( e );
 	}
 
 	pcLiveCheck() {
@@ -75,8 +88,8 @@ export class Index extends React.Component {
 					}
 					<Switch>
 						<Route exact path="/" render={() => <Redirect to="/search"/>}/>
-						<Route path="/search" render={props => <Search {...props} {...globalObject}/>}/>
-						<Route path="/view" render={props => <View {...props} {...globalObject}/>}/>
+						<Route path="/search" render={props => <Search {...props} {...globalObject} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
+						<Route path="/view" render={props => <View {...props} {...globalObject} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
 						<Route path="*" render={props => <PageNotFound {...props} {...globalObject}/>}/>
 					</Switch>
 				</div>

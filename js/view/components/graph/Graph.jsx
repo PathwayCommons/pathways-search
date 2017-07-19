@@ -8,7 +8,7 @@ import convertSbgn from 'sbgnml-to-cytoscape';
 
 import {initGraph} from './init';
 import {reduceGraphComplexity} from './complexityReduction';
-import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout';
+import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout/';
 import {saveAs} from 'file-saver';
 import {Spinner} from '../../../components/Spinner.jsx';
 import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
@@ -19,157 +19,166 @@ import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
 // - deleteGlobal
 // - data
 export class Graph extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			graphId: this.props.id || Math.floor(Math.random() * Math.pow(10, 8)) + 1,
-			graphContainer: {},
-			graphInstance: {},
-			graphRendered: false,
-			graphEmpty: false,
-			width: '100vw',
-			height: '85vh',
-			layout: defaultLayout,
-			availableLayouts: []
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      graphId: this.props.id || Math.floor(Math.random() * Math.pow(10, 8)) + 1,
+      graphContainer: {},
+      graphInstance: {},
+      graphRendered: false,
+      graphEmpty: false,
+      width: '100vw',
+      height: '85vh',
+      layout: defaultLayout,
+      availableLayouts: []
+    };
+  }
 
-	componentWillUpdate(nextProps, nextState) {
-		if (nextState.layout !== this.state.layout) {
-			this.performLayout(nextState.layout, this.state.graphInstance);
-		}
-	}
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.layout !== this.state.layout) {
+      this.performLayout(nextState.layout, this.state.graphInstance);
+    }
+  }
 
-	componentWillUnmount() {
-		this.props.deleteGlobal('graphImage');
-		this.state.graphInstance.destroy();
-	}
+  componentWillUnmount() {
+    this.props.deleteGlobal('graphImage');
+    this.state.graphInstance.destroy();
+  }
 
-	componentDidMount() {
-		const graphContainer = document.getElementById(this.state.graphId);
-		const graphInstance = initGraph(graphContainer);
+  componentDidMount() {
+    const graphContainer = document.getElementById(this.state.graphId);
+    const graphInstance = initGraph(graphContainer);
 
-		this.setState({
-			graphInstance: graphInstance,
-			graphContainer: graphContainer
-		});
-		this.checkRenderGraph(this.props.data);
-	}
+    this.setState({
+      graphInstance: graphInstance,
+      graphContainer: graphContainer
+    });
+    this.checkRenderGraph(this.props.data);
+  }
 
-	shouldComponentUpdate(nextProps, nextState) {
-		this.checkRenderGraph(nextProps.data);
-		return true;
-	}
+  shouldComponentUpdate(nextProps, nextState) {
+    this.checkRenderGraph(nextProps.data);
+    return true;
+  }
 
-	handleResize() {
-		var xPosition = 0;
-		var yPosition = 0;
+  handleResize() {
+    var xPosition = 0;
+    var yPosition = 0;
 
-		var element = this.state.graphContainer;
-		while (element) {
-			yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
-			element = element.offsetParent;
-		}
+    var element = this.state.graphContainer;
+    while (element) {
+      yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+      element = element.offsetParent;
+    }
 
-		var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-		var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-		this.setState({
-			width: w,
-			height: h - yPosition
-		});
-	}
+    this.setState({
+      width: w,
+      height: h - yPosition
+    });
+  }
 
-	checkRenderGraph(data) {
-		if (!isEmpty(data) && (!this.state.graphRendered)) {
-			this.renderGraph(data);
-		}
-	}
+  checkRenderGraph(data) {
+    if (!isEmpty(data) && (!this.state.graphRendered)) {
+      this.renderGraph(data);
+    }
+  }
 
-	// Graph rendering is not tracked by React
-	renderGraph(sbgnString) {
-		this.handleResize();
-		// Add listener to take care of resize events
-		if (window.addEventListener) {
-			window.addEventListener('resize', () => {
-				this.handleResize();
-			}, true);
-		}
+  // Graph rendering is not tracked by React
+  renderGraph(sbgnString) {
+    const graphJSON = convertSbgn(sbgnString);
+    const cy = this.state.graphInstance;
 
-		// Set global graphImage
-		this.props.updateGlobal('graphImage', (isFullscreen, cb) => this.exportImage(isFullscreen, cb));
+    this.handleResize();
+    // Add listener to take care of resize events
+    if (window.addEventListener) {
+      window.addEventListener('resize', () => {
+        this.handleResize();
+      }, true);
+    }
 
-		// Perform render
-		const graphJSON = convertSbgn(sbgnString);
-		const cy = this.state.graphInstance;
-		cy.remove('*');
-		cy.add(graphJSON);
+    // Set global graphImage
+    this.props.updateGlobal('graphImage', (isFullscreen, cb) => this.exportImage(isFullscreen, cb));
 
-		const layout = getDefaultLayout(cy);
+    // Perform render
+    cy.remove('*');
+    cy.add(graphJSON);
 
-		reduceGraphComplexity(cy);
+    const layout = getDefaultLayout(cy.nodes().size());
 
-		this.performLayout(layout, graphJSON);
+    reduceGraphComplexity(cy);
 
-		this.state.layout = layout;
-		this.state.availableLayouts = layoutNames(this.state.graphInstance.nodes().size());
-		this.state.graphRendered = true;
-	}
+    this.performLayout(layout, graphJSON);
 
-	performLayout(layoutName, graphJSON={}, options={}) {
-		layoutMap.get(layoutName)(this.state.graphInstance, options);
-	}
+    this.state.layout = layout;
 
-	exportImage(isFullscreen, cb) {
-		if (!isEmpty(this.state.graphInstance)) {
-			var imgBlob = this.state.graphInstance.png({
-				output: 'blob',
-				scale: 5,
-				bg: 'white',
-				full: Boolean(isFullscreen)
-			});
-			saveAs(imgBlob, 'Graph' + this.state.graphId + '.png');
-		}
-		if(cb) {
-			cb();
-		}
-	}
+    this.state.availableLayouts = layoutNames(cy.nodes().size());
+    this.state.graphRendered = true;
+  }
 
-	render() {
-		const layoutDropdownItems = this.state.availableLayouts.map((layoutName) =>
-			<MenuItem key={layoutName} onClick={() => this.setState({layout: layoutName})}>
-				{layoutName}
-			</MenuItem>
-		);
+  performLayout(layoutName, graphJSON={}, options={}) {
+    const cy = this.state.graphInstance;
+    const layout = cy.layout(layoutMap.get(layoutName));
+    layout.pon('layoutstop').then((evt) => {
+      cy.fit(null, 15);
+      cy.maxZoom(1 / cy.zoom());
+      cy.minZoom(cy.zoom() - 0.05);
+    });
+    layout.run();
+  }
 
-		if (!this.state.graphEmpty) {
-			return (
-				<div className={classNames('Graph', this.props.hidden
-					? 'visibilityHidden'
-					: '')}>
-					<Row>
-						<Col xsOffset={1} xs={9} smOffset={2} sm={2}>
-							<DropdownButton id="layout" bsStyle="default" pullRight={true} bsSize="large" block title={`Layout | ${this.state.layout}`}>
-								{layoutDropdownItems}
-							</DropdownButton>
-						</Col>
-					</Row>
-					<div className="SpinnerContainer">
-						<Spinner hidden={this.state.graphRendered}/>
-					</div>
-					<div id={this.state.graphId} style={{
-						width: this.state.width,
-						height: this.state.height
-					}}/>
-				</div>
-			);
-		}
-		else {
-			return (
-				<ErrorMessage className={classNames('Graph', this.props.hidden ? 'visibilityHidden' : '')}>
-					No Paths Found
-				</ErrorMessage>
-			);
-		}
-	}
+  exportImage(isFullscreen, cb) {
+    if (!isEmpty(this.state.graphInstance)) {
+      var imgBlob = this.state.graphInstance.png({
+        output: 'blob',
+        scale: 5,
+        bg: 'white',
+        full: Boolean(isFullscreen)
+      });
+      saveAs(imgBlob, 'Graph' + this.state.graphId + '.png');
+    }
+    if(cb) {
+      cb();
+    }
+  }
+
+  render() {
+    const layoutDropdownItems = this.state.availableLayouts.map((layoutName) =>
+      <MenuItem key={layoutName} onClick={() => this.setState({layout: layoutName})}>
+        {layoutName}
+      </MenuItem>
+    );
+
+    if (!this.state.graphEmpty) {
+      return (
+        <div className={classNames('Graph', this.props.hidden
+          ? 'visibilityHidden'
+          : '')}>
+          <Row>
+            <Col xsOffset={1} xs={9} smOffset={2} sm={2}>
+              <DropdownButton id="layout" bsStyle="default" pullRight={true} bsSize="large" block title={`Layout | ${this.state.layout}`}>
+                {layoutDropdownItems}
+              </DropdownButton>
+            </Col>
+          </Row>
+          <div className="SpinnerContainer">
+            <Spinner hidden={this.state.graphRendered}/>
+          </div>
+          <div id={this.state.graphId} style={{
+            width: this.state.width,
+            height: this.state.height
+          }}/>
+        </div>
+      );
+    }
+    else {
+      return (
+        <ErrorMessage className={classNames('Graph', this.props.hidden ? 'visibilityHidden' : '')}>
+          No Paths Found
+        </ErrorMessage>
+      );
+    }
+  }
 }

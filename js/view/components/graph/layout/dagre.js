@@ -1,8 +1,6 @@
-const dagreLayout = (cy) => {
-	cy.layout({
-		name: 'dagre',
-		rankDir: 'LR'
-	}).run();
+const dagreOpts = {
+  name: 'dagre',
+  rankDir: 'LR'
 };
 
-export default dagreLayout;
+export default dagreOpts;

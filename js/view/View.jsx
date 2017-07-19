@@ -10,6 +10,10 @@ import {ModalFramework} from './components/menu/ModalFramework.jsx';
 // View
 // Prop Dependencies ::
 // - query
+// - history
+// - logPageView
+// - logEvent
+
 export class View extends React.Component {
 	constructor(props) {
 		super(props);
@@ -39,6 +43,24 @@ export class View extends React.Component {
 			.format("json")
 			.fetch()
 			.then(responseObject => this.setState({datasource: responseObject.traverseEntry[0].value.pop()}));
+
+		this.props.logPageView( this.props.history.location );
+		this.props.logEvent({
+			category: 'View',
+			action: 'view',
+			label: this.props.query.uri
+		});
+	}
+
+	componentWillReceiveProps( nextProps ) {
+		const locationChanged = nextProps.location !== this.props.location;
+		if( locationChanged ){
+			this.props.logEvent({
+				category: 'View',
+				action: 'view',
+				label: this.props.query.uri
+			});
+		}
 	}
 
 	render() {
