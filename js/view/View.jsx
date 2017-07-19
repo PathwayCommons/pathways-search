@@ -52,6 +52,17 @@ export class View extends React.Component {
 		});
 	}
 
+	componentWillReceiveProps( nextProps ) {
+		const locationChanged = nextProps.location !== this.props.location;
+		if( locationChanged ){
+			this.props.logEvent({
+				category: 'View',
+				action: 'view',
+				label: this.props.query.uri
+			});
+		}
+	}
+
 	render() {
 		const tip_help = (
 			<Popover className="info-tip hidden-xs" id="popover-help" placement="bottom" title="Help">
