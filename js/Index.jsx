@@ -35,13 +35,13 @@ export class Index extends React.Component {
 	}
 
 	logPageView( loc ) {
-		console.log( 'PageView: ', loc.pathname );
+		// console.log( 'PageView: ', loc.pathname );
 		ReactGA.set( { page: loc.pathname } );
 	  ReactGA.pageview( loc.pathname );
 	}
 
 	logEvent( e ) {
-		console.log( 'Event: ', e );
+		// console.log( 'Event: ', e );
 		ReactGA.event( e );
 	}
 
