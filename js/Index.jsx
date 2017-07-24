@@ -24,6 +24,7 @@ export class Index extends React.Component {
 		};
 		ReactGA.initialize('UA-43341809-7');
 		this.pcLiveCheck();
+		this.checkDelay = 5000;
 	}
 
 	// If location.search is changed then re-render
@@ -46,7 +47,7 @@ export class Index extends React.Component {
 	}
 
 	pcLiveCheck() {
-		utilities.pcCheck(5000).then(isOnline => this.setState({pcOnline: isOnline}));
+		utilities.pcCheck( this.checkDelay ).then(isOnline => this.setState({pcOnline: isOnline}));
 	}
 
 	handlePropUpdates(props) {
@@ -82,7 +83,7 @@ export class Index extends React.Component {
 					{
 						this.state.pcOnline ? null : (
 							<Alert bsStyle="warning">
-								<strong>Pathway Commons Offline :</strong> Please try again later
+								<strong>Unable to connect within { this.checkDelay / 1000 } seconds</strong> - continuing to try
 							</Alert>
 						)
 					}
