@@ -17,7 +17,7 @@
     "classnames": "^2.2.5",
     "cytoscape": "https://github.com/d2fong/cytoscape.js.git#tmp",
     "cytoscape-cola": "^1.6.0",
-    "cytoscape-cose-bilkent": "^1.6.12",
+    "cytoscape-cose-bilkent": "^2.0.0",
     "cytoscape-dagre": "1.6.0",
     "cytoscape-expand-collapse": "^3.0.7",
     "cytoscape-klay": "^1.0.0",
