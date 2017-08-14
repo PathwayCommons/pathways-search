@@ -204,7 +204,7 @@ const bindEvents = (cy) => {
       name: 'fisheye',
       focus: node.position(),
       animate: true,
-      distortionFactor: 1.2
+      distortionFactor: 0.5
     }).run();
   });
 
