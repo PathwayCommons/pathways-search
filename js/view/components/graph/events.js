@@ -171,24 +171,42 @@ const bindEvents = (cy) => {
   cy.on('tap', 'node[class="complex"], node[class="complex multimer"]', function (evt) {
     evt.preventDefault();
     const node = evt.target;
-    const api = cy.expandCollapse('get');
-    if (api.isCollapsible(node)) {
-      api.collapseRecursively(node);
+    if (node.isCollapsed()) {
+      node.expand();
     } else {
-      api.expandRecursively(node, {
-        layoutBy: () => {
-          node.children().positions(node.position());
-          node.children().layout({
-            name: 'grid',
-            fit: false,
-            avoidOverlap: true,
-            condense: true,
-            animate: true,
-            boundingBox: node.boundingBox({includeLabels: false})
-          }).run();
-        }
-      });
+      node.collapse();
     }
+  });
+
+  cy.on('compoundCollapse.beforeExpand', function (evt) {
+    const node = evt.target;
+    const siblings = node.isChild() ? node.siblings() : cy.nodes();
+
+    siblings.layout({
+      name: 'fisheye',
+      focus: node.position(),
+      animate: true,
+      distortionFactor: 1.2
+    }).run();
+  });
+
+  cy.on('compoundCollapse.afterExpand', function (evt) {
+    const node = evt.target;
+    cy.zoomingEnabled(false);
+    node.children().layout({
+      name:'grid',
+      fit: 'false',
+      avoidOverlap: true,
+      condense: true,
+      animate: true,
+      rows: node.children().size() / 2,
+      cols: node.children().size() / 2,
+      boundingBox: node.boundingBox({
+        includeLabels: false
+      })
+    }).run();
+    cy.zoomingEnabled(true);
+    
   });
 };
 
