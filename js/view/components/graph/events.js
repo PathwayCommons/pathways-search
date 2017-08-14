@@ -184,7 +184,7 @@ const bindEvents = (cy) => {
             avoidOverlap: true,
             condense: true,
             animate: true,
-            boundingBox: node.boundingBox()
+            boundingBox: node.boundingBox({includeLabels: false})
           }).run();
         }
       });
