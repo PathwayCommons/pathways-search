@@ -168,21 +168,39 @@ const bindEvents = (cy) => {
     removeHoverStyle(cy, edge.target());
   });
 
+  const siblings = (node) => {
+    return node.isChild() ? node.siblings().union(node.siblings().descendants()) : node._private.cy.nodes();
+  };
+
   cy.on('tap', 'node[class="complex"], node[class="complex multimer"]', function (evt) {
     evt.preventDefault();
     const node = evt.target;
     if (node.isCollapsed()) {
       node.expand();
     } else {
+      const s = siblings(node);
+      s.forEach(sibling => {
+        sibling.animate({
+          position: sibling.scratch('fisheye-pos-before'),
+          complete: () => {
+            sibling.removeScratch('fisheye-pos-before');
+          }
+        });
+      });
+
       node.collapse();
     }
   });
 
   cy.on('compoundCollapse.beforeExpand', function (evt) {
     const node = evt.target;
-    const siblings = node.isChild() ? node.siblings() : cy.nodes();
+    const s = siblings(node);
 
-    siblings.layout({
+    s.forEach(sibling => {
+      sibling.scratch('fisheye-pos-before', {x: sibling.position('x'), y: sibling.position('y')});
+    });
+
+    s.layout({
       name: 'fisheye',
       focus: node.position(),
       animate: true,
