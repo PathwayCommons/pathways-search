@@ -16,7 +16,7 @@ const stylesheet = sbgnStyleSheet(cytoscape)
   'width': 30,
   'height': 30
 })
-.selector('.cy-expand-collapse-collapsed-node')
+.selector('.compoundcollapse-collapsed-node')
 .css({
   'font-size': 16,
   'background-color': 'black',
