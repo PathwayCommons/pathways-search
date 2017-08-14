@@ -123,6 +123,7 @@ export class Graph extends React.Component {
     const layout = cy.layout(layoutMap.get(layoutName));
     layout.pon('layoutstop').then((evt) => {
       cy.fit(null, 15);
+    });
     layout.run();
   }
 
