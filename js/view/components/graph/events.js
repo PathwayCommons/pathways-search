@@ -181,9 +181,9 @@ const bindEvents = (cy) => {
       const s = siblings(node);
       s.forEach(sibling => {
         sibling.animate({
-          position: sibling.scratch('fisheye-pos-before'),
+          position: sibling.scratch('_fisheye-pos-before'),
           complete: () => {
-            sibling.removeScratch('fisheye-pos-before');
+            sibling.removeScratch('_fisheye-pos-before');
           }
         });
       });
@@ -197,7 +197,7 @@ const bindEvents = (cy) => {
     const s = siblings(node);
 
     s.forEach(sibling => {
-      sibling.scratch('fisheye-pos-before', {x: sibling.position('x'), y: sibling.position('y')});
+      sibling.scratch('_fisheye-pos-before', {x: sibling.position('x'), y: sibling.position('y')});
     });
 
     s.layout({
