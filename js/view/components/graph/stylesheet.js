@@ -8,17 +8,19 @@ const stylesheet = sbgnStyleSheet(cytoscape)
   'color': 'black',
   'text-outline-color': 'white',
   'text-outline-width': 2,
-  'text-outline-opacity': 0.5
+  'text-outline-opacity': 0.5,
+  'text-wrap': 'wrap',
+  'text-max-width': 175
 })
 .selector('node[class="complex"]')
 .css({
   'content': (node) => node.data('label').split(':').join(' '),
-  'width': 30,
-  'height': 30
+  'width': 45,
+  'height': 45
 })
 .selector('.compoundcollapse-collapsed-node')
 .css({
-  'font-size': 16,
+  'font-size': 20,
   'background-color': 'black',
   'color': 'white',
   'text-outline-color': 'black',
@@ -27,7 +29,7 @@ const stylesheet = sbgnStyleSheet(cytoscape)
   'text-valign': 'center',
   'opacity': 1,
   'text-wrap': 'wrap',
-  'text-max-width': 150
+  'text-max-width': 175
 })
 .selector('edge')
 .css({
