@@ -15,10 +15,10 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
-    "cytoscape": "https://github.com/d2fong/cytoscape.js.git#tmp",
+    "cytoscape": "^3.2.0",
     "cytoscape-cola": "^1.6.0",
-    "cytoscape-cose-bilkent": "git+https://github.com/d2fong/cytoscape.js-cose-bilkent.git#unstable",
     "cytoscape-compound-collapse": "git+https://github.com/d2fong/cytoscape.js-compound-collapse.git",
+    "cytoscape-cose-bilkent": "git+https://github.com/d2fong/cytoscape.js-cose-bilkent.git#unstable",
     "cytoscape-dagre": "1.6.0",
     "cytoscape-expand-collapse": "^3.0.7",
     "cytoscape-fisheye": "git+https://github.com/d2fong/cytoscape.js-fisheye.git",
