@@ -168,27 +168,63 @@ const bindEvents = (cy) => {
     removeHoverStyle(cy, edge.target());
   });
 
+  const siblings = (node) => {
+    return node.isChild() ? node.siblings().union(node.siblings().descendants()) : node._private.cy.nodes();
+  };
+
   cy.on('tap', 'node[class="complex"], node[class="complex multimer"]', function (evt) {
     evt.preventDefault();
     const node = evt.target;
-    const api = cy.expandCollapse('get');
-    if (api.isCollapsible(node)) {
-      api.collapseRecursively(node);
+    if (node.isCollapsed()) {
+      node.expand();
     } else {
-      api.expandRecursively(node, {
-        layoutBy: () => {
-          node.children().positions(node.position());
-          node.children().layout({
-            name: 'grid',
-            fit: false,
-            avoidOverlap: true,
-            condense: true,
-            animate: true,
-            boundingBox: node.boundingBox()
-          }).run();
-        }
+      const s = siblings(node);
+      s.forEach(sibling => {
+        sibling.animate({
+          position: sibling.scratch('_fisheye-pos-before'),
+          complete: () => {
+            sibling.removeScratch('_fisheye-pos-before');
+          }
+        });
       });
+
+      node.collapse();
     }
+  });
+
+  cy.on('compoundCollapse.beforeExpand', function (evt) {
+    const node = evt.target;
+    const s = siblings(node);
+
+    s.forEach(sibling => {
+      sibling.scratch('_fisheye-pos-before', {x: sibling.position('x'), y: sibling.position('y')});
+    });
+
+    s.layout({
+      name: 'fisheye',
+      focus: node.position(),
+      animate: true,
+      distortionFactor: 0.5
+    }).run();
+  });
+
+  cy.on('compoundCollapse.afterExpand', function (evt) {
+    const node = evt.target;
+    cy.zoomingEnabled(false);
+    node.children().layout({
+      name:'grid',
+      fit: 'false',
+      avoidOverlap: true,
+      condense: true,
+      animate: true,
+      rows: node.children().size() / 2,
+      cols: node.children().size() / 2,
+      boundingBox: node.boundingBox({
+        includeLabels: false
+      })
+    }).run();
+    cy.zoomingEnabled(true);
+    
   });
 };
 

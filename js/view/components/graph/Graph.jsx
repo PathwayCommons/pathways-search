@@ -7,7 +7,6 @@ import {Col, Row, DropdownButton, MenuItem} from 'react-bootstrap';
 import convertSbgn from 'sbgnml-to-cytoscape';
 
 import {initGraph} from './init';
-import {reduceGraphComplexity} from './complexityReduction';
 import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout/';
 import {saveAs} from 'file-saver';
 import {Spinner} from '../../../components/Spinner.jsx';
@@ -108,8 +107,6 @@ export class Graph extends React.Component {
 
     const layout = getDefaultLayout(cy.nodes().size());
 
-    reduceGraphComplexity(cy);
-
     this.performLayout(layout, graphJSON);
 
     this.state.layout = layout;
@@ -120,13 +117,11 @@ export class Graph extends React.Component {
 
   performLayout(layoutName, graphJSON={}, options={}) {
     const cy = this.state.graphInstance;
-    const layout = cy.layout(layoutMap.get(layoutName));
-    layout.pon('layoutstop').then((evt) => {
-      cy.fit(null, 15);
-      cy.maxZoom(1 / cy.zoom());
-      cy.minZoom(cy.zoom() - 0.05);
+    cy.nodes().forEach(ele => {
+      ele.removeScratch('_fisheye-pos-before');
     });
-    layout.run();
+    cy.nodes('[class="complex"], [class="complex multimer"]').filter(node => node.isExpanded()).collapse();
+    cy.layout(layoutMap.get(layoutName)).run();  
   }
 
   exportImage(isFullscreen, cb) {
