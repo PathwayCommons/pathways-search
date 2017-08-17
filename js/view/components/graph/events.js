@@ -217,8 +217,8 @@ const bindEvents = (cy) => {
       avoidOverlap: true,
       condense: true,
       animate: true,
-      rows: node.children().size() / 2,
-      cols: node.children().size() / 2,
+      rows: Math.floor(Math.sqrt(node.children().size())),
+      cols: Math.floor(Math.sqrt(node.children().size())),
       boundingBox: node.boundingBox({
         includeLabels: false
       })
