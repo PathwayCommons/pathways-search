@@ -14,7 +14,6 @@ const stylesheet = sbgnStyleSheet(cytoscape)
 })
 .selector('node[class="complex"]')
 .css({
-  'content': (node) => node.data('label').split(':').join(' '),
   'width': 45,
   'height': 45
 })
