@@ -10,7 +10,7 @@ import dagre from 'cytoscape-dagre';
 import compoundCollapse from 'cytoscape-compound-collapse';
 import fisheye from 'cytoscape-fisheye';
 
-import bindEvents from './events';
+import bindEvents from './events/';
 import stylesheet from './stylesheet';
 
 
