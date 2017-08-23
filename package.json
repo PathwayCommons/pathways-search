@@ -16,7 +16,7 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
-    "cytoscape": "^3.2.0",
+    "cytoscape": "git+https://github.com/d2fong/cytoscape.js#mount",
     "cytoscape-cola": "^2.0.0",
     "cytoscape-compound-collapse": "git+https://github.com/d2fong/cytoscape.js-compound-collapse.git",
     "cytoscape-cose-bilkent": "git+https://github.com/d2fong/cytoscape.js-cose-bilkent.git#unstable",
