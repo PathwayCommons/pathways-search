@@ -6,7 +6,8 @@ import {Col, Row, DropdownButton, MenuItem} from 'react-bootstrap';
 
 import convertSbgn from 'sbgnml-to-cytoscape';
 
-import {initGraph} from './init';
+import cyInit from './init';
+import bindEvents from './events';
 import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout/';
 import {saveAs} from 'file-saver';
 import {Spinner} from '../../../components/Spinner.jsx';
@@ -22,8 +23,7 @@ export class Graph extends React.Component {
     super(props);
     this.state = {
       graphId: this.props.id || Math.floor(Math.random() * Math.pow(10, 8)) + 1,
-      graphContainer: {},
-      graphInstance: {},
+      cy: cyInit({ headless: true }),
       graphRendered: false,
       graphEmpty: false,
       width: '100vw',
@@ -34,49 +34,25 @@ export class Graph extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (nextState.layout !== this.state.layout) {
-      this.performLayout(nextState.layout, this.state.graphInstance);
+    if (nextState.layout !== this.state.layout && this.state.graphRendered) {
+      this.performLayout(nextState.layout, this.state.cy);
     }
   }
 
   componentWillUnmount() {
     this.props.deleteGlobal('graphImage');
-    this.state.graphInstance.destroy();
+    this.state.cy.destroy();
   }
 
   componentDidMount() {
-    const graphContainer = document.getElementById(this.state.graphId);
-    const graphInstance = initGraph(graphContainer);
-
-    this.setState({
-      graphInstance: graphInstance,
-      graphContainer: graphContainer
-    });
-    this.checkRenderGraph(this.props.data);
+    const container = document.getElementById(this.state.graphId);
+    this.state.cy.mount(container);
+    bindEvents(this.state.cy);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     this.checkRenderGraph(nextProps.data);
     return true;
-  }
-
-  handleResize() {
-    var xPosition = 0;
-    var yPosition = 0;
-
-    var element = this.state.graphContainer;
-    while (element) {
-      yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
-      element = element.offsetParent;
-    }
-
-    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-
-    this.setState({
-      width: w,
-      height: h - yPosition
-    });
   }
 
   checkRenderGraph(data) {
@@ -88,15 +64,7 @@ export class Graph extends React.Component {
   // Graph rendering is not tracked by React
   renderGraph(sbgnString) {
     const graphJSON = convertSbgn(sbgnString);
-    const cy = this.state.graphInstance;
-
-    this.handleResize();
-    // Add listener to take care of resize events
-    if (window.addEventListener) {
-      window.addEventListener('resize', () => {
-        this.handleResize();
-      }, true);
-    }
+    const cy = this.state.cy;
 
     // Set global graphImage
     this.props.updateGlobal('graphImage', (isFullscreen, cb) => this.exportImage(isFullscreen, cb));
@@ -115,8 +83,8 @@ export class Graph extends React.Component {
     this.state.graphRendered = true;
   }
 
-  performLayout(layoutName, graphJSON={}, options={}) {
-    const cy = this.state.graphInstance;
+  performLayout(layoutName) {
+    const cy = this.state.cy;
     cy.nodes().forEach(ele => {
       ele.removeScratch('_fisheye-pos-before');
     });
@@ -125,8 +93,8 @@ export class Graph extends React.Component {
   }
 
   exportImage(isFullscreen, cb) {
-    if (!isEmpty(this.state.graphInstance)) {
-      var imgBlob = this.state.graphInstance.png({
+    if (!isEmpty(this.state.cy)) {
+      var imgBlob = this.state.cy.png({
         output: 'blob',
         scale: 5,
         bg: 'white',

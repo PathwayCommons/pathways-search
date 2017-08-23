@@ -10,7 +10,6 @@ import dagre from 'cytoscape-dagre';
 import compoundCollapse from 'cytoscape-compound-collapse';
 import fisheye from 'cytoscape-fisheye';
 
-import bindEvents from './events/';
 import stylesheet from './stylesheet';
 
 
@@ -23,15 +22,14 @@ cytoscape.use( compoundCollapse );
 
 // set the sbgn style sheet
 // bind interaction events (mouse hovering, collapsing)
-export const initGraph = (graphContainer) => {
+export default (opts) => {
   const graphInstance = cytoscape({
-    container: graphContainer,
+    container: opts.container,
     style: stylesheet,
     minZoom: 0.16,
-    maxZoom: 4
+    maxZoom: 4,
+    headless: opts.headless
   });
-
-  bindEvents(graphInstance);
 
   return graphInstance;
 };
