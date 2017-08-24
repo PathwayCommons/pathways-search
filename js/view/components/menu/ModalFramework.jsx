@@ -10,6 +10,7 @@ import {Downloads} from './Downloads.jsx';
 // ModalFramework
 // Prop Dependencies ::
 // - query
+// - cy
 export class ModalFramework extends React.Component {
 	render() {
 		var active = this.props.active || "";
@@ -19,7 +20,7 @@ export class ModalFramework extends React.Component {
 					<Modal.Body>
 						<Help hidden={"Help" != active} />						
 						<Information hidden={"Information" != active} uri={this.props.query.uri}/>
-						<Downloads hidden={"Downloads" != active} uri={this.props.query.uri} name={this.props.name} pathwayData={this.props.pathwayData} graphImage={this.props.graphImage}/>
+						<Downloads cy={this.props.cy} hidden={"Downloads" != active} uri={this.props.query.uri} name={this.props.name} pathwayData={this.props.pathwayData} graphImage={this.props.graphImage}/>
 					</Modal.Body>
 					<Modal.Footer>
 						<Button onClick={() => this.props.onHide()}>Close</Button>

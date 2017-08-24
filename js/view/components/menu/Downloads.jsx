@@ -12,7 +12,7 @@ import {Spinner} from '../../../components/Spinner.jsx';
 // - name
 // - uri
 // - pathwayData
-// - graphImage
+// - cy
 export class Downloads extends React.Component {
 	constructor(props) {
 		super(props);
@@ -52,9 +52,13 @@ export class Downloads extends React.Component {
 				<div className="downloadContainer clearfix">
 					{/* All custom download links go below */}
 					<DownloadCard name="Image" format="png" onClick={() => {
-							// Allow 10ms for toggleloading to finish before calling graphImage or else toggleLoading does not work properly
-							this.toggleLoading();
-							setTimeout(() => this.props.graphImage(true, () => this.toggleLoading()), 10);
+							const imgBlob = this.props.cy.png({
+								output: 'blob',
+								scale: 5,
+								bg: 'white',
+								full: true
+							});
+							saveAs(imgBlob, this.props.name  + '.png');
 					}}>
 						Download an image of the entire view. If you wish to capture only a subsection, use the 'Screenshot' link in the main viewer.
 						<br/><br/>
