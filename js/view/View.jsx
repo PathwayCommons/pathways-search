@@ -6,6 +6,8 @@ import {ErrorMessage} from '../components/ErrorMessage.jsx';
 import {Graph} from './components/graph/Graph.jsx';
 import {ModalFramework} from './components/menu/ModalFramework.jsx';
 
+import cyInit from './cy/init';
+
 // View
 // Prop Dependencies ::
 // - query
@@ -17,6 +19,7 @@ export class View extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      cy: cyInit({ headless: true }),      
       data: {},
       name: "",
       datasource: "",
@@ -138,7 +141,7 @@ export class View extends React.Component {
               </Navbar.Collapse>
             </Navbar>)
           }
-          <Graph data={this.state.data} {...this.props}/>
+          <Graph cy={this.state.cy} data={this.state.data} {...this.props}/>
           {/* Menu Modal */}
           <ModalFramework onHide={() => this.setState({active: ""})} {...this.state} {...this.props}/>
         </div>
