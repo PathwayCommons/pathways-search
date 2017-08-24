@@ -6,7 +6,6 @@ import {Col, Row, DropdownButton, MenuItem} from 'react-bootstrap';
 
 import convertSbgn from 'sbgnml-to-cytoscape';
 
-import cyInit from './init';
 import bindEvents from './events';
 import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout/';
 import {saveAs} from 'file-saver';
@@ -23,7 +22,6 @@ export class Graph extends React.Component {
     super(props);
     this.state = {
       graphId: this.props.id || Math.floor(Math.random() * Math.pow(10, 8)) + 1,
-      cy: cyInit({ headless: true }),
       graphRendered: false,
       graphEmpty: false,
       width: '100vw',
@@ -35,19 +33,19 @@ export class Graph extends React.Component {
 
   componentWillUpdate(nextProps, nextState) {
     if (nextState.layout !== this.state.layout && this.state.graphRendered) {
-      this.performLayout(nextState.layout, this.state.cy);
+      this.performLayout(nextState.layout, this.props.cy);
     }
   }
 
   componentWillUnmount() {
     this.props.deleteGlobal('graphImage');
-    this.state.cy.destroy();
+    this.props.cy.destroy();
   }
 
   componentDidMount() {
     const container = document.getElementById(this.state.graphId);
-    this.state.cy.mount(container);
-    bindEvents(this.state.cy);
+    this.props.cy.mount(container);
+    bindEvents(this.props.cy);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -64,7 +62,7 @@ export class Graph extends React.Component {
   // Graph rendering is not tracked by React
   renderGraph(sbgnString) {
     const graphJSON = convertSbgn(sbgnString);
-    const cy = this.state.cy;
+    const cy = this.props.cy;
 
     // Set global graphImage
     this.props.updateGlobal('graphImage', (isFullscreen, cb) => this.exportImage(isFullscreen, cb));
@@ -84,7 +82,7 @@ export class Graph extends React.Component {
   }
 
   performLayout(layoutName) {
-    const cy = this.state.cy;
+    const cy = this.props.cy;
     cy.nodes().forEach(ele => {
       ele.removeScratch('_fisheye-pos-before');
     });
@@ -93,8 +91,8 @@ export class Graph extends React.Component {
   }
 
   exportImage(isFullscreen, cb) {
-    if (!isEmpty(this.state.cy)) {
-      var imgBlob = this.state.cy.png({
+    if (!isEmpty(this.props.cy)) {
+      var imgBlob = this.props.cy.png({
         output: 'blob',
         scale: 5,
         bg: 'white',
