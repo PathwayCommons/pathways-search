@@ -22,29 +22,29 @@ export class View extends React.Component {
     super(props);
     this.state = {
       cy: cyInit({ headless: true }),      
-      data: {},
-      name: "",
-      datasource: "",
+      sbgnData: {},
+      name: '',
+      datasource: '',
       show: false
     };
 
     get()
       .uri(this.props.query.uri)
-      .format("SBGN")
+      .format('SBGN')
       .fetch()
-      .then(responseText => this.setState({data: responseText}));
+      .then(responseText => this.setState({sbgnData: responseText}));
 
     traverse()
       .uri(this.props.query.uri)
-      .path("Named/displayName")
-      .format("json")
+      .path('Named/displayName')
+      .format('json')
       .fetch()
       .then(responseObject => this.setState({name: responseObject.traverseEntry[0].value.pop()}));
 
     traverse()
       .uri(this.props.query.uri)
-      .path("Entity/dataSource/displayName")
-      .format("json")
+      .path('Entity/dataSource/displayName')
+      .format('json')
       .fetch()
       .then(responseObject => this.setState({datasource: responseObject.traverseEntry[0].value.pop()}));
 
@@ -89,7 +89,7 @@ export class View extends React.Component {
       </Popover>
     );
 
-    if(this.state.data) {
+    if(this.state.sbgnData) {
       return(
         <div className="View">
           { !this.props.embed &&
@@ -145,21 +145,18 @@ export class View extends React.Component {
               </Navbar.Collapse>
             </Navbar>)
           }
-          <Graph onCyMount={bindEvents} cy={this.state.cy} data={this.state.data} {...this.props}/>
+          <Graph onCyMount={bindEvents} cy={this.state.cy} data={this.state.sbgnData} {...this.props}/>
           {/* Menu Modal */}
-          <ModalFramework cy={this.state.cy} onHide={() => this.setState({active: ""})} {...this.state} {...this.props}/>
+          <ModalFramework cy={this.state.cy} onHide={() => this.setState({active: ''})} {...this.state} {...this.props}/>
         </div>
       );
     }
-    else if(this.state.data === null) {
+    else  {
       return (
         <ErrorMessage className="View">
           Invalid URI
         </ErrorMessage>
       );
-    }
-    else {
-      return(null);
     }
   }
 }
