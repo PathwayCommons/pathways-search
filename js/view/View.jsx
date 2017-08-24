@@ -145,7 +145,7 @@ export class View extends React.Component {
               </Navbar.Collapse>
             </Navbar>)
           }
-          <Graph onCyMount={bindEvents} cy={this.state.cy} data={this.state.sbgnData} {...this.props}/>
+          <Graph onCyMount={bindEvents} cy={this.state.cy} sbgnData={this.state.sbgnData} {...this.props}/>
           {/* Menu Modal */}
           <ModalFramework cy={this.state.cy} onHide={() => this.setState({active: ''})} {...this.state} {...this.props}/>
         </div>
