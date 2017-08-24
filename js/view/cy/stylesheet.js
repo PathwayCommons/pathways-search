@@ -10,7 +10,13 @@ const stylesheet = sbgnStyleSheet(cytoscape)
   'text-outline-width': 2,
   'text-outline-opacity': 0.5,
   'text-wrap': 'wrap',
-  'text-max-width': 175
+  'text-max-width': 175,
+  'label': node => {
+    const label = node.data('label')
+      .split('(').join('').split(')').join('')
+      .split(':').join(' ');
+    return label;
+  }
 })
 .selector('node[class="complex"]')
 .css({

@@ -6,9 +6,7 @@ import {Col, Row, DropdownButton, MenuItem} from 'react-bootstrap';
 
 import convertSbgn from 'sbgnml-to-cytoscape';
 
-import bindEvents from './events';
 import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout/';
-import {saveAs} from 'file-saver';
 import {Spinner} from '../../../components/Spinner.jsx';
 import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
 
@@ -45,7 +43,7 @@ export class Graph extends React.Component {
   componentDidMount() {
     const container = document.getElementById(this.state.graphId);
     this.props.cy.mount(container);
-    bindEvents(this.props.cy);
+    this.props.onCyMount(this.props.cy);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -64,10 +62,6 @@ export class Graph extends React.Component {
     const graphJSON = convertSbgn(sbgnString);
     const cy = this.props.cy;
 
-    // Set global graphImage
-    this.props.updateGlobal('graphImage', (isFullscreen, cb) => this.exportImage(isFullscreen, cb));
-
-    // Perform render
     cy.remove('*');
     cy.add(graphJSON);
 
@@ -88,21 +82,6 @@ export class Graph extends React.Component {
     });
     cy.nodes('[class="complex"], [class="complex multimer"]').filter(node => node.isExpanded()).collapse();
     cy.layout(layoutMap.get(layoutName)).run();  
-  }
-
-  exportImage(isFullscreen, cb) {
-    if (!isEmpty(this.props.cy)) {
-      var imgBlob = this.props.cy.png({
-        output: 'blob',
-        scale: 5,
-        bg: 'white',
-        full: Boolean(isFullscreen)
-      });
-      saveAs(imgBlob, 'Graph' + this.state.graphId + '.png');
-    }
-    if(cb) {
-      cb();
-    }
   }
 
   render() {

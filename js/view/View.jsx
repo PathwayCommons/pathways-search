@@ -1,12 +1,14 @@
 import React from 'react';
 import {Col, Glyphicon, Navbar, Nav, NavItem, OverlayTrigger, Popover} from 'react-bootstrap';
 import {get, traverse} from 'pathway-commons';
+import {saveAs} from 'file-saver';
 
 import {ErrorMessage} from '../components/ErrorMessage.jsx';
 import {Graph} from './components/graph/Graph.jsx';
 import {ModalFramework} from './components/menu/ModalFramework.jsx';
 
 import cyInit from './cy/init';
+import bindEvents from './cy/events/';
 
 // View
 // Prop Dependencies ::
@@ -107,7 +109,9 @@ export class View extends React.Component {
                   </NavItem>
                 </Nav>
                 <Nav pullRight>
-                  <NavItem eventKey={1} onClick={() => this.props.graphImage(false)}>
+                  <NavItem eventKey={1} onClick={() => {
+                    const imgBlob = this.state.cy.png({output: 'blob', scale: 5, bg: 'white',full: true}); 
+                    saveAs(imgBlob, this.state.name  + '.png');}}>
                     <Col xsHidden >
                       <OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_screenshot}>
                         <Glyphicon className="glyph-tip" glyph="picture" />
@@ -141,9 +145,9 @@ export class View extends React.Component {
               </Navbar.Collapse>
             </Navbar>)
           }
-          <Graph cy={this.state.cy} data={this.state.data} {...this.props}/>
+          <Graph onCyMount={bindEvents} cy={this.state.cy} data={this.state.data} {...this.props}/>
           {/* Menu Modal */}
-          <ModalFramework onHide={() => this.setState({active: ""})} {...this.state} {...this.props}/>
+          <ModalFramework cy={this.state.cy} onHide={() => this.setState({active: ""})} {...this.state} {...this.props}/>
         </div>
       );
     }
