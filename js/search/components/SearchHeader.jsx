@@ -109,7 +109,7 @@ export class SearchHeader extends React.Component {
               { !this.props.embed &&
               <div>
                 <Col xsOffset={1} xs={9} smOffset={0} sm={2} componentClass={ControlLabel}>
-                  <Link to={{ pathname: "/" }} onClick={() => hardReload()}>
+                  <Link to={{ pathname: '/' }} onClick={() => hardReload()}>
                     <span className="brand">Search</span>
                   </Link>
                 </Col>
@@ -133,8 +133,8 @@ export class SearchHeader extends React.Component {
                         className="hidden-xs"
                         type="text"
                         placeholder={ !this.props.embed ?
-                          "Search pathways by name, gene names or type a URI" :
-                          "Search pathways in Pathway Commons"
+                          'Search pathways by name, gene names or type a URI' :
+                          'Search pathways in Pathway Commons'
                         }
                       defaultValue={this.props.query.q}
                       onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)} />
