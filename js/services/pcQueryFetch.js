@@ -2,7 +2,7 @@ import isEmpty from 'lodash.isempty';
 import memoize from 'fast-memoize';
 
 import {search, datasources} from 'pathway-commons';
-import {queryProcessing} from './queryProcessing.js';
+import {queryProcessing} from './pcQueryProcessing.js';
 
 export let queryFetch = memoize((queryObject, failureCount) => {
 	failureCount = typeof failureCount === "number" ? failureCount : 0;

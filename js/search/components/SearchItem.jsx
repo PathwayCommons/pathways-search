@@ -1,5 +1,5 @@
 import React from 'react';
-import {Col, Image, Button } from 'react-bootstrap';
+import {Col, Image} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import isEqual from 'lodash.isequal';
 import queryString from 'query-string';

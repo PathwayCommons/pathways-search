@@ -5,7 +5,10 @@ import {utilities} from 'pathway-commons';
 
 import {Index} from './Index.jsx';
 
+/* eslint-disable */
+// styles need to be imported even though they may not be used in this file
 import styles from '!style-loader!css-loader!postcss-loader!../styles/index.css';
+/* eslint-enable */
 
 // Set user in pathway-commons
 utilities.user("pathways-search");

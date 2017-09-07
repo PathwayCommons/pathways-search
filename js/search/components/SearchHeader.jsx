@@ -1,15 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
-import localForage from 'localforage';
 import {
 	Grid, Row, Col,
 	Glyphicon,
 	ControlLabel, Form, FormGroup, InputGroup, FormControl,
 	Modal,
-	OverlayTrigger, Tooltip, Popover,
-	ButtonToolbar, ButtonGroup, Button
+	OverlayTrigger, Popover, Button
 } from 'react-bootstrap';
-import Toggle from 'react-toggle'
 import {Link} from 'react-router-dom';
 import queryString from 'query-string';
 import {hardReload} from '../../App.js';

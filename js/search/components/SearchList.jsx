@@ -1,11 +1,10 @@
 import React from 'react';
-import {Pagination, Modal, Media, Button, Glyphicon, OverlayTrigger, Popover} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import {Button, Glyphicon, OverlayTrigger, Popover} from 'react-bootstrap';
 import isEmpty from 'lodash.isempty';
 import classNames from 'classnames';
+
 import {SearchItem} from './SearchItem.jsx';
 import {Splash} from '../../components/Splash.jsx';
-import {HelpTooltip} from '../../components/HelpTooltip.jsx';
 import {ErrorMessage} from '../../components/ErrorMessage.jsx';
 
 // SearchList
