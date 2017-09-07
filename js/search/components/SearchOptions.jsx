@@ -6,8 +6,7 @@ import map from 'lodash.map';
 import isEmpty from 'lodash.isempty';
 import clone from 'lodash.clone';
 import {datasources} from 'pathway-commons';
-import {queryFetch} from '../helpers/queryFetch.js';
-import {BioPaxClass} from "../../helpers/pc2.js";
+import {queryFetch} from '../../services/pcQueryFetch.js';
 
 // Determines which prop are valid filter props as opposed to other properties like page or query
 const filterPropList = [
