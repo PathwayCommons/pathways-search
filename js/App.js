@@ -16,13 +16,13 @@ utilities.user("pathways-search");
 const mountElement = document.getElementById('container');
 
 export class App extends React.Component {
-	render() {
-		return (
-			<HashRouter className="App">
-				<Route path="/:selector?/:modifier?" component={Index}/>
-			</HashRouter>
-		);
-	}
+  render() {
+    return (
+      <HashRouter className="App">
+        <Route path="/:selector?/:modifier?" component={Index}/>
+      </HashRouter>
+    );
+  }
 }
 
 // All comments stripped out during production build
@@ -30,6 +30,6 @@ console.log("DEVELOPMENT BUILD");
 ReactDOM.render(<App/>, mountElement);
 
 export const hardReload = () => {
-	ReactDOM.unmountComponentAtNode(mountElement);
-	setTimeout(() => ReactDOM.render(<App/>, mountElement), 1);
+  ReactDOM.unmountComponentAtNode(mountElement);
+  setTimeout(() => ReactDOM.render(<App/>, mountElement), 1);
 };
