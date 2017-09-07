@@ -81,7 +81,7 @@ export class Graph extends React.Component {
       ele.removeScratch('_fisheye-pos-before');
     });
     cy.nodes('[class="complex"], [class="complex multimer"]').filter(node => node.isExpanded()).collapse();
-    cy.layout(layoutMap.get(layoutName)).run();  
+    cy.layout(layoutMap.get(layoutName)).run();
   }
 
   render() {
