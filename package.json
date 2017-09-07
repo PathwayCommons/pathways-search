@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "node getHgncSymbols.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config.js -p",
-    "gh-pages-deploy": "npm run build && gh-pages -d public",     
+    "gh-pages-deploy": "npm run build && gh-pages -d public",
     "watch": "webpack-dev-server --inline --content-base public/ -d",
     "prestart": "npm run build",
     "start": "http-server"
@@ -44,7 +44,6 @@
     "react-dom": "^15.4.1",
     "react-ga": "^2.2.0",
     "react-router-dom": "^4.0.0",
-    "react-toggle": "^3.0.1",
     "sbgnml-to-cytoscape": "^3.0.2",
     "spinkit": "^1.2.5"
   },

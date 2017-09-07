@@ -1,7 +1,5 @@
 import React from 'react';
 import {Modal, Image, Media} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
-import classNames from 'classnames';
 
 // Splash
 // Prop Dependencies ::

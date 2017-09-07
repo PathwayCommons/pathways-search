@@ -2,7 +2,7 @@ import React from 'react';
 import isArray from 'lodash.isarray';
 import isEqual from 'lodash.isequal';
 import queryString from 'query-string';
-import {search, datasources} from 'pathway-commons';
+
 import {queryFetch} from '../../services/pcQueryFetch.js';
 import {Spinner} from '../../components/Spinner.jsx';
 
