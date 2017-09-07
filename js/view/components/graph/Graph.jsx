@@ -6,10 +6,7 @@ import {Col, Row, DropdownButton, MenuItem} from 'react-bootstrap';
 
 import convertSbgn from 'sbgnml-to-cytoscape';
 
-import cyInit from './init';
-import bindEvents from './events';
 import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout/';
-import {saveAs} from 'file-saver';
 import {Spinner} from '../../../components/Spinner.jsx';
 import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
 
@@ -17,13 +14,12 @@ import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
 // Prop Dependencies ::
 // - updateGlobal
 // - deleteGlobal
-// - data
+// - sbgnData
 export class Graph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       graphId: this.props.id || Math.floor(Math.random() * Math.pow(10, 8)) + 1,
-      cy: cyInit({ headless: true }),
       graphRendered: false,
       graphEmpty: false,
       width: '100vw',
@@ -35,23 +31,23 @@ export class Graph extends React.Component {
 
   componentWillUpdate(nextProps, nextState) {
     if (nextState.layout !== this.state.layout && this.state.graphRendered) {
-      this.performLayout(nextState.layout, this.state.cy);
+      this.performLayout(nextState.layout, this.props.cy);
     }
   }
 
   componentWillUnmount() {
     this.props.deleteGlobal('graphImage');
-    this.state.cy.destroy();
+    this.props.cy.destroy();
   }
 
   componentDidMount() {
     const container = document.getElementById(this.state.graphId);
-    this.state.cy.mount(container);
-    bindEvents(this.state.cy);
+    this.props.cy.mount(container);
+    this.props.onCyMount(this.props.cy);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    this.checkRenderGraph(nextProps.data);
+    this.checkRenderGraph(nextProps.sbgnData);
     return true;
   }
 
@@ -64,12 +60,8 @@ export class Graph extends React.Component {
   // Graph rendering is not tracked by React
   renderGraph(sbgnString) {
     const graphJSON = convertSbgn(sbgnString);
-    const cy = this.state.cy;
+    const cy = this.props.cy;
 
-    // Set global graphImage
-    this.props.updateGlobal('graphImage', (isFullscreen, cb) => this.exportImage(isFullscreen, cb));
-
-    // Perform render
     cy.remove('*');
     cy.add(graphJSON);
 
@@ -84,27 +76,12 @@ export class Graph extends React.Component {
   }
 
   performLayout(layoutName) {
-    const cy = this.state.cy;
+    const cy = this.props.cy;
     cy.nodes().forEach(ele => {
       ele.removeScratch('_fisheye-pos-before');
     });
     cy.nodes('[class="complex"], [class="complex multimer"]').filter(node => node.isExpanded()).collapse();
     cy.layout(layoutMap.get(layoutName)).run();  
-  }
-
-  exportImage(isFullscreen, cb) {
-    if (!isEmpty(this.state.cy)) {
-      var imgBlob = this.state.cy.png({
-        output: 'blob',
-        scale: 5,
-        bg: 'white',
-        full: Boolean(isFullscreen)
-      });
-      saveAs(imgBlob, 'Graph' + this.state.graphId + '.png');
-    }
-    if(cb) {
-      cb();
-    }
   }
 
   render() {
