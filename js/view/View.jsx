@@ -21,7 +21,7 @@ export class View extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cy: cyInit({ headless: true }),      
+      cy: cyInit({ headless: true }), // cytoscape mounted after Graph component has mounted
       sbgnData: {},
       name: '',
       datasource: '',
@@ -110,7 +110,7 @@ export class View extends React.Component {
                 </Nav>
                 <Nav pullRight>
                   <NavItem eventKey={1} onClick={() => {
-                    const imgBlob = this.state.cy.png({output: 'blob', scale: 5, bg: 'white',full: true}); 
+                    const imgBlob = this.state.cy.png({output: 'blob', scale: 5, bg: 'white',full: true});
                     saveAs(imgBlob, this.state.name  + '.png');}}>
                     <Col xsHidden >
                       <OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_screenshot}>
