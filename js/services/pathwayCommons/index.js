@@ -26,6 +26,12 @@ const PathwayCommonsService = {
   // check if pathway commons is online
   isServiceOnline (delay) {
     return pathwayCommons.utilities.pcCheck(delay);
+  },
+
+  lookupDataSourceIcon (datasourceString) {
+    return pathwayCommons.datasources.lookupIcon(datasourceString);
+
+
   }
 
 };

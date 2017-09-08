@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import isEqual from 'lodash.isequal';
 import queryString from 'query-string';
 
-import {datasources} from 'pathway-commons';
+import PathwayCommonsService from '../../services/pathwayCommons/';
 
 // SearchItem
 // This component is only meant to be called by SearchList
@@ -27,7 +27,7 @@ export class SearchItem extends React.Component {
   }
 
   updateImage(datasource) {
-    datasources.lookupIcon(datasource).then(iconUrl => this.setState({imageSource: iconUrl}));
+    PathwayCommonsService.lookupDataSourceIcon(datasource).then(iconUrl => this.setState({imageSource: iconUrl}));
   }
 
   render() {
