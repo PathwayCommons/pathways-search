@@ -30,8 +30,6 @@ const PathwayCommonsService = {
 
   lookupDataSourceIcon (datasourceString) {
     return pathwayCommons.datasources.lookupIcon(datasourceString);
-
-
   }
 
 };
