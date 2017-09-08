@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import {traverse} from 'pathway-commons';
+
+import PathwayCommonsService from '../../../services/pathwayCommons/';
 
 // Information
 // Prop Dependencies ::
@@ -12,12 +13,12 @@ export class Information extends React.Component {
       commentArray: []
     };
 
-    traverse()
-      .uri(this.props.uri)
-      .path('Entity/comment')
-      .format('json')
-      .fetch()
-      .then(responseArray => this.setState({commentArray: responseArray.traverseEntry[0].value}));
+    PathwayCommonsService.query(props.uri, 'json', 'Entity/comment')
+      .then(responseArray => {
+        this.setState({
+          commentArray: responseArray.traverseEntry[0].value
+        });
+      });
   }
 
   render() {

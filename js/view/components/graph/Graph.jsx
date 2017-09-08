@@ -14,7 +14,7 @@ import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
 // Prop Dependencies ::
 // - updateGlobal
 // - deleteGlobal
-// - sbgnData
+// - sbgnText
 export class Graph extends React.Component {
   constructor(props) {
     super(props);
@@ -47,7 +47,7 @@ export class Graph extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    this.checkRenderGraph(nextProps.sbgnData);
+    this.checkRenderGraph(nextProps.sbgnText);
     return true;
   }
 
