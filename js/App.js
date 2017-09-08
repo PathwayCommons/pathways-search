@@ -25,8 +25,6 @@ export class App extends React.Component {
   }
 }
 
-// All comments stripped out during production build
-console.log("DEVELOPMENT BUILD");
 ReactDOM.render(<App/>, mountElement);
 
 export const hardReload = () => {
