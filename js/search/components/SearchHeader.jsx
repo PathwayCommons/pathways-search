@@ -10,7 +10,6 @@ import {
 import {Link} from 'react-router-dom';
 import queryString from 'query-string';
 
-import {hardReload} from '../../App.js';
 import {SearchOptions} from './SearchOptions.jsx';
 import {SearchFaq} from './SearchFaq.jsx';
 
@@ -74,7 +73,6 @@ export class SearchHeader extends React.Component {
     e.stopPropagation();
     this.state.q = q;
     this.updateTerm();
-    hardReload();
   }
 
   render() {
@@ -109,7 +107,7 @@ export class SearchHeader extends React.Component {
               { !this.props.embed &&
               <div>
                 <Col xsOffset={1} xs={9} smOffset={0} sm={2} componentClass={ControlLabel}>
-                  <Link to={{ pathname: '/' }} onClick={() => hardReload()}>
+                  <Link to={{ pathname: '/' }}>
                     <span className="brand">Search</span>
                   </Link>
                 </Col>
