@@ -2,13 +2,14 @@ import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import classNames from 'classnames';
 import queryString from 'query-string';
-import {utilities} from 'pathway-commons';
 import {Alert} from 'react-bootstrap';
+import ReactGA from 'react-ga';
 
 import {Search} from './search/Search.jsx';
 import {View} from './view/View.jsx';
 import {PageNotFound} from './PageNotFound.jsx';
-import ReactGA from 'react-ga';
+
+import PathwayCommonsService from './services/pathwayCommons/';
 
 // Index
 // Prop Dependencies ::
@@ -36,18 +37,19 @@ export class Index extends React.Component {
   }
 
   logPageView( loc ) {
-    // console.log( 'PageView: ', loc.pathname );
     ReactGA.set( { page: loc.pathname } );
     ReactGA.pageview( loc.pathname );
   }
 
   logEvent( e ) {
-    // console.log( 'Event: ', e );
     ReactGA.event( e );
   }
 
   pcLiveCheck() {
-    utilities.pcCheck( this.checkDelay ).then(isOnline => this.setState({pcOnline: isOnline}));
+    PathwayCommonsService.isServiceOnline(this.delay)
+      .then(isOnline => {
+        this.setState({pcOnline: isOnline});
+      });
   }
 
   handlePropUpdates(props) {
@@ -58,7 +60,7 @@ export class Index extends React.Component {
   }
 
   updateGlobal(key, value) {
-    if(key !== "updateGlobal") {
+    if(key !== 'updateGlobal') {
       this.setState({[key] : value});
     }
   }
