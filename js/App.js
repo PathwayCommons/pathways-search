@@ -15,7 +15,7 @@ PathwayCommonsService.registerUser('pathways-search');
 
 const mountElement = document.getElementById('container');
 
-export class App extends React.Component {
+class App extends React.Component {
   render() {
     return (
       <HashRouter className="App">
@@ -26,8 +26,3 @@ export class App extends React.Component {
 }
 
 ReactDOM.render(<App/>, mountElement);
-
-export const hardReload = () => {
-  ReactDOM.unmountComponentAtNode(mountElement);
-  setTimeout(() => ReactDOM.render(<App/>, mountElement), 1);
-};
