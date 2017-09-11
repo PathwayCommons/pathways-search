@@ -37,6 +37,7 @@ const PathwayCommonsService = {
 
 PathwayCommonsService.querySearch = querySearch;
 
+// expose core cpath2 client api
 PathwayCommonsService.core = pathwayCommons;
 
 export default PathwayCommonsService;

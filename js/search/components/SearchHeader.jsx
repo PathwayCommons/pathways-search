@@ -32,7 +32,9 @@ export class SearchHeader extends React.Component {
   }
 
   updateTerm() {
-    if (this.state.q.match(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/)) {
+    const uriRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+
+    if (this.state.q.match(uriRegex)) {
       this.props.history.push({pathname: '/view', search: queryString.stringify({uri: this.state.q})});
     }
     else if (this.state.q != this.props.query.q) {

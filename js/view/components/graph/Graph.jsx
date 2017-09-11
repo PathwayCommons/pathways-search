@@ -15,6 +15,7 @@ import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
 // - updateGlobal
 // - deleteGlobal
 // - sbgnText
+// - cytoscape
 export class Graph extends React.Component {
   constructor(props) {
     super(props);
