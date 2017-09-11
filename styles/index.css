@@ -10,9 +10,6 @@
 @import 'react-bootstrap-typeahead/css/Token.css';
 @import 'react-bootstrap-typeahead/css/Loader.css';
 
-/* Load react component css files */
-@import 'react-toggle/style.css';
-
 /* Load variables */
 @import './css/variables.css';
 @import './css/general.css';
