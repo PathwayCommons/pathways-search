@@ -1,11 +1,12 @@
 import React from 'react';
 import {FormGroup, FormControl, ControlLabel, HelpBlock} from 'react-bootstrap';
 import {Typeahead} from 'react-bootstrap-typeahead';
+
 import map from 'lodash.map';
 import isEmpty from 'lodash.isempty';
 import clone from 'lodash.clone';
-import {datasources} from 'pathway-commons';
-import {queryFetch} from '../../services/pcQueryFetch.js';
+
+import PathwayCommonsService from '../../services/pathwayCommons/';
 
 // Determines which prop are valid filter props as opposed to other properties like page or query
 const filterPropList = [
@@ -33,20 +34,27 @@ export class SearchOptions extends React.Component {
       enhance: this.props.query.enhance || ''
     };
 
-    Promise.all([
-      datasources
-        .fetch()
-        .then(datasourceObj => Object.keys(datasourceObj).map(key => datasourceObj[key])),
-      queryFetch({...this.props.query, datasource: undefined})
-    ])
-      .then(promArray => promArray[0].filter(datasource => promArray[1].providers.indexOf(datasource.name) !== -1))
+    const datasources = PathwayCommonsService.core.datasources
+      .fetch()
+      .then(datasource => {
+        return Object.keys(datasource).map(key => datasource[key]);
+      });
+
+    const searchQuery = PathwayCommonsService.querySearch({...this.props.query, datasource: undefined});
+
+    Promise.all([datasources, searchQuery])
+      .then(promises => {
+        return promises[0].filter(datasource => {
+          return promises[1].providers.indexOf(datasource.name) !== -1;
+        });
+      })
       .catch(() => { // Provide all datasources if no datasources available in search results
         console.error('No datasources available in search results');
         return datasources
           .fetch()
-          .then(datasourceObj => Object.keys(datasourceObj).map(key => datasourceObj[key]));
+          .then(datasource => Object.keys(datasource).map(key => datasource[key]));
       })
-      .then(datasourceObj => this.setState({datasourceRef: datasourceObj}));
+      .then(datasource => this.setState({datasourceRef: datasource}));
   }
 
   componentWillUnmount() {
