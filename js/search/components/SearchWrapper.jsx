@@ -2,9 +2,9 @@ import React from 'react';
 import isArray from 'lodash.isarray';
 import isEqual from 'lodash.isequal';
 import queryString from 'query-string';
-
-import {queryFetch} from '../../services/pcQueryFetch.js';
 import {Spinner} from '../../components/Spinner.jsx';
+
+import PathwayCommonsService from '../../services/pathwayCommons/';
 
 // SearchWrapper
 // Prop Dependencies ::
@@ -32,13 +32,9 @@ export class SearchWrapper extends React.Component {
     this.getSearchResult(this.props.query);
   }
 
-  handleLoading( isLoading ){
-    this.setState({loading: isLoading});
-  }
-
-  getSearchResult(queryObject) {
-    this.handleLoading( true );
-    queryFetch(queryObject)
+  getSearchResult(query) {
+    this.setState({loading: true});
+    PathwayCommonsService.querySearch(query)
       .then(searchResult => {
         this.setState({
           searchResult: searchResult,

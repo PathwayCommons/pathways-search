@@ -1,5 +1,6 @@
 import pathwayCommons from 'pathway-commons';
 
+import querySearch from './search';
 
 const PathwayCommonsService = {
   // query pathway commons for pathways, sbgn, information, etc.
@@ -33,5 +34,9 @@ const PathwayCommonsService = {
   }
 
 };
+
+PathwayCommonsService.querySearch = querySearch;
+
+PathwayCommonsService.core = pathwayCommons;
 
 export default PathwayCommonsService;
