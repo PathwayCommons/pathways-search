@@ -25,8 +25,7 @@ export class View extends React.Component {
       cy: cyInit({ headless: true }), // cytoscape mounted after Graph component has mounted
       sbgnText: {},
       name: '',
-      datasource: '',
-      show: false
+      datasource: ''
     };
 
     PathwayCommonsService.query(props.query.uri, 'SBGN')
@@ -39,14 +38,14 @@ export class View extends React.Component {
     PathwayCommonsService.query(props.query.uri, 'json', 'Named/displayName')
       .then(responseObj => {
         this.setState({
-          name: responseObj.traverseEntry[0].value.pop()
+          name: responseObj ? responseObj.traverseEntry[0].value.pop() : ''
         });
       });
 
     PathwayCommonsService.query(props.query.uri, 'json', 'Entity/dataSource/displayName')
       .then(responseObj => {
         this.setState({
-          datasource: responseObj.traverseEntry[0].value.pop()
+          datasource: responseObj ? responseObj.traverseEntry[0].value.pop() : ''
         });
       });
 
