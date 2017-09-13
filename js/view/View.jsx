@@ -7,7 +7,6 @@ import {Graph} from './components/graph/Graph.jsx';
 import {ModalFramework} from './components/menu/ModalFramework.jsx';
 
 import cyInit from './cy/init';
-import bindEvents from './cy/events/';
 
 import PathwayCommonsService from '../services/pathwayCommons/';
 
@@ -146,7 +145,7 @@ export class View extends React.Component {
               </Navbar.Collapse>
             </Navbar>)
           }
-          <Graph onCyMount={bindEvents} cy={this.state.cy} sbgnText={this.state.sbgnText} {...this.props}/>
+          <Graph cy={this.state.cy} sbgnText={this.state.sbgnText} {...this.props}/>
           {/* Menu Modal */}
           <ModalFramework cy={this.state.cy} onHide={() => this.setState({active: ''})} {...this.state} {...this.props}/>
         </div>

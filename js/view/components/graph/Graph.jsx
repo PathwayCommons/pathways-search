@@ -16,7 +16,6 @@ import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
 // - deleteGlobal
 // - sbgnText
 // - cytoscape
-// - onCyMount
 export class Graph extends React.Component {
   constructor(props) {
     super(props);
@@ -44,7 +43,6 @@ export class Graph extends React.Component {
   componentDidMount() {
     const container = document.getElementById(this.state.graphId);
     this.props.cy.mount(container);
-    this.props.onCyMount(this.props.cy);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
