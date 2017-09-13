@@ -33,7 +33,9 @@ const tokenPrefix = (phrase, collection) => {
 
 export default (query, failureCount = 0) => { // Pass in all query parameters
   // queries must be non empty strings
-  if (typeof query.q !== 'string' && query.q.length <= 0) {
+  let queryVal = query.q;
+
+  if (queryVal || typeof queryVal !== 'string') {
     return Promise.resolve(query.q);
   }
 
@@ -45,7 +47,6 @@ export default (query, failureCount = 0) => { // Pass in all query parameters
     return getHGNCData('hgncSymbols.txt')
       .then( tokenPrefix.bind( null, words ) ) //implicit Promise result
       .then( result => '(name:' + escapeSpaces( words ) + ') OR (' + 'name:*' + escapeSpaces( words ) + '*) OR (' + result.join(' AND ') + ")" );
-
   }
 
   // Perform less strict search -- separated from the groups above because I found it slower on the backend

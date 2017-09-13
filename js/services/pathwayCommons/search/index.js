@@ -57,7 +57,7 @@ export default memoize((query, failureCount) => {
         return Promise.resolve(undefined);
       }
       if(failureCount !== -1) { // Advance failureCount and recurse
-        return queryFetch(query, failureCount + 1);
+        return processQuery(query, failureCount + 1);
       }
       else { // Break recursion and return null
         return Promise.resolve(null);
