@@ -1,6 +1,5 @@
 import React from 'react';
 import {Col, Glyphicon, Navbar, Nav, NavItem, OverlayTrigger, Popover} from 'react-bootstrap';
-import {get, traverse} from 'pathway-commons';
 import {saveAs} from 'file-saver';
 
 import {ErrorMessage} from '../components/ErrorMessage.jsx';
@@ -9,6 +8,8 @@ import {ModalFramework} from './components/menu/ModalFramework.jsx';
 
 import cyInit from './cy/init';
 import bindEvents from './cy/events/';
+
+import PathwayCommonsService from '../services/pathwayCommons/';
 
 // View
 // Prop Dependencies ::
@@ -21,38 +22,38 @@ export class View extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cy: cyInit({ headless: true }),      
-      sbgnData: {},
+      cy: cyInit({ headless: true }), // cytoscape mounted after Graph component has mounted
+      sbgnText: {},
       name: '',
-      datasource: '',
-      show: false
+      datasource: ''
     };
 
-    get()
-      .uri(this.props.query.uri)
-      .format('SBGN')
-      .fetch()
-      .then(responseText => this.setState({sbgnData: responseText}));
+    PathwayCommonsService.query(props.query.uri, 'SBGN')
+      .then(responseText => {
+        this.setState({
+          sbgnText: responseText
+        });
+      });
 
-    traverse()
-      .uri(this.props.query.uri)
-      .path('Named/displayName')
-      .format('json')
-      .fetch()
-      .then(responseObject => this.setState({name: responseObject.traverseEntry[0].value.pop()}));
+    PathwayCommonsService.query(props.query.uri, 'json', 'Named/displayName')
+      .then(responseObj => {
+        this.setState({
+          name: responseObj ? responseObj.traverseEntry[0].value.pop() : ''
+        });
+      });
 
-    traverse()
-      .uri(this.props.query.uri)
-      .path('Entity/dataSource/displayName')
-      .format('json')
-      .fetch()
-      .then(responseObject => this.setState({datasource: responseObject.traverseEntry[0].value.pop()}));
+    PathwayCommonsService.query(props.query.uri, 'json', 'Entity/dataSource/displayName')
+      .then(responseObj => {
+        this.setState({
+          datasource: responseObj ? responseObj.traverseEntry[0].value.pop() : ''
+        });
+      });
 
-    this.props.logPageView( this.props.history.location );
-    this.props.logEvent({
+    props.logPageView( props.history.location );
+    props.logEvent({
       category: 'View',
       action: 'view',
-      label: this.props.query.uri
+      label: props.query.uri
     });
   }
 
@@ -89,7 +90,7 @@ export class View extends React.Component {
       </Popover>
     );
 
-    if(this.state.sbgnData) {
+    if(this.state.sbgnText) {
       return(
         <div className="View">
           { !this.props.embed &&
@@ -110,7 +111,7 @@ export class View extends React.Component {
                 </Nav>
                 <Nav pullRight>
                   <NavItem eventKey={1} onClick={() => {
-                    const imgBlob = this.state.cy.png({output: 'blob', scale: 5, bg: 'white',full: true}); 
+                    const imgBlob = this.state.cy.png({output: 'blob', scale: 5, bg: 'white',full: true});
                     saveAs(imgBlob, this.state.name  + '.png');}}>
                     <Col xsHidden >
                       <OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_screenshot}>
@@ -145,7 +146,7 @@ export class View extends React.Component {
               </Navbar.Collapse>
             </Navbar>)
           }
-          <Graph onCyMount={bindEvents} cy={this.state.cy} sbgnData={this.state.sbgnData} {...this.props}/>
+          <Graph onCyMount={bindEvents} cy={this.state.cy} sbgnText={this.state.sbgnText} {...this.props}/>
           {/* Menu Modal */}
           <ModalFramework cy={this.state.cy} onHide={() => this.setState({active: ''})} {...this.state} {...this.props}/>
         </div>

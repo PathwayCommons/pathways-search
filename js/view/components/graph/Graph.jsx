@@ -14,7 +14,8 @@ import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
 // Prop Dependencies ::
 // - updateGlobal
 // - deleteGlobal
-// - sbgnData
+// - sbgnText
+// - cytoscape
 export class Graph extends React.Component {
   constructor(props) {
     super(props);
@@ -47,7 +48,7 @@ export class Graph extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    this.checkRenderGraph(nextProps.sbgnData);
+    this.checkRenderGraph(nextProps.sbgnText);
     return true;
   }
 
@@ -81,7 +82,7 @@ export class Graph extends React.Component {
       ele.removeScratch('_fisheye-pos-before');
     });
     cy.nodes('[class="complex"], [class="complex multimer"]').filter(node => node.isExpanded()).collapse();
-    cy.layout(layoutMap.get(layoutName)).run();  
+    cy.layout(layoutMap.get(layoutName)).run();
   }
 
   render() {

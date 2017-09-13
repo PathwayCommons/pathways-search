@@ -1,9 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 import {saveAs} from 'file-saver';
-import {get} from 'pathway-commons';
+
 import {DownloadCard} from './DownloadCard.jsx';
 import {Spinner} from '../../../components/Spinner.jsx';
+
+import PathwayCommonsService from '../../../services/pathwayCommons/';
 
 // Downloads
 // Prop Dependencies ::
@@ -25,11 +27,15 @@ export class Downloads extends React.Component {
 
   initiatePCDownload(format, file_ext) {
     this.toggleLoading();
-    get()
-      .uri(this.props.uri)
-      .format(format)
-      .fetch()
-      .then(content => this.saveDownload(file_ext, typeof content === 'object' ? JSON.stringify(content) : content))
+
+    PathwayCommonsService.query(this.props.uri, format)
+      .then(content => {
+        let fileContent = content;
+        if (typeof content === 'object') {
+          fileContent = JSON.stringify(content);
+        }
+        this.saveDownload(file_ext, fileContent);
+      })
       .then(() => this.toggleLoading());
   }
 
