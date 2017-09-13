@@ -37,7 +37,6 @@ export class Graph extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.deleteGlobal('graphImage');
     this.props.cy.destroy();
   }
 

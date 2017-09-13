@@ -20,12 +20,8 @@ export class Downloads extends React.Component {
     };
   }
 
-  toggleLoading() {
-    this.setState({loading: !this.state.loading});
-  }
-
   initiatePCDownload(format, file_ext) {
-    this.toggleLoading();
+    this.setState({loading: !this.state.loading});
 
     PathwayCommonsService.query(this.props.uri, format)
       .then(content => {
@@ -35,7 +31,7 @@ export class Downloads extends React.Component {
         }
         this.saveDownload(file_ext, fileContent);
       })
-      .then(() => this.toggleLoading());
+      .then(() => this.setState({loading: !this.state.loading}));
   }
 
   saveDownload(file_ext, content) {
@@ -51,7 +47,7 @@ export class Downloads extends React.Component {
   render() {
     return(
       <div className={classNames('Downloads', (this.props.hidden ? 'hidden' : ''))}>
-        <Spinner full hidden={!this.state.loading}/>
+        <Spinner full={true} hidden={!this.state.loading}/>
         <div className="downloadContainer clearfix">
           {/* All custom download links go below */}
           <DownloadCard name="Image" format="png" onClick={() => {
