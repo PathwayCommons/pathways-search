@@ -10,13 +10,13 @@ export class Information extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      commentArray: []
+      comments: []
     };
 
     PathwayCommonsService.query(props.uri, 'json', 'Entity/comment')
-      .then(responseArray => {
+      .then(responses => {
         this.setState({
-          commentArray: responseArray.traverseEntry[0].value
+          comments: responses ? responses.traverseEntry[0].value : []
         });
       });
   }
@@ -24,7 +24,7 @@ export class Information extends React.Component {
   render() {
     return(
       <div className={classNames('Information', (this.props.hidden ? 'hidden' : ''))}>
-        {this.state.commentArray.map((comment, index) => {
+        {this.state.comments.map((comment, index) => {
           return (
             <div className="comment" key={index}>
               {comment}
