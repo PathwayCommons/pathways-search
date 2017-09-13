@@ -5,12 +5,6 @@ import {Modal, Image, Media} from 'react-bootstrap';
 // Prop Dependencies ::
 // - none
 export class Splash extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
   render() {
     return (
       <div className="Splash">
