@@ -11,7 +11,6 @@ import PathwayCommonsService from '../../../services/pathwayCommons/';
 // Prop Dependencies ::
 // - name
 // - uri
-// - pathwayData
 // - cy
 export class Downloads extends React.Component {
   constructor(props) {
