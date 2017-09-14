@@ -23,14 +23,14 @@ export default memoize((query, failureCount) => {
         datasources.fetch()
       ]);
     })
-    .then(promiseArray => { // Perform filtering and throw error if no valid results returned
-      var searchObject = promiseArray[0];
-      var datasources = promiseArray[1];
-      if(searchObject == null || (typeof searchObject === 'object' && searchObject.empty === true)) { // Check for no returned results
+    .then(promises => { // Perform filtering and throw error if no valid results returned
+      var searchResult = promises[0];
+      var datasources = promises[1];
+      if(searchResult == null || (typeof searchResult === 'object' && searchResult.empty === true)) { // Check for no returned results
         throw new Error();
       }
 
-      searchObject.searchHit = searchObject.searchHit.filter(item => { // Perform filtering by numParticipants
+      searchResult.searchHit = searchResult.searchHit.filter(item => { // Perform filtering by numParticipants
         if(((query.lt > item.numParticipants) || query.lt === undefined) && ((query.gt < item.numParticipants) || query.gt === undefined)) {
           return true;
         }
@@ -39,13 +39,13 @@ export default memoize((query, failureCount) => {
         }
       });
 
-      if(searchObject.searchHit.length > 0) { // Process searchData to add extra properties from dataSources
+      if(searchResult.searchHit.length > 0) { // Process searchData to add extra properties from dataSources
         return {
-          searchHit: searchObject.searchHit.map(searchResult => {
+          searchHit: searchResult.searchHit.map(searchResult => {
             searchResult['sourceInfo'] = datasources[searchResult.dataSource[0]];
             return searchResult;
           }),
-          ...searchObject
+          ...searchResult
         };
       }
       else { // Assume filtering has removed all search hits

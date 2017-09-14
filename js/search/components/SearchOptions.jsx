@@ -98,7 +98,7 @@ export class SearchOptions extends React.Component {
                 this.state.datasourceRef.filter(datasource => this.props.query.datasource.indexOf(datasource.name) !== -1) :
                 this.state.datasourceRef}
               placeholder="Select one or more datasources to filter by (eg. Reactome)"
-              onChange={selectedArray => this.updateFilter('datasource', selectedArray.map(selected => selected.name))}
+              onChange={selections => this.updateFilter('datasource', selections.map(selected => selected.name))}
             /> : null
           }
           <HelpBlock>

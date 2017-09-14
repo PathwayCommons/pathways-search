@@ -36,16 +36,16 @@ export class View extends React.Component {
       });
 
     PathwayCommonsService.query(props.query.uri, 'json', 'Named/displayName')
-      .then(responseObj => {
+      .then(response => {
         this.setState({
-          name: responseObj ? responseObj.traverseEntry[0].value.pop() : ''
+          name: response ? response.traverseEntry[0].value.pop() : ''
         });
       });
 
     PathwayCommonsService.query(props.query.uri, 'json', 'Entity/dataSource/displayName')
-      .then(responseObj => {
+      .then(response => {
         this.setState({
-          datasource: responseObj ? responseObj.traverseEntry[0].value.pop() : ''
+          datasource: response ? response.traverseEntry[0].value.pop() : ''
         });
       });
 
