@@ -1,12 +1,17 @@
 import React from 'react';
+import h from 'react-hyperscript';
 import classNames from 'classnames';
 
+// ErrorMessage
+// Prop Dependencies ::
+// - children
+// - className
 export class ErrorMessage extends React.Component {
   render() {
     return (
-			<div className={classNames('ErrorMessage', this.props.className)}>
-				{this.props.children || 'Error'}
-			</div>
+      h(`div.${classNames('ErrorMessage', this.props.className)}`, [
+        this.props.children || 'Error'
+      ])
     );
   }
 }

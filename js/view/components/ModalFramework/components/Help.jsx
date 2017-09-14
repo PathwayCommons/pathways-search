@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {Thumbnail} from 'react-bootstrap';
 
-// Interactions
+// Help
 // Prop Dependencies ::
 export class Help extends React.Component {
   constructor(props) {

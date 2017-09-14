@@ -40,6 +40,7 @@
     "react-bootstrap-typeahead": "^1.2.0",
     "react-dom": "^15.4.1",
     "react-ga": "^2.2.0",
+    "react-hyperscript": "^3.0.0",
     "react-router-dom": "^4.0.0",
     "sbgnml-to-cytoscape": "^3.0.2",
     "spinkit": "^1.2.5"
