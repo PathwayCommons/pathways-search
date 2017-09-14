@@ -1,11 +1,38 @@
 import React from 'react';
+import {Button, Col} from 'react-bootstrap';
 import classNames from 'classnames';
 import {saveAs} from 'file-saver';
 
-import {DownloadCard} from './DownloadCard.jsx';
-import {Spinner} from '../../../components/Spinner.jsx';
+import {Spinner} from '../../../../components/Spinner.jsx';
 
-import PathwayCommonsService from '../../../services/pathwayCommons/';
+import PathwayCommonsService from '../../../../services/pathwayCommons/';
+
+// DownloadCard
+// Prop Dependencies ::
+// - name
+// - children
+class DownloadCard extends React.Component {
+  render() {
+    return (
+      <Col className={classNames('DownloadCard', this.props.name)} key={this.props.name} xs={12}>
+        <div className="tile clearfix">
+          <Col xs={12}>
+            <Button className="downloadButton" onClick={this.props.onClick}>
+              <Col className="buttonName">
+                {this.props.name}
+              </Col>
+            </Button>
+          </Col>
+          <Col xs={12}>
+            <div className="descriptiveText">
+              {this.props.children}
+            </div>
+          </Col>
+        </div>
+      </Col>
+    );
+  }
+}
 
 // Downloads
 // Prop Dependencies ::

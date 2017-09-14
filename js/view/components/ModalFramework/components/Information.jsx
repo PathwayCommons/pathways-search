@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import PathwayCommonsService from '../../../services/pathwayCommons/';
+import PathwayCommonsService from '../../../../services/pathwayCommons/';
 
 // Information
 // Prop Dependencies ::

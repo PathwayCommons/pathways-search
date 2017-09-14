@@ -3,8 +3,9 @@ import {Col, Glyphicon, Navbar, Nav, NavItem, OverlayTrigger, Popover} from 'rea
 import {saveAs} from 'file-saver';
 
 import {ErrorMessage} from '../components/ErrorMessage.jsx';
-import {Graph} from './components/graph/Graph.jsx';
-import {ModalFramework} from './components/menu/ModalFramework.jsx';
+
+import {Graph} from './components/Graph.jsx';
+import {ModalFramework} from './components/ModalFramework/ModalFramework.jsx';
 
 import cyInit from './cy/init';
 

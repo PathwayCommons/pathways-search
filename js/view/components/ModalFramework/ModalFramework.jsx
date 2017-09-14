@@ -1,9 +1,9 @@
 import React from 'react';
 import {Modal, Button} from 'react-bootstrap';
 
-import {Help} from './Help.jsx';
-import {Information} from './Information.jsx';
-import {Downloads} from './Downloads.jsx';
+import {Help} from './components/Help.jsx';
+import {Information} from './components/Information.jsx';
+import {Downloads} from './components/Downloads.jsx';
 
 // ModalFramework
 // Prop Dependencies ::

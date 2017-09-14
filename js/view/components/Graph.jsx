@@ -6,9 +6,9 @@ import {Col, Row, DropdownButton, MenuItem} from 'react-bootstrap';
 
 import convertSbgn from 'sbgnml-to-cytoscape';
 
-import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout/';
-import {Spinner} from '../../../components/Spinner.jsx';
-import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
+import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from '../cy/layout/';
+import {Spinner} from '../../components/Spinner.jsx';
+import {ErrorMessage} from '../../components/ErrorMessage.jsx';
 
 // Graph
 // Prop Dependencies ::
