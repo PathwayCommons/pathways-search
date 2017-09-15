@@ -18,41 +18,43 @@ export class Splash extends React.Component {
               h('a', {
                 href: 'http://www.pathwaycommons.org/pc2/datasources',
                 target: '_blank'
-              }, [
-                'public pathway databases'
-              ]),
-              h('img.splashImage', {
+              },'public pathway databases'),
+              h(Image, {
+                className: 'splashImage',
                 src: 'img/splash_infographic.svg',
               })
+            ])
+          ]),
+          h(Modal.Footer, [
+            h(Media, [
+              h(Media.Body, [
+                h(Media.Heading, [
+                  h('span#pc-link', [
+                    h('a', {
+                      href: 'http://www.pathwaycommons.org',
+                      target: '_blank'
+                    }, 'Pathway Commons')
+                  ])
+                ]),
+                h('span#pub-link', [
+                  h('a', {
+                    href: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3013659/',
+                    target: '_blank'
+                  }, 'A web resource for biological pathway data')
+                ])
+              ]),
+              h(Media.Right, [
+                h('img', {
+                  width: 48,
+                  height: 48,
+                  src: 'img/pc_logo_dark.svg',
+                  alt: 'Image'
+                })
+              ])
             ])
           ])
         ])
       ])
     );
-    // return (
-    //   <div className="Splash">
-    //     <Modal.Dialog className="splashModal">
-    //       <Modal.Body>
-    //         <p className="lead splashText">
-    //           Signalling pathways, metabolic pathways and gene regulatory networks from <a href="http://www.pathwaycommons.org/pc2/datasources" target="_blank">public pathway databases</a>.
-    //         </p>
-    //         <Image src='img/splash_infographic.svg' className="splashImage" />
-    //       </Modal.Body>
-    //       <Modal.Footer>
-    //         <Media>
-    //           <Media.Body>
-    //             <Media.Heading>
-    //                <span id="pc-link"><a href="http://www.pathwaycommons.org/" target="_blank">Pathway Commons</a></span>
-    //             </Media.Heading>
-    //             <span id="pub-link"><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3013659/" target="_blank">A web resource for biological pathway data.</a></span>
-    //           </Media.Body>
-    //           <Media.Right>
-    //             <img width={48} height={48} src="img/pc_logo_dark.svg" alt="Image" />
-    //           </Media.Right>
-    //         </Media>
-    //       </Modal.Footer>
-    //     </Modal.Dialog>
-    //   </div>
-    // );
   }
 }

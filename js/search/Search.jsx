@@ -1,4 +1,5 @@
 import React from 'react';
+import h from 'react-hyperscript';
 import {SearchWrapper} from './components/SearchWrapper.jsx';
 import {SearchHeader} from './components/SearchHeader.jsx';
 import {SearchList} from './components/SearchList.jsx';
@@ -14,6 +15,7 @@ import {SearchList} from './components/SearchList.jsx';
 export class Search extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.props.logPageView( this.props.history.location );
   }
 
@@ -30,12 +32,12 @@ export class Search extends React.Component {
 
   render() {
     return (
-      <div className="Search">
-        <SearchWrapper {...this.props}>
-          <SearchHeader/>
-          <SearchList/>
-        </SearchWrapper>
-      </div>
+      h('div.Search', [
+        h(SearchWrapper, {...this.props}, [
+          h(SearchHeader),
+          h(SearchList)
+        ])
+      ])
     );
   }
 }
