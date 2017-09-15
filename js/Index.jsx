@@ -19,7 +19,6 @@ export class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      help: false,
       pcOnline: true,
       ...this.handlePropUpdates(this.props)
     };
@@ -54,7 +53,7 @@ export class Index extends React.Component {
 
   handlePropUpdates(props) {
     return {
-      embed: props.match && props.match.params.modifier === 'embed' ? true : false,
+      embed: props.match && props.match.params.modifier === 'embed',
       query: queryString.parse(props.location.search)
     };
   }

@@ -42,8 +42,7 @@ export class SearchHeader extends React.Component {
         q: this.state.q,
         lt: 250,
         gt: 3,
-        type: 'Pathway',
-        enhance: this.props.query.enhance
+        type: 'Pathway'
       });
     }
   }

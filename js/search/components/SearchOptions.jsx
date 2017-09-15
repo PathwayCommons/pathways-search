@@ -13,8 +13,7 @@ const filterPropList = [
   'type',
   'datasource',
   'lt',
-  'gt',
-  'enhance'
+  'gt'
 ];
 
 // SearchOptions
@@ -30,8 +29,7 @@ export class SearchOptions extends React.Component {
       datasource: {},
       datasourceRef: [],
       lt: this.props.query.lt || '',
-      gt: this.props.query.gt || '',
-      enhance: this.props.query.enhance || ''
+      gt: this.props.query.gt || ''
     };
 
     const datasources = PathwayCommonsService.core.datasources
