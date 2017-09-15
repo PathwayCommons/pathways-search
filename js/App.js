@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {HashRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route} from 'react-router-dom';
 
 import {Index} from './Index.jsx';
 import PathwayCommonsService from './services/pathwayCommons/';
@@ -18,9 +18,9 @@ const mountElement = document.getElementById('container');
 class App extends React.Component {
   render() {
     return (
-      <HashRouter className="App">
+      <BrowserRouter className="App">
         <Route path="/:selector?/:modifier?" component={Index}/>
-      </HashRouter>
+      </BrowserRouter>
     );
   }
 }
