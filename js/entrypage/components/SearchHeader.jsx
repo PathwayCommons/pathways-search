@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
-import {SearchFaq} from './SearchFaq.jsx';
+import {SearchFaq} from '../../components/SearchFaq.jsx';
 
 
 // SearchHeader

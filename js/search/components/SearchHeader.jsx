@@ -10,8 +10,9 @@ import {
 import {Link} from 'react-router-dom';
 import queryString from 'query-string';
 
+import {SearchFaq} from '../../components/SearchFaq.jsx';
+
 import {SearchOptions} from './SearchOptions.jsx';
-import {SearchFaq} from './SearchFaq.jsx';
 
 
 // SearchHeader

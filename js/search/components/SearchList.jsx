@@ -1,10 +1,8 @@
 import React from 'react';
 import {Button, Glyphicon, OverlayTrigger, Popover} from 'react-bootstrap';
-import isEmpty from 'lodash.isempty';
-import classNames from 'classnames';
 
 import {SearchItem} from './SearchItem.jsx';
-import {Splash} from '../../components/Splash.jsx';
+
 import {ErrorMessage} from '../../components/ErrorMessage.jsx';
 
 // SearchList
@@ -31,10 +29,16 @@ export class SearchList extends React.Component {
   }
 
   render() {
-    var searchData = this.props.searchResult;
-    var hitList = [];
-    var noResults = null;
-    var listCutoff = 5;
+    const p = this.props;
+    const s = this.state;
+
+    if (p.embed) { return null; }
+
+    const searchData = p.searchResult;
+    const expanded = s.expanded;
+    const listCutoff = 5;
+
+    const results = searchData.searchHit ? searchData.searchHit : [];
 
     const tip_hit = (
       <Popover className="info-tip" id="popover-hit" placement="bottom" title="Search Hit">
@@ -48,48 +52,44 @@ export class SearchList extends React.Component {
       </Popover>
     );
 
-    if(!isEmpty(searchData)) {
-      hitList = searchData.searchHit ? searchData.searchHit : [];
-      // noResults = hitList.length === 0;
+    const searchResults = results.map((item, index) => {
+      if (index === 0) {
+        return (
+          <SearchItem key={index} data={item}
+            extras={
+              (<span>{'        '}
+                <OverlayTrigger placement="bottom" overlay={tip_hit} >
+                  <Glyphicon className="glyph-tip" glyph="info-sign" />
+                </OverlayTrigger>
+              </span>)
+            }
+          />
+        );
+      } else {
+        return (<SearchItem key={index} data={item} />);
+      }
+    }).slice(0, !expanded ? listCutoff : undefined);
 
-      noResults = ( hitList == null || hitList && hitList.length === 0 );
-    }
+    const moreResultsButton = (
+      <div className="moreResults" onClick={() => this.setState({expanded: true})}>
+        <OverlayTrigger delayShow={1000} placement="top" overlay={tip_more_results} >
+          <Button bsSize="large" block>More Results</Button>
+        </OverlayTrigger>
+      </div>
+    );
 
-    if (this.props.embed) { // If is embed return nothing
-      return null;
-    } else if (hitList.length > 0) { // Generate search list if results available
+    if (results.length > 0) { // Generate search list if results available
       return (
         <div className="SearchList">
-          {
-            hitList
-            .map((item, index) => { return index === 0 ?
-              (<SearchItem key={index} data={item} extras={(<span>{'        '}<OverlayTrigger placement="bottom" overlay={tip_hit} >
-                <Glyphicon className="glyph-tip" glyph="info-sign" /></OverlayTrigger></span>)} />) :
-              (<SearchItem key={index} data={item} />);
-            })
-            .slice(0, !this.state.expanded ? listCutoff : undefined)
-          }
-          {
-            !this.state.expanded && hitList.length > listCutoff ?
-            <div className="moreResults" onClick={() => this.setState({expanded: true})}>
-              <OverlayTrigger delayShow={1000} placement="top" overlay={tip_more_results} >
-                <Button bsSize="large" block>More Results</Button>
-              </OverlayTrigger>
-            </div>
-            : null
-          }
+          { searchResults }
+          { !expanded && results.length > listCutoff ? moreResultsButton : null }
         </div>
       );
-    } else if (searchData === null || noResults) { // For <= v.8, if searchData is null this indicates no search results found. Else for >= v.9, hitList = [] and empty = true indicates no search results found.
-      return (
-          <ErrorMessage className="SearchList">
-            No Search Results Found
-          </ErrorMessage>
-      );
     } else {
-      // Assume, either on home page or search results not loaded, generate splash screen
       return (
-        <Splash />
+        <ErrorMessage className="SearchList">
+          No Search Results Found
+        </ErrorMessage>
       );
     }
   }
