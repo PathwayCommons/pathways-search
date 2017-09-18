@@ -18,16 +18,6 @@ export class SearchList extends React.Component {
     };
   }
 
-  // Handle page switch from Pagination
-  handleSelect(e) {
-    // Pagination starts numbering from 1 but server starts number from 0, compensate for difference by subtracting 1
-    this.props.updateSearchArg({
-      ...this.props.query,
-      page: (e - 1).toString()
-    });
-    scroll(0, 0);
-  }
-
   render() {
     const p = this.props;
     const s = this.state;
