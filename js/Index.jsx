@@ -5,6 +5,7 @@ import queryString from 'query-string';
 import {Alert} from 'react-bootstrap';
 import ReactGA from 'react-ga';
 
+import {EntryPage} from './entrypage/EntryPage.jsx';
 import {Search} from './search/Search.jsx';
 import {View} from './view/View.jsx';
 import {PageNotFound} from './PageNotFound.jsx';
@@ -90,7 +91,8 @@ export class Index extends React.Component {
           }
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/search"/>}/>
-            <Route path="/search" render={props => <Search {...props} {...globalObject} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
+            <Route exact strict path='/search' render={props => <EntryPage {...props} {...globalObject} logEvent={ this.logEvent} logPageView={ this.logPageView} />}/>
+            <Route strict path="/search/" render={props => <Search {...props} {...globalObject} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
             <Route path="/view" render={props => <View {...props} {...globalObject} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
             <Route path="*" render={props => <PageNotFound {...props} {...globalObject}/>}/>
           </Switch>

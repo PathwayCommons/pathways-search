@@ -49,8 +49,10 @@ export class SearchList extends React.Component {
     );
 
     if(!isEmpty(searchData)) {
-      hitList = searchData.searchHit;
-      noResults = hitList.length === 0;
+      hitList = searchData.searchHit ? searchData.searchHit : [];
+      // noResults = hitList.length === 0;
+
+      noResults = ( hitList == null || hitList && hitList.length === 0 );
     }
 
     if (this.props.embed) { // If is embed return nothing
