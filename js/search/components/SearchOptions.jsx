@@ -97,7 +97,7 @@ export class SearchOptions extends React.Component {
               clearButton
               labelKey="name"
               options={state.datasources}
-              defaultSelected={p.query.datasource ?
+              defaultSelected={props.query.datasource ?
                 state.datasources.filter(datasource => props.query.datasource.indexOf(datasource.name) !== -1) :
                 state.datasources}
               placeholder="Select one or more datasources to filter by (eg. Reactome)"
