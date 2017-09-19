@@ -17,7 +17,6 @@ import {SearchFaq} from '../../components/SearchFaq.jsx';
 // - embed
 // - queryConfig
 
-// Note: Spread operator used to provide props to SearchOptions, therefore SearchBar also adopts SearchOptions dependencies in addition to those provided above
 export class SearchHeader extends React.Component {
   constructor(props) {
     super(props);
