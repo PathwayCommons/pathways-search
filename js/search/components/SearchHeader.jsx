@@ -78,16 +78,6 @@ export class SearchHeader extends React.Component {
   }
 
   render() {
-
-    const tip_search = (
-      <Popover className="info-tip" id="popover-brand" placement="bottom" title="Search!">
-        Access metabolic pathways, signalling pathways and gene regulatory networks sourced from public pathway databases.
-        <br/>
-        <br/>
-        <a className="clickable" onClick={e => this.populateWithExample(e, "ACVR2A BMP2 BMPR1B SMAD4")}>e.g. Gene list: 'Signaling by BMP' (Reactome)</a>
-      </Popover>
-    );
-
     const tip_faq = (
       <Popover className="info-tip" id="popover-faq" placement="bottom" title="Frequently Asked Questions">
         Find answers to common questions along with links to our forum and code repository.
@@ -151,13 +141,7 @@ export class SearchHeader extends React.Component {
                               id="glyph-filter"
                               glyph="filter"
                               onClick={() => this.toggleFilterMenu(true)}/>
-                           </OverlayTrigger>) :
-                          (<OverlayTrigger delayShow={1000} delayHide={2000} placement="left" overlay={tip_search}>
-                            <Glyphicon
-                              id="glyph-search"
-                              glyph="search"
-                              onClick={() => this.updateTerm()}/>
-                           </OverlayTrigger>)
+                           </OverlayTrigger>) : null
                         }
                       </InputGroup.Addon>
                     </InputGroup>
@@ -174,7 +158,7 @@ export class SearchHeader extends React.Component {
             <SearchOptions {...this.props}/>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => this.toggleFilterMenu(false)}>Close</Button>
+            <Button onClick={() => this.toggleFilterMenu(false)}>Confirm</Button>
           </Modal.Footer>
         </Modal>
         <Modal bsSize="large" show={this.state.showSearchFaq} onHide={() => this.toggleSearchFaq(false)}>

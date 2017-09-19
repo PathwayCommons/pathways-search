@@ -33,8 +33,8 @@ export class SearchHeader extends React.Component {
   }
 
   submitSearchQuery(e) {
-    const p = this.props;
-    p.history.push({
+    const props = this.props;
+    props.history.push({
       pathname: '/search/',
       search: this.formatQueryString(),
       state: {}
@@ -53,8 +53,10 @@ export class SearchHeader extends React.Component {
   }
 
   formatQueryString() {
-    const s = this.state;
-    return `?gt=${s.query.minGraphSize}&lt=${s.query.maxGraphSize}&type=${s.query.type}&q=${s.query.value}`;
+    const state = this.state;
+    return (
+      `?gt=${state.query.minGraphSize}&lt=${state.query.maxGraphSize}&type=${state.query.type}&q=${state.query.value}`
+    );
   }
 
   toggleSearchFaq() {
@@ -64,8 +66,8 @@ export class SearchHeader extends React.Component {
   }
 
   render() {
-    const p = this.props;
-    const s = this.state;
+    const props = this.props;
+    const state = this.state;
 
     const tip_search = (
       <Popover className="info-tip" id="popover-brand" placement="bottom" title="Search!">
@@ -88,7 +90,7 @@ export class SearchHeader extends React.Component {
         <Grid>
           <Row>
             <Form horizontal>
-              { !p.embed &&
+              { !props.embed &&
               <div>
                 <Col xsOffset={1} xs={9} smOffset={0} sm={2} componentClass={ControlLabel}>
                   <Link to={{ pathname: '/' }}>
@@ -107,24 +109,24 @@ export class SearchHeader extends React.Component {
               </div>
                }
                <Col xs={12}
-                sm={!p.embed ? 8 : 12}
-                smPull={!p.embed ? 2 : 0} >
+                sm={!props.embed ? 8 : 12}
+                smPull={!props.embed ? 2 : 0} >
                 <FormGroup>
                     <InputGroup bsSize="large">
                       <FormControl
                         className="hidden-xs"
                         type="text"
-                        placeholder={ !p.embed ?
+                        placeholder={ !props.embed ?
                           'Search pathways by name, gene names or type a URI' :
                           'Search pathways in Pathway Commons'
                         }
-                      value={s.query.value}
+                      value={state.query.value}
                       onChange={e => this.onSearchValueChange(e)} onKeyPress={e => this.onSearchValueChange(e)}/>
                       <FormControl
                         className="hidden-sm hidden-md hidden-lg"
                         type="text"
                         placeholder="Search pathways by name"
-                      value={s.query.value}
+                      value={state.query.value}
                       onChange={e => this.onSearchValueChange(e)} onKeyPress={e => this.onSearchValueChange(e)}/>
                       <InputGroup.Addon>
                         <OverlayTrigger delayShow={1000} delayHide={2000} placement="left" overlay={tip_search}>
@@ -137,7 +139,7 @@ export class SearchHeader extends React.Component {
             </Form>
           </Row>
         </Grid>
-        <Modal bsSize="large" show={s.showSearchFaq} onHide={() => this.toggleSearchFaq()}>
+        <Modal bsSize="large" show={state.showSearchFaq} onHide={() => this.toggleSearchFaq()}>
           <Modal.Header>
             <p className="header-title">Frequently Asked Questions</p>
           </Modal.Header>

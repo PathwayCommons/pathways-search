@@ -19,13 +19,13 @@ export class SearchList extends React.Component {
   }
 
   render() {
-    const p = this.props;
-    const s = this.state;
+    const props = this.props;
+    const state = this.state;
 
-    if (p.embed) { return null; }
+    if (props.embed) { return null; }
 
-    const searchData = p.searchResult;
-    const expanded = s.expanded;
+    const searchData = props.searchResult;
+    const expanded = state.expanded;
     const listCutoff = 5;
 
     const results = searchData.searchHit ? searchData.searchHit : [];

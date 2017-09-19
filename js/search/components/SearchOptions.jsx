@@ -8,19 +8,11 @@ import clone from 'lodash.clone';
 
 import PathwayCommonsService from '../../services/pathwayCommons/';
 
-// Determines which prop are valid filter props as opposed to other properties like page or query
-const filterPropList = [
-  'type',
-  'datasource',
-  'lt',
-  'gt'
-];
-
 // SearchOptions
 // Prop Dependencies ::
 // - query
 // - searchResult
-// - updateSearchArg(updateObject)
+// - updateSearchQuery(updateObject)
 export class SearchOptions extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +20,8 @@ export class SearchOptions extends React.Component {
       query: clone(this.props.query),
       datasources: [],
       lt: this.props.query.lt || '',
-      gt: this.props.query.gt || ''
+      gt: this.props.query.gt || '',
+      queryChanged: false
     };
 
     const datasources = PathwayCommonsService.core.datasources
@@ -49,13 +42,29 @@ export class SearchOptions extends React.Component {
       .then(datasources => this.setState({datasources: datasources}));
   }
 
+  // once the options view is closed, check if
   componentWillUnmount() {
-    map(filterPropList, (prop) => {
-      if(this.state.query[prop] == null) {
-        this.state.query[prop] = '';
-      }
-    });
-    this.props.updateSearchArg(this.state.query);
+    const requiredQueryFields = [
+      'type',
+      'datasource',
+      'lt',
+      'gt'
+    ];
+
+    if (this.state.queryChanged) {
+      const newQueryState = {...this.state.query};
+
+      // ensure required query fields exist
+      requiredQueryFields.forEach(field => {
+        if (this.state.query[field] == null) {
+          newQueryState[field] = '';
+        }
+      });
+
+      this.setState({
+        query: newQueryState
+      }, this.props.updateSearchQuery(this.state.query));
+    }
   }
 
   updateQueryFilter(key, value) {
@@ -65,14 +74,15 @@ export class SearchOptions extends React.Component {
       newQueryState[key] = value;
       this.setState({
         query: newQueryState,
-        [key]: value
+        [key]: value,
+        queryChanged: true
       });
     }
   }
 
   render() {
-    const s = this.state;
-    const p = this.props;
+    const state = this.state;
+    const props = this.props;
 
     return (
       <div className="SearchOptions">
@@ -81,15 +91,15 @@ export class SearchOptions extends React.Component {
             Datasources
           </ControlLabel>
           {
-            !isEmpty(s.datasources) ?
+            !isEmpty(state.datasources) ?
             <Typeahead
               multiple
               clearButton
               labelKey="name"
-              options={s.datasources}
+              options={state.datasources}
               defaultSelected={p.query.datasource ?
-                s.datasources.filter(datasource => p.query.datasource.indexOf(datasource.name) !== -1) :
-                s.datasources}
+                state.datasources.filter(datasource => props.query.datasource.indexOf(datasource.name) !== -1) :
+                state.datasources}
               placeholder="Select one or more datasources to filter by (eg. Reactome)"
               onChange={selectedArray => this.updateQueryFilter('datasource', selectedArray.map(selected => selected.name))}
             /> : null
@@ -105,7 +115,7 @@ export class SearchOptions extends React.Component {
           <FormControl
             type="text"
             placeholder="Enter the lowest number of participants shown"
-            defaultValue={s.gt ? s.gt : undefined}
+            defaultValue={state.gt ? state.gt : undefined}
             onChange={e => this.updateQueryFilter('gt', String(+e.target.value || ''))}
           />
           <HelpBlock>
@@ -119,7 +129,7 @@ export class SearchOptions extends React.Component {
           <FormControl
             type="text"
             placeholder="Enter the highest number of participants shown"
-            defaultValue={s.lt ? s.lt : undefined}
+            defaultValue={state.lt ? state.lt : undefined}
             onChange={e => this.updateQueryFilter('lt', String(+e.target.value || ''))}
           />
           <HelpBlock>
