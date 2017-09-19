@@ -60,10 +60,10 @@ export class Search extends React.Component {
     }
   }
 
-  updateSearchQuery(updateObject) {
+  updateSearchQuery(query) {
     this.props.history.push({
       pathname: this.props.location.pathname,
-      search: queryString.stringify(updateObject)
+      search: queryString.stringify(query)
     });
 
     if(this.props.embed === true) {
