@@ -2,7 +2,6 @@ import React from 'react';
 import {FormGroup, FormControl, ControlLabel, HelpBlock} from 'react-bootstrap';
 import {Typeahead} from 'react-bootstrap-typeahead';
 
-import map from 'lodash.map';
 import isEmpty from 'lodash.isempty';
 import clone from 'lodash.clone';
 

@@ -9,7 +9,6 @@ import {ErrorMessage} from '../../components/ErrorMessage.jsx';
 // Prop Dependencies ::
 // - searchResult
 // - embed
-// - updateSearchArg(updateObject)
 export class SearchList extends React.Component {
   constructor(props) {
     super(props);

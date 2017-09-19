@@ -19,7 +19,7 @@ import {SearchOptions} from './SearchOptions.jsx';
 // Prop Dependencies ::
 // - query
 // - embed
-// - updateSearchArg(updateObject)
+// - updateSearchQuery(updateObject)
 
 // Note: Spread operator used to provide props to SearchOptions, therefore SearchBar also adopts SearchOptions dependencies in addition to those provided above
 export class SearchHeader extends React.Component {
@@ -33,14 +33,16 @@ export class SearchHeader extends React.Component {
   }
 
   updateTerm() {
+    const state = this.state;
+    const props = this.props;
     const uriRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
 
-    if (this.state.q.match(uriRegex)) {
-      this.props.history.push({pathname: '/view', search: queryString.stringify({uri: this.state.q})});
+    if (state.q.match(uriRegex)) {
+      props.history.push({pathname: '/view', search: queryString.stringify({uri: state.q})});
     }
-    else if (this.state.q != this.props.query.q) {
-      this.props.updateSearchArg({ // Set search and filter parameters to be used when q changes
-        q: this.state.q,
+    else if (state.q != props.query.q) {
+      props.updateSearchQuery({ // Set search and filter parameters to be used when q changes
+        q: state.q,
         lt: 250,
         gt: 3,
         type: 'Pathway'
@@ -48,14 +50,14 @@ export class SearchHeader extends React.Component {
     }
   }
 
-  submit(e) {
+  submitSearchQuery(e) {
     if (e.which == 13) {
       this.updateTerm();
       e.target.blur();
     }
   }
 
-  onChange(e) {
+  onSearchValueChange(e) {
     this.setState({q: e.target.value});
   }
 
@@ -71,13 +73,10 @@ export class SearchHeader extends React.Component {
     });
   }
 
-  populateWithExample(e, q) {
-    e.stopPropagation();
-    this.state.q = q;
-    this.updateTerm();
-  }
-
   render() {
+    const props = this.props;
+    const state = this.state;
+
     const tip_faq = (
       <Popover className="info-tip" id="popover-faq" placement="bottom" title="Frequently Asked Questions">
         Find answers to common questions along with links to our forum and code repository.
@@ -90,13 +89,13 @@ export class SearchHeader extends React.Component {
       </Popover>
     );
 
-    var showAdvancedButton = this.props.query.q && !this.props.embed;
+    const showAdvancedButton = props.query.q && !props.embed;
     return (
       <div className="SearchHeader">
         <Grid>
           <Row>
             <Form horizontal>
-              { !this.props.embed &&
+              { !props.embed &&
               <div>
                 <Col xsOffset={1} xs={9} smOffset={0} sm={2} componentClass={ControlLabel}>
                   <Link to={{ pathname: '/' }}>
@@ -115,25 +114,25 @@ export class SearchHeader extends React.Component {
               </div>
                }
                <Col xs={12}
-                sm={!this.props.embed ? 8 : 12}
-                smPull={!this.props.embed ? 2 : 0} >
+                sm={!props.embed ? 8 : 12}
+                smPull={!props.embed ? 2 : 0} >
                 <FormGroup>
                     <InputGroup bsSize="large">
                       <FormControl
                         className="hidden-xs"
                         type="text"
-                        placeholder={ !this.props.embed ?
+                        placeholder={ !props.embed ?
                           'Search pathways by name, gene names or type a URI' :
                           'Search pathways in Pathway Commons'
                         }
-                      defaultValue={this.props.query.q}
-                      onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)} />
+                      defaultValue={props.query.q}
+                      onChange={(e) => this.onSearchValueChange(e)} onKeyPress={(e) => this.submitSearchQuery(e)} />
                       <FormControl
                         className="hidden-sm hidden-md hidden-lg"
                         type="text"
                         placeholder="Search pathways by name"
-                      defaultValue={this.props.query.q}
-                      onChange={(e) => this.onChange(e)} onKeyPress={(e) => this.submit(e)} />
+                      defaultValue={props.query.q}
+                      onChange={(e) => this.onSearchValueChange(e)} onKeyPress={(e) => this.submitSearchQuery(e)} />
                       <InputGroup.Addon>
                         { showAdvancedButton ?
                           (<OverlayTrigger delayShow={1000} placement="left" overlay={tip_filter}>
@@ -150,18 +149,18 @@ export class SearchHeader extends React.Component {
             </Form>
           </Row>
         </Grid>
-        <Modal show={this.state.showFilterMenu} onHide={() => this.toggleFilterMenu(false)}>
+        <Modal show={state.showFilterMenu} onHide={() => this.toggleFilterMenu(false)}>
           <Modal.Header>
             <p className="header-title">Filter Options</p>
           </Modal.Header>
           <Modal.Body>
-            <SearchOptions {...this.props}/>
+            <SearchOptions {...props}/>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={() => this.toggleFilterMenu(false)}>Confirm</Button>
           </Modal.Footer>
         </Modal>
-        <Modal bsSize="large" show={this.state.showSearchFaq} onHide={() => this.toggleSearchFaq(false)}>
+        <Modal bsSize="large" show={state.showSearchFaq} onHide={() => this.toggleSearchFaq(false)}>
           <Modal.Header>
             <p className="header-title">Frequently Asked Questions</p>
           </Modal.Header>
