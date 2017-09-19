@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import {
   Grid, Row, Col,
   Glyphicon,
@@ -15,7 +14,6 @@ import {SearchFaq} from '../../components/SearchFaq.jsx';
 // SearchHeader
 // Prop Dependencies ::
 // - embed
-// - queryConfig
 
 export class SearchHeader extends React.Component {
   constructor(props) {
@@ -33,16 +31,43 @@ export class SearchHeader extends React.Component {
   }
 
   submitSearchQuery(e) {
+    const state = this.state;
     const props = this.props;
-    props.history.push({
-      pathname: '/search/',
-      search: this.formatQueryString(),
-      state: {}
-    });
+    const uriRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+
+    const isUri = state.query.value.match(uriRegex) || decodeURIComponent(state.query.value).match(uriRegex);
+    if (isUri) {
+      props.history.push({
+        pathname: '/view',
+        search: this.formatViewUriString({uri: state.query.value}),
+        state: {}
+      });
+    } else {
+      props.history.push({
+        pathname: '/search',
+        search: this.formatSearchQueryString(state.query),
+        state: {}
+      });
+    }
     e.target.blur();
   }
 
+  formatViewUriString(query) {
+    return (
+      `?uri=${query.uri}`
+    );
+  }
+
+
+  formatSearchQueryString(query) {
+    return (
+      `?gt=${query.minGraphSize}&lt=${query.maxGraphSize}&type=${query.type}&q=${query.value}`
+    );
+  }
+
+
   onSearchValueChange(e) {
+    // if the user presses enter, submit the query
     if (e.which && e.which ===  13) {
       this.submitSearchQuery(e);
     } else {
@@ -50,13 +75,6 @@ export class SearchHeader extends React.Component {
       newQueryState.value = e.target.value;
       this.setState({query: newQueryState});
     }
-  }
-
-  formatQueryString() {
-    const state = this.state;
-    return (
-      `?gt=${state.query.minGraphSize}&lt=${state.query.maxGraphSize}&type=${state.query.type}&q=${state.query.value}`
-    );
   }
 
   toggleSearchFaq() {
@@ -89,7 +107,6 @@ export class SearchHeader extends React.Component {
         Find answers to common questions along with links to our forum and code repository.
       </Popover>
     );
-
 
     return (
       <div className="SearchHeader">

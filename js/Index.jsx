@@ -90,9 +90,8 @@ export class Index extends React.Component {
             )
           }
           <Switch>
-            <Route exact path="/" render={() => <Redirect to="/search"/>}/>
-            <Route exact strict path='/search' render={props => <EntryPage {...props} {...globalObject} logEvent={ this.logEvent} logPageView={ this.logPageView} />}/>
-            <Route strict path="/search/" render={props => <Search {...props} {...globalObject} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
+            <Route exact path="/" render={props => <EntryPage {...props} {...globalObject} logEvent={ this.logEvent} logPageView={ this.logPageView} />}/>
+            <Route path="/search" render={props => <Search {...props} {...globalObject} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
             <Route path="/view" render={props => <View {...props} {...globalObject} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
             <Route path="*" render={props => <PageNotFound {...props} {...globalObject}/>}/>
           </Switch>
