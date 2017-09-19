@@ -65,6 +65,12 @@ export class SearchHeader extends React.Component {
     });
   }
 
+  showExampleQuery() {
+    const newQueryState = {...this.state.query};
+    newQueryState.value = 'ACVR2A BMP2 BMPR1B SMAD4';
+    this.setState({query: newQueryState});
+  }
+
   render() {
     const props = this.props;
     const state = this.state;
@@ -74,7 +80,7 @@ export class SearchHeader extends React.Component {
         Access metabolic pathways, signalling pathways and gene regulatory networks sourced from public pathway databases.
         <br/>
         <br/>
-        <a onClick={e => this.setState({q: 'ACVR2A BMP2 BMPR1B SMAD4'})}>e.g. Gene list: 'Signaling by BMP' (Reactome)</a>
+        <a onClick={e =>  this.showExampleQuery()}>e.g. Gene list: 'Signaling by BMP' (Reactome)</a>
       </Popover>
     );
 
@@ -130,7 +136,7 @@ export class SearchHeader extends React.Component {
                       onChange={e => this.onSearchValueChange(e)} onKeyPress={e => this.onSearchValueChange(e)}/>
                       <InputGroup.Addon>
                         <OverlayTrigger delayShow={1000} delayHide={2000} placement="left" overlay={tip_search}>
-                          <Glyphicon id="glyph-search" glyph="search" onClick={this.submitSearchQuery}/>
+                          <Glyphicon id="glyph-search" glyph="search" onClick={(e) => this.submitSearchQuery(e)}/>
                         </OverlayTrigger>
                       </InputGroup.Addon>
                     </InputGroup>
