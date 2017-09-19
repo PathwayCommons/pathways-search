@@ -33,7 +33,7 @@ export class SearchHeader extends React.Component {
     };
   }
 
-  submit(e) {
+  submitSearchQuery(e) {
     const p = this.props;
     p.history.push({
       pathname: '/search/',
@@ -43,9 +43,9 @@ export class SearchHeader extends React.Component {
     e.target.blur();
   }
 
-  onChange(e) {
+  onSearchValueChange(e) {
     if (e.which && e.which ===  13) {
-      this.submit(e);
+      this.submitSearchQuery(e);
     } else {
       const newQueryState = {...this.state.query};
       newQueryState.value = e.target.value;
@@ -120,16 +120,16 @@ export class SearchHeader extends React.Component {
                           'Search pathways in Pathway Commons'
                         }
                       value={s.query.value}
-                      onChange={e => this.onChange(e)} onKeyPress={e => this.onChange(e)}/>
+                      onChange={e => this.onSearchValueChange(e)} onKeyPress={e => this.onSearchValueChange(e)}/>
                       <FormControl
                         className="hidden-sm hidden-md hidden-lg"
                         type="text"
                         placeholder="Search pathways by name"
                       value={s.query.value}
-                      onChange={e => this.onChange(e)} onKeyPress={e => this.onChange(e)}/>
+                      onChange={e => this.onSearchValueChange(e)} onKeyPress={e => this.onSearchValueChange(e)}/>
                       <InputGroup.Addon>
                         <OverlayTrigger delayShow={1000} delayHide={2000} placement="left" overlay={tip_search}>
-                          <Glyphicon id="glyph-search" glyph="search" onClick={this.submit}/>
+                          <Glyphicon id="glyph-search" glyph="search" onClick={this.submitSearchQuery}/>
                         </OverlayTrigger>
                       </InputGroup.Addon>
                     </InputGroup>
