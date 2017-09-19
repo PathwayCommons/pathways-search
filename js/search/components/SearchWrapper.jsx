@@ -16,7 +16,6 @@ export class SearchWrapper extends React.Component {
     super(props);
     this.state = {
       searchResult: {},
-      processedQuery: '',
       loading: false
     };
   }
@@ -70,10 +69,6 @@ export class SearchWrapper extends React.Component {
       }
     }
 
-    // If the page property is the same in old and new, assume some other property has changed, therefore delete page property to go back to page 1
-    if(this.props.query.page == output.page) {
-      delete output.page;
-    }
     return output;
   }
 
