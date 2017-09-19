@@ -26,33 +26,27 @@ export class SearchOptions extends React.Component {
     super(props);
     this.state = {
       query: clone(this.props.query),
-      datasource: {},
-      datasourceRef: [],
+      datasources: [],
       lt: this.props.query.lt || '',
       gt: this.props.query.gt || ''
     };
 
     const datasources = PathwayCommonsService.core.datasources
       .fetch()
-      .then(datasource => {
-        return Object.keys(datasource).map(key => datasource[key]);
-      });
+      .then(datasourcesResponse => Object.keys(datasourcesResponse).map(key => datasourcesResponse[key]));
 
-    const searchQuery = PathwayCommonsService.querySearch({...this.props.query, datasource: undefined});
+    // get all datasources that returned search results for the current query
+    const queryMatchProviders = PathwayCommonsService.querySearch({...this.props.query, datasource: undefined})
+      .then(searchResult => searchResult.providers);
 
-    Promise.all([datasources, searchQuery])
+    Promise.all([datasources, queryMatchProviders])
       .then(promises => {
-        return promises[0].filter(datasource => {
-          return promises[1].providers.indexOf(datasource.name) !== -1;
-        });
+        return promises[0].filter(datasource => promises[1].indexOf(datasource.name) !== -1);
       })
       .catch(() => { // Provide all datasources if no datasources available in search results
-        console.error('No datasources available in search results');
-        return datasources
-          .fetch()
-          .then(datasource => Object.keys(datasource).map(key => datasource[key]));
+        return datasources;
       })
-      .then(datasource => this.setState({datasourceRef: datasource}));
+      .then(datasources => this.setState({datasources: datasources}));
   }
 
   componentWillUnmount() {
@@ -64,21 +58,22 @@ export class SearchOptions extends React.Component {
     this.props.updateSearchArg(this.state.query);
   }
 
-  updateFilter(index, value) {
-    var output = this.state.query;
+  updateQueryFilter(key, value) {
+    const newQueryState = {...this.state.query};
+
     if(!isEmpty(value)) { // ensure all valid values returns !isEmpty() === true
-      output[index] = value;
+      newQueryState[key] = value;
+      this.setState({
+        query: newQueryState,
+        [key]: value
+      });
     }
-    else {
-      delete output[index];
-    }
-    this.setState({
-      filterObj: output,
-      [index]: value
-    });
   }
 
   render() {
+    const s = this.state;
+    const p = this.props;
+
     return (
       <div className="SearchOptions">
         <FormGroup>
@@ -86,17 +81,17 @@ export class SearchOptions extends React.Component {
             Datasources
           </ControlLabel>
           {
-            !isEmpty(this.state.datasourceRef) ?
+            !isEmpty(s.datasources) ?
             <Typeahead
               multiple
               clearButton
               labelKey="name"
-              options={this.state.datasourceRef}
-              defaultSelected={this.props.query.datasource ?
-                this.state.datasourceRef.filter(datasource => this.props.query.datasource.indexOf(datasource.name) !== -1) :
-                this.state.datasourceRef}
+              options={s.datasources}
+              defaultSelected={p.query.datasource ?
+                s.datasources.filter(datasource => p.query.datasource.indexOf(datasource.name) !== -1) :
+                s.datasources}
               placeholder="Select one or more datasources to filter by (eg. Reactome)"
-              onChange={selectedArray => this.updateFilter('datasource', selectedArray.map(selected => selected.name))}
+              onChange={selectedArray => this.updateQueryFilter('datasource', selectedArray.map(selected => selected.name))}
             /> : null
           }
           <HelpBlock>
@@ -110,8 +105,8 @@ export class SearchOptions extends React.Component {
           <FormControl
             type="text"
             placeholder="Enter the lowest number of participants shown"
-            defaultValue={this.state.gt ? this.state.gt : undefined}
-            onChange={e => this.updateFilter('gt', String(+e.target.value || ''))}
+            defaultValue={s.gt ? s.gt : undefined}
+            onChange={e => this.updateQueryFilter('gt', String(+e.target.value || ''))}
           />
           <HelpBlock>
             Only search results with greater than the number of participants displayed above will be shown. Alternatively, leave blank to disable minimum filtering.
@@ -124,8 +119,8 @@ export class SearchOptions extends React.Component {
           <FormControl
             type="text"
             placeholder="Enter the highest number of participants shown"
-            defaultValue={this.state.lt ? this.state.lt : undefined}
-            onChange={e => this.updateFilter('lt', String(+e.target.value || ''))}
+            defaultValue={s.lt ? s.lt : undefined}
+            onChange={e => this.updateQueryFilter('lt', String(+e.target.value || ''))}
           />
           <HelpBlock>
             Only search results with less than the number of participants displayed above will be shown. Alternatively, leave blank to disable maximum filtering.
