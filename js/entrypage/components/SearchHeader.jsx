@@ -80,7 +80,7 @@ export class SearchHeader extends React.Component {
     const props = this.props;
     const state = this.state;
     const uriRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
-    console.log(query);
+
     if (query.q.match(uriRegex)) {
       props.history.push({
         pathname: '/view',
