@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import {
   Grid, Row, Col,
   Glyphicon,
-  ControlLabel, Form, FormGroup, InputGroup, FormControl,
+  ControlLabel, Form,
   Modal,
   OverlayTrigger, Popover, Button
 } from 'react-bootstrap';
@@ -12,7 +12,7 @@ import {
 import {SearchFaq} from '../../components/SearchFaq.jsx';
 
 import {SearchOptions} from './SearchOptions.jsx';
-
+import {SearchBar} from './SearchBar.jsx';
 
 // SearchHeader
 // Prop Dependencies ::
@@ -25,24 +25,9 @@ export class SearchHeader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: this.props.query,
       showFilterMenu: false,
       showSearchFaq: false
     };
-  }
-
-  submitSearchQuery(e) {
-    // if the user presses enter, submit the query
-    if (e.which == 13) {
-      this.props.updateSearchQuery(this.state.query);
-      e.target.blur();
-    }
-  }
-
-  onSearchValueChange(e) {
-    const newQueryState = {...this.state.query};
-    newQueryState.q = e.target.value;
-    this.setState({query: newQueryState});
   }
 
   toggleFilterMenu(state) {
@@ -67,13 +52,6 @@ export class SearchHeader extends React.Component {
       </Popover>
     );
 
-    const tip_filter = (
-      <Popover className="info-tip hidden-xs" id="popover-filter" placement="bottom" title="Filter">
-        Refine search results by number of participants or data provider.
-      </Popover>
-    );
-
-    const showAdvancedButton = state.query.q && !props.embed;
     return (
       <div className="SearchHeader">
         <Grid>
@@ -97,38 +75,8 @@ export class SearchHeader extends React.Component {
                 </Col>
               </div>
                }
-               <Col xs={12}
-                sm={!props.embed ? 8 : 12}
-                smPull={!props.embed ? 2 : 0} >
-                <FormGroup>
-                    <InputGroup bsSize="large">
-                      <FormControl
-                        className="hidden-xs"
-                        type="text"
-                        placeholder={ !props.embed ?
-                          'Search pathways by name, gene names or type a URI' :
-                          'Search pathways in Pathway Commons'
-                        }
-                      value={state.query.q}
-                      onChange={(e) => this.onSearchValueChange(e)} onKeyPress={(e) => this.submitSearchQuery(e)} />
-                      <FormControl
-                        className="hidden-sm hidden-md hidden-lg"
-                        type="text"
-                        placeholder="Search pathways by name"
-                      value={state.query.q}
-                      onChange={(e) => this.onSearchValueChange(e)} onKeyPress={(e) => this.submitSearchQuery(e)} />
-                      <InputGroup.Addon>
-                        { showAdvancedButton ?
-                          (<OverlayTrigger delayShow={1000} placement="left" overlay={tip_filter}>
-                            <Glyphicon
-                              id="glyph-filter"
-                              glyph="filter"
-                              onClick={() => this.toggleFilterMenu(true)}/>
-                           </OverlayTrigger>) : null
-                        }
-                      </InputGroup.Addon>
-                    </InputGroup>
-                </FormGroup>
+               <Col xs={12} sm={!props.embed ? 8 : 12} smPull={!props.embed ? 2 : 0} >
+                <SearchBar query={props.query} embed={props.embed} updateSearchQuery={props.updateSearchQuery} />
               </Col>
             </Form>
           </Row>
@@ -138,7 +86,7 @@ export class SearchHeader extends React.Component {
             <p className="header-title">Filter Options</p>
           </Modal.Header>
           <Modal.Body>
-            <SearchOptions query={state.query} updateSearchQuery={props.updateSearchQuery}/>
+            <SearchOptions query={props.query} updateSearchQuery={props.updateSearchQuery}/>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={() => this.toggleFilterMenu(false)}>Confirm</Button>
