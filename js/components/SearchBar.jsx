@@ -44,6 +44,15 @@ export class SearchBar extends React.Component {
       </Popover>
     );
 
+    const tip_search = (
+      <Popover className="info-tip" id="popover-brand" placement="bottom" title="Search!">
+        Access metabolic pathways, signalling pathways and gene regulatory networks sourced from public pathway databases.
+        <br/>
+        <br/>
+        <a onClick={e =>  this.showExampleQuery()}>e.g. Gene list: 'Signaling by BMP' (Reactome)</a>
+      </Popover>
+    );
+
     return (
       <FormGroup>
         <InputGroup bsSize="large">
@@ -69,7 +78,10 @@ export class SearchBar extends React.Component {
                   id="glyph-filter"
                   glyph="filter"
                   onClick={() => this.toggleFilterMenu(true)}/>
-                </OverlayTrigger>) : null
+                </OverlayTrigger>) :
+                <OverlayTrigger delayShow={1000} delayHide={2000} placement="left" overlay={tip_search}>
+                  <Glyphicon id="glyph-search" glyph="search" onClick={(e) => this.submitSearchQuery(e)}/>
+                </OverlayTrigger>
             }
           </InputGroup.Addon>
         </InputGroup>

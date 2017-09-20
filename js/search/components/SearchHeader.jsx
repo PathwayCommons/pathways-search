@@ -10,9 +10,9 @@ import {
 } from 'react-bootstrap';
 
 import {SearchFaq} from '../../components/SearchFaq.jsx';
+import {SearchBar} from '../../components/SearchBar.jsx';
 
 import {SearchOptions} from './SearchOptions.jsx';
-import {SearchBar} from './SearchBar.jsx';
 
 // SearchHeader
 // Prop Dependencies ::
