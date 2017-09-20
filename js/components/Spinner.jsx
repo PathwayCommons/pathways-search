@@ -3,7 +3,8 @@ import classNames from 'classnames';
 
 // Spinner
 // Prop Dependencies ::
-// none
+// hidden
+// full
 export class Spinner extends React.Component {
   render() {
     return (
