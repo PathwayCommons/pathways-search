@@ -3,7 +3,6 @@ import {FormGroup, FormControl, ControlLabel, HelpBlock} from 'react-bootstrap';
 import {Typeahead} from 'react-bootstrap-typeahead';
 
 import isEmpty from 'lodash.isempty';
-import clone from 'lodash.clone';
 
 import PathwayCommonsService from '../../services/pathwayCommons/';
 
@@ -11,15 +10,13 @@ import PathwayCommonsService from '../../services/pathwayCommons/';
 // Prop Dependencies ::
 // - query
 // - searchResult
-// - updateSearchQuery(updateObject)
+// - updateSearchQuery(query)
 export class SearchOptions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: clone(this.props.query),
+      query: this.props.query,
       datasources: [],
-      lt: this.props.query.lt || '',
-      gt: this.props.query.gt || '',
       queryChanged: false
     };
 
@@ -41,8 +38,10 @@ export class SearchOptions extends React.Component {
       .then(datasources => this.setState({datasources: datasources}));
   }
 
-  // once the options view is closed, check if
+  // once the options view is closed, update the search query
   componentWillUnmount() {
+    const props = this.props;
+    const state = this.state;
     const requiredQueryFields = [
       'type',
       'datasource',
@@ -50,19 +49,19 @@ export class SearchOptions extends React.Component {
       'gt'
     ];
 
-    if (this.state.queryChanged) {
-      const newQueryState = {...this.state.query};
+    if (state.queryChanged) {
+      const newQueryState = {...state.query};
 
       // ensure required query fields exist
       requiredQueryFields.forEach(field => {
-        if (this.state.query[field] == null) {
+        if (state.query[field] == null) {
           newQueryState[field] = '';
         }
       });
 
       this.setState({
         query: newQueryState
-      }, this.props.updateSearchQuery(this.state.query));
+      }, props.updateSearchQuery(state.query));
     }
   }
 
@@ -114,7 +113,7 @@ export class SearchOptions extends React.Component {
           <FormControl
             type="text"
             placeholder="Enter the lowest number of participants shown"
-            defaultValue={state.gt ? state.gt : undefined}
+            defaultValue={state.query.gt ? state.query.gt : undefined}
             onChange={e => this.updateQueryFilter('gt', String(+e.target.value || ''))}
           />
           <HelpBlock>
@@ -128,7 +127,7 @@ export class SearchOptions extends React.Component {
           <FormControl
             type="text"
             placeholder="Enter the highest number of participants shown"
-            defaultValue={state.lt ? state.lt : undefined}
+            defaultValue={state.query.lt ? state.query.lt : undefined}
             onChange={e => this.updateQueryFilter('lt', String(+e.target.value || ''))}
           />
           <HelpBlock>

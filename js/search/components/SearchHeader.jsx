@@ -138,7 +138,7 @@ export class SearchHeader extends React.Component {
             <p className="header-title">Filter Options</p>
           </Modal.Header>
           <Modal.Body>
-            <SearchOptions {...props}/>
+            <SearchOptions query={state.query} updateSearchQuery={props.updateSearchQuery}/>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={() => this.toggleFilterMenu(false)}>Confirm</Button>
