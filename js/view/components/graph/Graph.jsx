@@ -12,8 +12,6 @@ import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
 
 // Graph
 // Prop Dependencies ::
-// - updateGlobal
-// - deleteGlobal
 // - sbgnText
 // - cytoscape
 export class Graph extends React.Component {

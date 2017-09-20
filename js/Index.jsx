@@ -59,26 +59,8 @@ export class Index extends React.Component {
     };
   }
 
-  updateGlobal(key, value) {
-    if(key !== 'updateGlobal') {
-      this.setState({[key] : value});
-    }
-  }
-
-  deleteGlobal(key) {
-    delete this.state[key];
-  }
-
-  getAllGlobals() {
-    return this.state;
-  }
 
   render() {
-    var globalObject = Object.assign({
-      updateGlobal: (key, value) => this.updateGlobal(key, value),
-      deleteGlobal: (key) => this.deleteGlobal(key)
-    }, this.getAllGlobals());
-
     return (
       <div className={classNames("Index", this.state.embed ? 'iframe' : '', this.props.className)}>
         <div className={this.state.embed ? '' : 'Content'}>
@@ -90,10 +72,10 @@ export class Index extends React.Component {
             )
           }
           <Switch>
-            <Route exact path="/" render={props => <EntryPage {...props} {...globalObject} logEvent={ this.logEvent} logPageView={ this.logPageView} />}/>
-            <Route path="/search" render={props => <Search {...props} {...globalObject} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
-            <Route path="/view" render={props => <View {...props} {...globalObject} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
-            <Route path="*" render={props => <PageNotFound {...props} {...globalObject}/>}/>
+            <Route exact path="/" render={props => <EntryPage {...props} logEvent={ this.logEvent} logPageView={ this.logPageView} />}/>
+            <Route path="/search" render={props => <Search {...props} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
+            <Route path="/view" render={props => <View {...props} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
+            <Route path="*" render={props => <PageNotFound {...props}/>}/>
           </Switch>
         </div>
       </div>
