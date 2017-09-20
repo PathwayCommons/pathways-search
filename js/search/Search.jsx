@@ -1,16 +1,10 @@
 import React from 'react';
 
-import isEqual from 'lodash.isequal';
 import queryString from 'query-string';
-
-import {Spinner} from '../components/Spinner.jsx';
+import extend from 'extend';
 
 import {SearchHeader} from './components/SearchHeader.jsx';
 import {SearchList} from './components/SearchList.jsx';
-
-
-import PathwayCommonsService from '../services/pathwayCommons/';
-
 
 // Search
 // Prop Dependencies ::
@@ -24,25 +18,18 @@ export class Search extends React.Component {
     super(props);
     this.props.logPageView( this.props.history.location );
 
-    this.state = {
-      searchResult: {},
-      loading: false
+    const queryDefaults = {
+      q: '',
+      lt: 250,
+      gt: 3,
+      type: 'Pathway'
     };
-  }
 
-  getSearchResult(query) {
-    this.setState({loading: true});
-    PathwayCommonsService.querySearch(query)
-      .then(searchResult => {
-        this.setState({
-          searchResult: searchResult,
-          loading: false
-        });
-      });
-  }
+    const query = extend({}, queryDefaults, queryString.parse(this.props.location.search));
 
-  componentDidMount(){
-    this.getSearchResult(this.props.query);
+    this.state = {
+      query: query
+    };
   }
 
   componentWillReceiveProps( nextProps ) {
@@ -53,10 +40,6 @@ export class Search extends React.Component {
         action: 'query',
         label: nextProps.location.search
       });
-    }
-
-    if (!isEqual(this.props.query, nextProps.query)) {
-      this.getSearchResult(nextProps.query);
     }
   }
 
@@ -72,22 +55,17 @@ export class Search extends React.Component {
     }
   }
 
-
   render() {
     const props = this.props;
     const state = this.state;
     return (
       <div className="Search">
-        <Spinner full hidden={!this.state.loading}  />
-          <SearchHeader
-            {...props}
-            {...state}
-            updateSearchQuery={query => this.updateSearchQuery(query)}/>
+        <SearchHeader
+          {...props}
+          {...state}
+          updateSearchQuery={query => this.updateSearchQuery(query)}/>
 
-          <SearchList
-            {...props}
-            {...state}
-            updateSearchQuery={query => this.updateSearchQuery(query)}/>
+        <SearchList query={this.state.query} embed={this.props.embed}/>
       </div>
     );
   }

@@ -4,17 +4,38 @@ import {Button, Glyphicon, OverlayTrigger, Popover} from 'react-bootstrap';
 import {SearchItem} from './SearchItem.jsx';
 
 import {ErrorMessage} from '../../components/ErrorMessage.jsx';
+import {Spinner} from '../../components/Spinner.jsx';
+
+import PathwayCommonsService from '../../services/pathwayCommons/';
 
 // SearchList
 // Prop Dependencies ::
-// - searchResult
+// - query
 // - embed
 export class SearchList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: false
+      loading: true,
+      expanded: false,
+      searchResults: []
     };
+  }
+
+  componentDidMount() {
+    const props = this.props;
+    this.getSearchResult(props.query);
+  }
+
+  getSearchResult(query) {
+    this.setState({loading: true});
+    PathwayCommonsService.querySearch(query)
+      .then(searchResult => {
+        this.setState({
+          searchResults: searchResult.searchHit,
+          loading: false
+        });
+      });
   }
 
   render() {
@@ -23,11 +44,10 @@ export class SearchList extends React.Component {
 
     if (props.embed) { return null; }
 
-    const searchData = props.searchResult;
     const expanded = state.expanded;
     const listCutoff = 5;
 
-    const results = searchData.searchHit ? searchData.searchHit : [];
+    const results = state.searchResults;
 
     const tip_hit = (
       <Popover className="info-tip" id="popover-hit" placement="bottom" title="Search Hit">
@@ -67,19 +87,15 @@ export class SearchList extends React.Component {
       </div>
     );
 
-    if (results.length > 0) { // Generate search list if results available
-      return (
-        <div className="SearchList">
-          { searchResults }
-          { !expanded && results.length > listCutoff ? moreResultsButton : null }
-        </div>
-      );
-    } else {
-      return (
-        <ErrorMessage className="SearchList">
+    return (
+      <div className="SearchList">
+        <Spinner full hidden={!this.state.loading}  />
+        <ErrorMessage className="SearchList" hidden={this.state.loading || this.state.searchResults.length >= 0}>
           No Search Results Found
         </ErrorMessage>
-      );
-    }
+        { searchResults }
+        { !expanded && results.length > listCutoff ? moreResultsButton : null }
+      </div>
+    );
   }
 }
