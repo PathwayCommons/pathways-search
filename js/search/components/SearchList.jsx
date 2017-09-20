@@ -27,12 +27,16 @@ export class SearchList extends React.Component {
     this.getSearchResult(props.query);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.getSearchResult(nextProps.query);
+  }
+
   getSearchResult(query) {
     this.setState({loading: true});
     PathwayCommonsService.querySearch(query)
       .then(searchResult => {
         this.setState({
-          searchResults: searchResult.searchHit,
+          searchResults: searchResult.searchHit ? searchResult.searchHit : [],
           loading: false
         });
       });
@@ -90,7 +94,7 @@ export class SearchList extends React.Component {
     return (
       <div className="SearchList">
         <Spinner full hidden={!this.state.loading}  />
-        <ErrorMessage className="SearchList" hidden={this.state.loading || this.state.searchResults.length >= 0}>
+        <ErrorMessage className="SearchList" hidden={this.state.loading || searchResults.length > 0}>
           No Search Results Found
         </ErrorMessage>
         { searchResults }

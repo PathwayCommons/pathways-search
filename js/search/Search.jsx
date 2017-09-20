@@ -44,12 +44,29 @@ export class Search extends React.Component {
   }
 
   updateSearchQuery(query) {
-    this.props.history.push({
-      pathname: this.props.location.pathname,
-      search: queryString.stringify(query)
+    const props = this.props;
+    const state = this.state;
+    const uriRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+
+    if (state.query.q.match(uriRegex)) {
+      props.history.push({
+        pathname: '/view',
+        search: queryString.stringify({uri: state.query.q}),
+        state: {}
+      });
+    } else {
+      props.history.push({
+        pathname: '/search',
+        search: queryString.stringify(query),
+        state: {}
+      });
+    }
+
+    this.setState({
+      query: query
     });
 
-    if(this.props.embed === true) {
+    if(props.embed === true) {
       var openUrl = window.location.href.replace('/embed', '');
       window.open(openUrl, 'Pathway Commons Search');
     }
@@ -60,12 +77,9 @@ export class Search extends React.Component {
     const state = this.state;
     return (
       <div className="Search">
-        <SearchHeader
-          {...props}
-          {...state}
-          updateSearchQuery={query => this.updateSearchQuery(query)}/>
+        <SearchHeader query={state.query} embed={props.embed} updateSearchQuery={query => this.updateSearchQuery(query)}/>
 
-        <SearchList query={this.state.query} embed={this.props.embed}/>
+        <SearchList query={state.query} embed={props.embed}/>
       </div>
     );
   }

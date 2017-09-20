@@ -1,5 +1,6 @@
 import React from 'react';
-import classNames from 'classnames';
+import {Link} from 'react-router-dom';
+
 import {
   Grid, Row, Col,
   Glyphicon,
@@ -7,8 +8,6 @@ import {
   Modal,
   OverlayTrigger, Popover, Button
 } from 'react-bootstrap';
-import {Link} from 'react-router-dom';
-import queryString from 'query-string';
 
 import {SearchFaq} from '../../components/SearchFaq.jsx';
 
@@ -19,46 +18,31 @@ import {SearchOptions} from './SearchOptions.jsx';
 // Prop Dependencies ::
 // - query
 // - embed
-// - updateSearchQuery(updateObject)
+// - updateSearchQuery(query)
 
 // Note: Spread operator used to provide props to SearchOptions, therefore SearchBar also adopts SearchOptions dependencies in addition to those provided above
 export class SearchHeader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      q: this.props.query.q || '',
+      query: this.props.query,
       showFilterMenu: false,
       showSearchFaq: false
     };
   }
 
-  updateTerm() {
-    const state = this.state;
-    const props = this.props;
-    const uriRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
-
-    if (state.q.match(uriRegex)) {
-      props.history.push({pathname: '/view', search: queryString.stringify({uri: state.q})});
-    }
-    else if (state.q != props.query.q) {
-      props.updateSearchQuery({ // Set search and filter parameters to be used when q changes
-        q: state.q,
-        lt: 250,
-        gt: 3,
-        type: 'Pathway'
-      });
-    }
-  }
-
   submitSearchQuery(e) {
+    // if the user presses enter, submit the query
     if (e.which == 13) {
-      this.updateTerm();
+      this.props.updateSearchQuery(this.state.query);
       e.target.blur();
     }
   }
 
   onSearchValueChange(e) {
-    this.setState({q: e.target.value});
+    const newQueryState = {...this.state.query};
+    newQueryState.q = e.target.value;
+    this.setState({query: newQueryState});
   }
 
   toggleFilterMenu(state) {
@@ -89,7 +73,7 @@ export class SearchHeader extends React.Component {
       </Popover>
     );
 
-    const showAdvancedButton = props.query.q && !props.embed;
+    const showAdvancedButton = state.query.q && !props.embed;
     return (
       <div className="SearchHeader">
         <Grid>
@@ -125,13 +109,13 @@ export class SearchHeader extends React.Component {
                           'Search pathways by name, gene names or type a URI' :
                           'Search pathways in Pathway Commons'
                         }
-                      defaultValue={props.query.q}
+                      value={state.query.q}
                       onChange={(e) => this.onSearchValueChange(e)} onKeyPress={(e) => this.submitSearchQuery(e)} />
                       <FormControl
                         className="hidden-sm hidden-md hidden-lg"
                         type="text"
                         placeholder="Search pathways by name"
-                      defaultValue={props.query.q}
+                      value={state.query.q}
                       onChange={(e) => this.onSearchValueChange(e)} onKeyPress={(e) => this.submitSearchQuery(e)} />
                       <InputGroup.Addon>
                         { showAdvancedButton ?

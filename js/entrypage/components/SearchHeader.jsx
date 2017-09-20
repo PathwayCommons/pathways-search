@@ -1,4 +1,5 @@
 import React from 'react';
+import queryString from 'query-string';
 import {
   Grid, Row, Col,
   Glyphicon,
@@ -20,9 +21,9 @@ export class SearchHeader extends React.Component {
     super(props);
     this.state = {
       query: {
-        value:'',
-        minGraphSize: 3,
-        maxGraphSize: 250,
+        q:'',
+        gt: 3,
+        lt: 250,
         type: 'Pathway'
       },
       showFilterMenu: false,
@@ -35,36 +36,22 @@ export class SearchHeader extends React.Component {
     const props = this.props;
     const uriRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
 
-    const isUri = state.query.value.match(uriRegex) || decodeURIComponent(state.query.value).match(uriRegex);
+    const isUri = state.query.q.match(uriRegex) || decodeURIComponent(state.query.q).match(uriRegex);
     if (isUri) {
       props.history.push({
         pathname: '/view',
-        search: this.formatViewUriString({uri: state.query.value}),
+        search: queryString.stringify({uri: state.query.q}),
         state: {}
       });
     } else {
       props.history.push({
         pathname: '/search',
-        search: this.formatSearchQueryString(state.query),
+        search: queryString.stringify(state.query),
         state: {}
       });
     }
     e.target.blur();
   }
-
-  formatViewUriString(query) {
-    return (
-      `?uri=${query.uri}`
-    );
-  }
-
-
-  formatSearchQueryString(query) {
-    return (
-      `?gt=${query.minGraphSize}&lt=${query.maxGraphSize}&type=${query.type}&q=${query.value}`
-    );
-  }
-
 
   onSearchValueChange(e) {
     // if the user presses enter, submit the query
@@ -72,7 +59,7 @@ export class SearchHeader extends React.Component {
       this.submitSearchQuery(e);
     } else {
       const newQueryState = {...this.state.query};
-      newQueryState.value = e.target.value;
+      newQueryState.q = e.target.value;
       this.setState({query: newQueryState});
     }
   }
@@ -85,7 +72,7 @@ export class SearchHeader extends React.Component {
 
   showExampleQuery() {
     const newQueryState = {...this.state.query};
-    newQueryState.value = 'ACVR2A BMP2 BMPR1B SMAD4';
+    newQueryState.q = 'ACVR2A BMP2 BMPR1B SMAD4';
     this.setState({query: newQueryState});
   }
 
@@ -143,13 +130,13 @@ export class SearchHeader extends React.Component {
                           'Search pathways by name, gene names or type a URI' :
                           'Search pathways in Pathway Commons'
                         }
-                      value={state.query.value}
+                      value={state.query.q}
                       onChange={e => this.onSearchValueChange(e)} onKeyPress={e => this.onSearchValueChange(e)}/>
                       <FormControl
                         className="hidden-sm hidden-md hidden-lg"
                         type="text"
                         placeholder="Search pathways by name"
-                      value={state.query.value}
+                      value={state.query.q}
                       onChange={e => this.onSearchValueChange(e)} onKeyPress={e => this.onSearchValueChange(e)}/>
                       <InputGroup.Addon>
                         <OverlayTrigger delayShow={1000} delayHide={2000} placement="left" overlay={tip_search}>
