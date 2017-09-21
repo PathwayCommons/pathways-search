@@ -52,6 +52,12 @@ export class SearchHeader extends React.Component {
       </Popover>
     );
 
+    const tip_filter = (
+      <Popover className="info-tip hidden-xs" id="popover-filter" placement="bottom" title="Filter">
+        Refine search results by number of participants or data provider.
+      </Popover>
+    );
+
     return (
       <div className="SearchHeader">
         <Grid>
@@ -76,7 +82,11 @@ export class SearchHeader extends React.Component {
               </div>
                }
                <Col xs={12} sm={!props.embed ? 8 : 12} smPull={!props.embed ? 2 : 0} >
-                <SearchBar query={props.query} embed={props.embed} updateSearchQuery={props.updateSearchQuery} />
+                <SearchBar query={props.query} embed={props.embed} updateSearchQuery={props.updateSearchQuery} >
+                  <OverlayTrigger delayShow={1000} placement="left" overlay={tip_filter}>
+                    <Glyphicon id="glyph-filter" glyph="filter" onClick={() => this.toggleFilterMenu(true)}/>
+                  </OverlayTrigger>
+                </SearchBar>
               </Col>
             </Form>
           </Row>

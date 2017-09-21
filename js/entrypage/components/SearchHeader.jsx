@@ -116,6 +116,15 @@ export class SearchHeader extends React.Component {
       </Popover>
     );
 
+    const tip_search = (
+      <Popover className="info-tip" id="popover-brand" placement="bottom" title="Search!">
+        Access metabolic pathways, signalling pathways and gene regulatory networks sourced from public pathway databases.
+        <br/>
+        <br/>
+        <a onClick={e =>  this.showExampleQuery()}>e.g. Gene list: 'Signaling by BMP' (Reactome)</a>
+      </Popover>
+    );
+
     return (
       <div className="SearchHeader">
         <Grid>
@@ -136,7 +145,11 @@ export class SearchHeader extends React.Component {
                 </div>
                }
               <Col xs={12} sm={!props.embed ? 8 : 12} smPull={!props.embed ? 2 : 0} >
-                <SearchBar query={state.query} embed={props.embed} updateSearchQuery={query => this.updateSearchQuery(query)} />
+                <SearchBar query={state.query} embed={props.embed} updateSearchQuery={query => this.updateSearchQuery(query)}>
+                  <OverlayTrigger delayShow={1000} delayHide={2000} placement="left" overlay={tip_search}>
+                    <Glyphicon id="glyph-search" glyph="search" onClick={(e) => this.submitSearchQuery(e)}/>
+                  </OverlayTrigger>
+                </SearchBar>
               </Col>
             </Form>
           </Row>
