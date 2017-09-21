@@ -11,7 +11,6 @@ public/hgncSymbols.txt
 *public/fonts/
 *.DS_Store
 *.js.map
-bundle.js
 npm-debug.log
 stats.json
 *.iml
