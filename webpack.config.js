@@ -1,31 +1,37 @@
-var path = require('path');
-var webpack = require('webpack');
+const webpack = require('webpack');
+const { env } = require('process');
+const isProd = env.NODE_ENV === 'production';
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const isNonNil = x => x != null;
 
-module.exports = {
-	entry: ['./js/App.js'],
-	output: {
-		path: __dirname + '/public',
-		filename: 'bundle.js'
-	},
-	devtool: 'source-map',
-	module: {
-		rules: [{
-				test: /.jsx?$/,
-				use: 'babel-loader',
-				exclude: /node_modules/
-			},
-			{
-				test: /\.css$/,
-				use: ['style-loader', 'css-loader', 'postcss-loader']
-			},
-			{
-				test: /\.(eot|svg|ttf|woff|woff2)$/,
-				use: 'file-loader?name=fonts/[name].[ext]'
-			},
-			{
-				test: /\.png$/,
-				use: 'url-loader'
-			}
-		]
-	}
+let conf = {
+  entry: './src/client/index.js',
+
+  output: {
+    filename: './build/bundle.js'
+  },
+
+  module: {
+    rules: [
+      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+    ]
+  },
+
+  plugins: [
+    new webpack.EnvironmentPlugin(['NODE_ENV']),
+
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'deps',
+      filename: './build/deps.js',
+      minChunks( module ){
+        let context = module.context || '';
+
+        return context.indexOf('node_modules') >= 0;
+      }
+    }),
+
+    isProd ? new UglifyJSPlugin() : null
+  ].filter( isNonNil )
 };
+
+module.exports = conf;

@@ -1,30 +1,76 @@
 # pathways-search
 
-## Setup and Installation
 
-#### Setup
-Required Tools:
-* nodejs
-* npm
+## Required software
 
-#### Installation
-Install the app dependencies using npm:
-
-1. Download or clone repository from github into any directory
-2. Run ```npm install``` in the directory in order to install all node dependencies
-3. The app uses production Pathway Commons by default. If you wish to switch to beta Pathway Commons, edit the Pathway Commons URL in `./node_modules/pathway-commons/dist/private/constants.js`.
-4. Build the project using one of the commands listed below.
+- [Node.js](https://nodejs.org/en/) >=6.3.0
 
 
-#### npm Commands
-This project uses npm as a build tool. In all applicable cases, the website is served at address 0.0.0.0 on port 8080. The following commands are available:
 
-Note: Production builds output the result to the ```public``` folder
+## Configuration
 
-* ```npm run build```: build a production version of the app
+The following environment variables can be used to configure the server:
 
-* ```npm run watch```: build a development version of the app -- includes file watching, live reload. Note: This does not update the public folder with the development build
+- `NODE_ENV` : the environment mode, either `production` or `development` (default)
+- `PORT` : the port on which the server runs (default 3000)
 
-* ```npm run start```: build a production version of the app and run a ```http-server```
 
-* ``` npm run gh-pages-deploy```: build the app and deploy it to github pages
+## Run targets
+
+- `npm start` : start the server
+- `npm stop` : stop the server
+- `npm run build` : build project
+- `npm run build-prod` : build the project for production
+- `npm run clean` : clean the project
+- `npm run watch` : watch mode (debug mode enabled, autorebuild, autoreload)
+- `npm test` : run tests
+- `npm run lint` : lint the project
+
+
+## Running via Docker
+
+Build the container.  Here, `pathways-search` is used as the container name.
+
+```
+cd pathways-search
+docker build -t pathways-search .
+```
+
+Run the container:
+
+```
+docker run -it -p 12345:3000 -u "node" -e "NODE_ENV=production" --name "pathways-search" pathways-search
+```
+
+Notes:
+
+- The `-it` switches are necessary to make `node` respond to `ctrl+c` etc. in `docker`.
+- The `-p` switch indicates that port 3000 on the container is mapped to port 12345 on the host.  Without this switch, the server is inaccessible.
+- The `-u` switch is used so that a non-root user is used inside the container.
+- The `-e` switch is used to set environment variables.  Alternatively use `--env-file` to use a file with the environment variables.
+- References:
+  - [Dockerizing a Node.js web app](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/)
+  - [Documentation of docker-node](https://github.com/nodejs/docker-node)
+  - [Docker CLI docs](https://docs.docker.com/engine/reference/commandline/cli/)
+
+
+
+## Testing
+
+All files `/test` will be run by [Mocha](https://mochajs.org/).  You can `npm test` to run all tests, or you can run `mocha -g specific-test-name` (prerequisite: `npm install -g mocha`) to run specific tests.
+
+[Chai](http://chaijs.com/) is included to make the tests easier to read and write.
+
+
+
+## Publishing a release
+
+1. Make sure the tests are passing: `npm test`
+1. Make sure the linting is passing: `npm run lint`
+1. Bump the version number with `npm version`, in accordance with [semver](http://semver.org/).  The `version` command in `npm` updates both `package.json` and git tags, but note that it uses a `v` prefix on the tags (e.g. `v1.2.3`).
+  1. For a bug fix / patch release, run `npm version patch`.
+  1. For a new feature release, run `npm version minor`.
+  1. For a breaking API change, run `npm version major.`
+  1. For a specific version number (e.g. 1.2.3), run `npm version 1.2.3`.
+1. Push the release: `git push origin --tags`
+

@@ -1,24 +1,22 @@
-FROM node:8.0.0-alpine
+# Refer to:
+# https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
+# https://github.com/nodejs/docker-node
 
-RUN addgroup -S nodejs && adduser -S -g nodejs nodejs
-RUN apk add --no-cache bash sed git openssh
+# v6 is the latest LTS
+FROM node:6
 
-RUN cd /tmp && git clone -b integration https://github.com/PathwayCommons/pathways-search.git
-RUN cd /tmp/pathways-search && npm install
-RUN npm install -g webpack http-server
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-RUN mkdir -p /webapps/pathway_search
-WORKDIR /webapps/pathway_search
+# Bundle app
+COPY . /usr/src/app
 
-RUN cp -r /tmp/pathways-search/. /webapps/pathway_search/
+# Install app dependencies
+RUN npm install
 
-# replace www host to beta in development
-RUN sed -i 's/www\.pathwaycommons\.org/beta\.pathwaycommons\.org/g' /webapps/pathway_search/node_modules/pathway-commons/dist/private/constants.js
-RUN npm run build
+# Expose port
+EXPOSE 3000
 
-RUN chown -R nodejs:nodejs /webapps/pathway_search
-
-EXPOSE 8080
-USER nodejs
-
-CMD ["http-server", "./public", "-p", "8080"]
+# Run the command that starts the app
+CMD npm start
