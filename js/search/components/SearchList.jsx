@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Glyphicon, OverlayTrigger, Popover} from 'react-bootstrap';
+import {Button, Glyphicon, Grid, OverlayTrigger, Popover} from 'react-bootstrap';
 
 import {SearchItem} from './SearchItem.jsx';
 
@@ -93,12 +93,14 @@ export class SearchList extends React.Component {
 
     return (
       <div className="SearchList">
-        <Spinner full hidden={!this.state.loading}  />
-        <ErrorMessage className="SearchList" hidden={this.state.loading || searchResults.length > 0}>
-          No Search Results Found
-        </ErrorMessage>
-        { searchResults }
-        { !expanded && results.length > listCutoff ? moreResultsButton : null }
+        <Grid fluid={true}>
+          <Spinner full hidden={!this.state.loading}  />
+          <ErrorMessage className="SearchList" hidden={this.state.loading || searchResults.length > 0}>
+            No Search Results Found
+          </ErrorMessage>
+          { searchResults }
+          { !expanded && results.length > listCutoff ? moreResultsButton : null }
+        </Grid>
       </div>
     );
   }

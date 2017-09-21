@@ -37,12 +37,12 @@ export class SearchItem extends React.Component {
 
     return (
       <div className="SearchItem clearfix">
-        <Col sm={3} className="src-thumbnail-container hidden-xs">
+        <Col smOffset={1} sm={3} className="src-thumbnail-container hidden-xs">
           <div className="src-thumbnail">
             <Image src={state.imageSource} />
           </div>
         </Col>
-        <Col className="metadata-wrapper" xs={12} sm={9}>
+        <Col className="metadata-wrapper" xs={12} sm={8}>
           <div className="header">
               <Link to={{pathname: '/view', search: queryString.stringify({uri: data.uri})}} target="_blank">
                 <span className="title">{data.name}</span>
