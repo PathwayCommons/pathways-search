@@ -1,133 +1,140 @@
 import React from 'react';
-import {FormGroup, InputGroup, FormControl, ControlLabel, HelpBlock, Button} from 'react-bootstrap';
+import {FormGroup, FormControl, ControlLabel, HelpBlock} from 'react-bootstrap';
 import {Typeahead} from 'react-bootstrap-typeahead';
-import Toggle from 'react-toggle';
-import map from 'lodash.map';
-import isEmpty from 'lodash.isempty';
-import clone from 'lodash.clone';
-import {datasources} from 'pathway-commons';
-import {queryFetch} from '../helpers/queryFetch.js';
-import {BioPaxClass} from "../../helpers/pc2.js";
 
-// Determines which prop are valid filter props as opposed to other properties like page or query
-const filterPropList = [
-	"type",
-	"datasource",
-	"lt",
-	"gt",
-	"enhance"
-]
+import isEmpty from 'lodash.isempty';
+
+import PathwayCommonsService from '../../services/pathwayCommons/';
 
 // SearchOptions
 // Prop Dependencies ::
 // - query
 // - searchResult
-// - updateSearchArg(updateObject)
+// - updateSearchQuery(query)
 export class SearchOptions extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			query: clone(this.props.query),
-			datasource: {},
-			datasourceRef: [],
-			lt: this.props.query.lt || "",
-			gt: this.props.query.gt || "",
-			enhance: this.props.query.enhance || ""
-		};
+  constructor(props) {
+    super(props);
+    this.state = {
+      query: this.props.query,
+      datasources: [],
+      queryChanged: false
+    };
 
-		Promise.all([
-			datasources
-				.fetch()
-				.then(datasourceObj => Object.keys(datasourceObj).map(key => datasourceObj[key])),
-			queryFetch({...this.props.query, datasource: undefined})
-		])
-			.then(promArray => promArray[0].filter(datasource => promArray[1].providers.indexOf(datasource.name) !== -1))
-			.catch(() => { // Provide all datasources if no datasources available in search results
-				console.error("No datasources available in search results");
-				return datasources
-					.fetch()
-					.then(datasourceObj => Object.keys(datasourceObj).map(key => datasourceObj[key]));
-			})
-			.then(datasourceObj => this.setState({datasourceRef: datasourceObj}));
-	}
+    const datasources = PathwayCommonsService.core.datasources
+      .fetch()
+      .then(datasourcesResponse => Object.keys(datasourcesResponse).map(key => datasourcesResponse[key]));
 
-	componentWillUnmount() {
-		map(filterPropList, (prop) => {
-			if(this.state.query[prop] == null) {
-				this.state.query[prop] = "";
-			}
-		});
-		this.props.updateSearchArg(this.state.query);
-	}
+    // get all datasources that returned search results for the current query
+    const queryMatchProviders = PathwayCommonsService.querySearch({...this.props.query, datasource: undefined})
+      .then(searchResult => searchResult.providers);
 
-	updateFilter(index, value) {
-		var output = this.state.query;
-		if(!isEmpty(value)) { // ensure all valid values returns !isEmpty() === true
-			output[index] = value;
-		}
-		else {
-			delete output[index];
-		}
-		this.setState({
-			filterObj: output,
-			[index]: value
-		});
-	}
+    Promise.all([datasources, queryMatchProviders])
+      .then(promises => {
+        return promises[0].filter(datasource => promises[1].indexOf(datasource.name) !== -1);
+      })
+      .catch(() => { // Provide all datasources if no datasources available in search results
+        return datasources;
+      })
+      .then(datasources => this.setState({datasources: datasources}));
+  }
 
-	render() {
-		return (
-			<div className="SearchOptions">
-				<FormGroup>
-					<ControlLabel>
-						Datasources
-					</ControlLabel>
-					{
-						!isEmpty(this.state.datasourceRef) ?
-						<Typeahead
-							multiple
-							clearButton
-							labelKey="name"
-							options={this.state.datasourceRef}
-							defaultSelected={this.props.query.datasource ?
-								this.state.datasourceRef.filter(datasource => this.props.query.datasource.indexOf(datasource.name) !== -1) :
-								this.state.datasourceRef}
-							placeholder="Select one or more datasources to filter by (eg. Reactome)"
-							onChange={selectedArray => this.updateFilter("datasource", selectedArray.map(selected => selected.name))}
-						/> : null
-					}
-					<HelpBlock>
-						Only search results from the datasources listed above will be shown. Alternatively, remove all datasources to disable datasource filtering.
-					</HelpBlock>
-				</FormGroup>
-				<FormGroup>
-					<ControlLabel>
-						Minimum participants
-					</ControlLabel>
-					<FormControl
-						type="text"
-						placeholder="Enter the lowest number of participants shown"
-						defaultValue={this.state.gt ? this.state.gt : undefined}
-						onChange={e => this.updateFilter("gt", String(+e.target.value || ""))}
-					/>
-					<HelpBlock>
-						Only search results with greater than the number of participants displayed above will be shown. Alternatively, leave blank to disable minimum filtering.
-					</HelpBlock>
-				</FormGroup>
-				<FormGroup>
-					<ControlLabel>
-						Maximum participants
-					</ControlLabel>
-					<FormControl
-						type="text"
-						placeholder="Enter the highest number of participants shown"
-						defaultValue={this.state.lt ? this.state.lt : undefined}
-						onChange={e => this.updateFilter("lt", String(+e.target.value || ""))}
-					/>
-					<HelpBlock>
-						Only search results with less than the number of participants displayed above will be shown. Alternatively, leave blank to disable maximum filtering.
-					</HelpBlock>
-				</FormGroup>
-			</div>
-		);
-	}
+  // once the options view is closed, update the search query
+  componentWillUnmount() {
+    const props = this.props;
+    const state = this.state;
+    const requiredQueryFields = [
+      'type',
+      'datasource',
+      'lt',
+      'gt'
+    ];
+
+    if (state.queryChanged) {
+      const newQueryState = {...state.query};
+
+      // ensure required query fields exist
+      requiredQueryFields.forEach(field => {
+        if (state.query[field] == null) {
+          newQueryState[field] = '';
+        }
+      });
+
+      this.setState({
+        query: newQueryState
+      }, props.updateSearchQuery(state.query));
+    }
+  }
+
+  updateQueryFilter(key, value) {
+    const newQueryState = {...this.state.query};
+
+    if(!isEmpty(value)) { // ensure all valid values returns !isEmpty() === true
+      newQueryState[key] = value;
+      this.setState({
+        query: newQueryState,
+        [key]: value,
+        queryChanged: true
+      });
+    }
+  }
+
+  render() {
+    const state = this.state;
+    const props = this.props;
+
+    return (
+      <div className="SearchOptions">
+        <FormGroup>
+          <ControlLabel>
+            Datasources
+          </ControlLabel>
+          {
+            !isEmpty(state.datasources) ?
+            <Typeahead
+              multiple
+              clearButton
+              labelKey="name"
+              options={state.datasources}
+              defaultSelected={props.query.datasource ?
+                state.datasources.filter(datasource => props.query.datasource.indexOf(datasource.name) !== -1) :
+                state.datasources}
+              placeholder="Select one or more datasources to filter by (eg. Reactome)"
+              onChange={selectedArray => this.updateQueryFilter('datasource', selectedArray.map(selected => selected.name))}
+            /> : null
+          }
+          <HelpBlock>
+            Only search results from the datasources listed above will be shown. Alternatively, remove all datasources to disable datasource filtering.
+          </HelpBlock>
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel>
+            Minimum participants
+          </ControlLabel>
+          <FormControl
+            type="text"
+            placeholder="Enter the lowest number of participants shown"
+            defaultValue={state.query.gt ? state.query.gt : undefined}
+            onChange={e => this.updateQueryFilter('gt', String(+e.target.value || ''))}
+          />
+          <HelpBlock>
+            Only search results with greater than the number of participants displayed above will be shown. Alternatively, leave blank to disable minimum filtering.
+          </HelpBlock>
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel>
+            Maximum participants
+          </ControlLabel>
+          <FormControl
+            type="text"
+            placeholder="Enter the highest number of participants shown"
+            defaultValue={state.query.lt ? state.query.lt : undefined}
+            onChange={e => this.updateQueryFilter('lt', String(+e.target.value || ''))}
+          />
+          <HelpBlock>
+            Only search results with less than the number of participants displayed above will be shown. Alternatively, leave blank to disable maximum filtering.
+          </HelpBlock>
+        </FormGroup>
+      </div>
+    );
+  }
 }

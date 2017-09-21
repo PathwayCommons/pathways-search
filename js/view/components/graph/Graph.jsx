@@ -6,24 +6,19 @@ import {Col, Row, DropdownButton, MenuItem} from 'react-bootstrap';
 
 import convertSbgn from 'sbgnml-to-cytoscape';
 
-import {initGraph} from './init';
 import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout/';
-import {saveAs} from 'file-saver';
 import {Spinner} from '../../../components/Spinner.jsx';
 import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
 
 // Graph
 // Prop Dependencies ::
-// - updateGlobal
-// - deleteGlobal
-// - data
+// - sbgnText
+// - cytoscape
 export class Graph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       graphId: this.props.id || Math.floor(Math.random() * Math.pow(10, 8)) + 1,
-      graphContainer: {},
-      graphInstance: {},
       graphRendered: false,
       graphEmpty: false,
       width: '100vw',
@@ -34,49 +29,23 @@ export class Graph extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (nextState.layout !== this.state.layout) {
-      this.performLayout(nextState.layout, this.state.graphInstance);
+    if (nextState.layout !== this.state.layout && this.state.graphRendered) {
+      this.performLayout(nextState.layout, this.props.cy);
     }
   }
 
   componentWillUnmount() {
-    this.props.deleteGlobal('graphImage');
-    this.state.graphInstance.destroy();
+    this.props.cy.destroy();
   }
 
   componentDidMount() {
-    const graphContainer = document.getElementById(this.state.graphId);
-    const graphInstance = initGraph(graphContainer);
-
-    this.setState({
-      graphInstance: graphInstance,
-      graphContainer: graphContainer
-    });
-    this.checkRenderGraph(this.props.data);
+    const container = document.getElementById(this.state.graphId);
+    this.props.cy.mount(container);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    this.checkRenderGraph(nextProps.data);
+    this.checkRenderGraph(nextProps.sbgnText);
     return true;
-  }
-
-  handleResize() {
-    var xPosition = 0;
-    var yPosition = 0;
-
-    var element = this.state.graphContainer;
-    while (element) {
-      yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
-      element = element.offsetParent;
-    }
-
-    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-
-    this.setState({
-      width: w,
-      height: h - yPosition
-    });
   }
 
   checkRenderGraph(data) {
@@ -88,20 +57,8 @@ export class Graph extends React.Component {
   // Graph rendering is not tracked by React
   renderGraph(sbgnString) {
     const graphJSON = convertSbgn(sbgnString);
-    const cy = this.state.graphInstance;
+    const cy = this.props.cy;
 
-    this.handleResize();
-    // Add listener to take care of resize events
-    if (window.addEventListener) {
-      window.addEventListener('resize', () => {
-        this.handleResize();
-      }, true);
-    }
-
-    // Set global graphImage
-    this.props.updateGlobal('graphImage', (isFullscreen, cb) => this.exportImage(isFullscreen, cb));
-
-    // Perform render
     cy.remove('*');
     cy.add(graphJSON);
 
@@ -115,28 +72,13 @@ export class Graph extends React.Component {
     this.state.graphRendered = true;
   }
 
-  performLayout(layoutName, graphJSON={}, options={}) {
-    const cy = this.state.graphInstance;
+  performLayout(layoutName) {
+    const cy = this.props.cy;
     cy.nodes().forEach(ele => {
       ele.removeScratch('_fisheye-pos-before');
     });
     cy.nodes('[class="complex"], [class="complex multimer"]').filter(node => node.isExpanded()).collapse();
-    cy.layout(layoutMap.get(layoutName)).run();  
-  }
-
-  exportImage(isFullscreen, cb) {
-    if (!isEmpty(this.state.graphInstance)) {
-      var imgBlob = this.state.graphInstance.png({
-        output: 'blob',
-        scale: 5,
-        bg: 'white',
-        full: Boolean(isFullscreen)
-      });
-      saveAs(imgBlob, 'Graph' + this.state.graphId + '.png');
-    }
-    if(cb) {
-      cb();
-    }
+    cy.layout(layoutMap.get(layoutName)).run();
   }
 
   render() {

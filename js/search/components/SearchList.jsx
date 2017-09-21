@@ -1,95 +1,107 @@
 import React from 'react';
-import {Pagination, Modal, Media, Button, Glyphicon, OverlayTrigger, Popover} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
-import isEmpty from 'lodash.isempty';
-import classNames from 'classnames';
+import {Button, Glyphicon, Grid, OverlayTrigger, Popover} from 'react-bootstrap';
+
 import {SearchItem} from './SearchItem.jsx';
-import {Splash} from '../../components/Splash.jsx';
-import {HelpTooltip} from '../../components/HelpTooltip.jsx';
+
 import {ErrorMessage} from '../../components/ErrorMessage.jsx';
+import {Spinner} from '../../components/Spinner.jsx';
+
+import PathwayCommonsService from '../../services/pathwayCommons/';
 
 // SearchList
 // Prop Dependencies ::
-// - searchResult
+// - query
 // - embed
-// - updateSearchArg(updateObject)
 export class SearchList extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			expanded: false
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      expanded: false,
+      searchResults: []
+    };
+  }
 
-	// Handle page switch from Pagination
-	handleSelect(e) {
-		// Pagination starts numbering from 1 but server starts number from 0, compensate for difference by subtracting 1
-		this.props.updateSearchArg({
-			...this.props.query,
-			page: (e - 1).toString()
-		});
-		scroll(0, 0);
-	}
+  componentDidMount() {
+    const props = this.props;
+    this.getSearchResult(props.query);
+  }
 
-	render() {
-		var searchData = this.props.searchResult;
-		var hitList = [];
-		var noResults = null;
-		var listCutoff = 5;
+  componentWillReceiveProps(nextProps) {
+    this.getSearchResult(nextProps.query);
+  }
 
-		const tip_hit = (
-			<Popover className="info-tip" id="popover-hit" placement="bottom" title="Search Hit">
-				Shown are each pathway's 'display name' and the original data source. 'Participants' refers to the number of physical entities including proteins and small molecules.
-			</Popover>
-		);
+  getSearchResult(query) {
+    this.setState({loading: true});
+    PathwayCommonsService.querySearch(query)
+      .then(searchResult => {
+        this.setState({
+          searchResults: searchResult.searchHit ? searchResult.searchHit : [],
+          loading: false
+        });
+      });
+  }
 
-		const tip_more_results = (
-			<Popover className="info-tip" id="popover-more-results" placement="bottom" title="More Results">
-				By default the top 5 pathways are displayed. Click to display up to 100 of the remaining search hits.
-			</Popover>
-		);
+  render() {
+    const props = this.props;
+    const state = this.state;
 
-		if(!isEmpty(searchData)) {
-			hitList = searchData.searchHit;
-			noResults = hitList.length === 0;
-		}
+    if (props.embed) { return null; }
 
-		if (this.props.embed) { // If is embed return nothing
-			return null;
-		} else if (hitList.length > 0) { // Generate search list if results available
-			return (
-				<div className="SearchList">
-					{
-						hitList
-						.map((item, index) => { return index === 0 ?
-							(<SearchItem key={index} data={item} extras={(<span>{'        '}<OverlayTrigger placement="bottom" overlay={tip_hit} >
-								<Glyphicon className="glyph-tip" glyph="info-sign" /></OverlayTrigger></span>)} />) :
-							(<SearchItem key={index} data={item} />);
-						})
-						.slice(0, !this.state.expanded ? listCutoff : undefined)
-					}
-					{
-						!this.state.expanded && hitList.length > listCutoff ?
-						<div className="moreResults" onClick={() => this.setState({expanded: true})}>
-							<OverlayTrigger delayShow={1000} placement="top" overlay={tip_more_results} >
-								<Button bsSize="large" block>More Results</Button>
-							</OverlayTrigger>
-						</div>
-						: null
-					}
-				</div>
-			);
-		} else if (searchData === null || noResults) { // For <= v.8, if searchData is null this indicates no search results found. Else for >= v.9, hitList = [] and empty = true indicates no search results found.
-			return (
-					<ErrorMessage className="SearchList">
-						No Search Results Found
-					</ErrorMessage>
-			);
-		} else {
-			// Assume, either on home page or search results not loaded, generate splash screen
-			return (
-				<Splash />
-			);
-		}
-	}
+    const expanded = state.expanded;
+    const listCutoff = 5;
+
+    const results = state.searchResults;
+
+    const tip_hit = (
+      <Popover className="info-tip" id="popover-hit" placement="bottom" title="Search Hit">
+        Shown are each pathway's 'display name' and the original data source. 'Participants' refers to the number of physical entities including proteins and small molecules.
+      </Popover>
+    );
+
+    const tip_more_results = (
+      <Popover className="info-tip" id="popover-more-results" placement="bottom" title="More Results">
+        By default the top 5 pathways are displayed. Click to display up to 100 of the remaining search hits.
+      </Popover>
+    );
+
+    const searchResults = results.map((item, index) => {
+      if (index === 0) {
+        return (
+          <SearchItem key={index} data={item}
+            extras={
+              (<span>{'        '}
+                <OverlayTrigger placement="bottom" overlay={tip_hit} >
+                  <Glyphicon className="glyph-tip" glyph="info-sign" />
+                </OverlayTrigger>
+              </span>)
+            }
+          />
+        );
+      } else {
+        return (<SearchItem key={index} data={item} />);
+      }
+    }).slice(0, !expanded ? listCutoff : undefined);
+
+    const moreResultsButton = (
+      <div className="moreResults" onClick={() => this.setState({expanded: true})}>
+        <OverlayTrigger delayShow={1000} placement="top" overlay={tip_more_results} >
+          <Button bsSize="large" block>More Results</Button>
+        </OverlayTrigger>
+      </div>
+    );
+
+    return (
+      <div className="SearchList">
+        <Grid fluid={true}>
+          <Spinner full hidden={!this.state.loading}  />
+          <ErrorMessage className="SearchList" hidden={this.state.loading || searchResults.length > 0}>
+            No Search Results Found
+          </ErrorMessage>
+          { searchResults }
+          { !expanded && results.length > listCutoff ? moreResultsButton : null }
+        </Grid>
+      </div>
+    );
+  }
 }

@@ -10,18 +10,23 @@ const stylesheet = sbgnStyleSheet(cytoscape)
   'text-outline-width': 2,
   'text-outline-opacity': 0.5,
   'text-wrap': 'wrap',
-  'text-max-width': 175
+  'text-max-width': 175,
+  'label': node => {
+    const label = node.data('label')
+      .split('(').join('').split(')').join('')
+      .split(':').join(' ');
+    return label;
+  }
 })
 .selector('node[class="complex"]')
 .css({
-  'content': (node) => node.data('label').split(':').join(' '),
   'width': 45,
   'height': 45
 })
 .selector('.compoundcollapse-collapsed-node')
 .css({
   'font-size': 20,
-  'background-color': 'black',
+  'background-color': 'rgb(44,62,80)',
   'color': 'white',
   'text-outline-color': 'black',
   'text-outline-width': 2,
