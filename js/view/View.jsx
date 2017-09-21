@@ -1,6 +1,7 @@
 import React from 'react';
 import {Col, Glyphicon, Navbar, Nav, NavItem, OverlayTrigger, Popover} from 'react-bootstrap';
 import {saveAs} from 'file-saver';
+import queryString from 'query-string';
 
 import {ErrorMessage} from '../components/ErrorMessage.jsx';
 import {Graph} from './components/graph/Graph.jsx';
@@ -20,28 +21,30 @@ import PathwayCommonsService from '../services/pathwayCommons/';
 export class View extends React.Component {
   constructor(props) {
     super(props);
+    const query = queryString.parse(props.location.search);
     this.state = {
+      query: query,
       cy: cyInit({ headless: true }), // cytoscape mounted after Graph component has mounted
       sbgnText: {},
       name: '',
       datasource: ''
     };
 
-    PathwayCommonsService.query(props.query.uri, 'SBGN')
+    PathwayCommonsService.query(query.uri, 'SBGN')
       .then(responseText => {
         this.setState({
           sbgnText: responseText
         });
       });
 
-    PathwayCommonsService.query(props.query.uri, 'json', 'Named/displayName')
+    PathwayCommonsService.query(query.uri, 'json', 'Named/displayName')
       .then(responseObj => {
         this.setState({
           name: responseObj ? responseObj.traverseEntry[0].value.pop() : ''
         });
       });
 
-    PathwayCommonsService.query(props.query.uri, 'json', 'Entity/dataSource/displayName')
+    PathwayCommonsService.query(query.uri, 'json', 'Entity/dataSource/displayName')
       .then(responseObj => {
         this.setState({
           datasource: responseObj ? responseObj.traverseEntry[0].value.pop() : ''
@@ -52,7 +55,7 @@ export class View extends React.Component {
     props.logEvent({
       category: 'View',
       action: 'view',
-      label: props.query.uri
+      label: query.uri
     });
   }
 
@@ -62,7 +65,7 @@ export class View extends React.Component {
       this.props.logEvent({
         category: 'View',
         action: 'view',
-        label: this.props.query.uri
+        label: this.state.query.uri
       });
     }
   }
@@ -104,7 +107,7 @@ export class View extends React.Component {
                 <Nav>
                   <NavItem eventKey={1} onClick={() => this.setState({active: "Information"})}>
                     <OverlayTrigger delayShow={1000} placement="bottom" overlay={tip_metadata}>
-                      <div id="metadata">{this.state.name ? this.state.name : this.props.query.uri} | {this.state.datasource}</div>
+                      <div id="metadata">{this.state.name ? this.state.name : this.state.query.uri} | {this.state.datasource}</div>
                     </OverlayTrigger>
                   </NavItem>
                 </Nav>
