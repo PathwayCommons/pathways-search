@@ -62,7 +62,7 @@ export class Index extends React.Component {
 
   render() {
     return (
-      <div className={classNames("Index", this.state.embed ? 'iframe' : '', this.props.className)}>
+      <div className={classNames('Index', this.state.embed ? 'iframe' : '', this.props.className)}>
         <div className={this.state.embed ? '' : 'Content'}>
           {
             this.state.pcOnline ? null : (
