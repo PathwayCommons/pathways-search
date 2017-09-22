@@ -25,6 +25,12 @@ export class SearchBar extends React.Component {
     }
   }
 
+  componentWillReceiveProps(props) {
+    if (props.query) {
+      this.state.query = props.query;
+    }
+  }
+
   onSearchValueChange(e) {
     const newQueryState = {...this.state.query};
     newQueryState.q = e.target.value;
