@@ -9,7 +9,7 @@ import {EntryPage} from './entrypage/';
 import {Search} from './search/';
 import {View} from './view/';
 
-import PathwayCommonsService from './services/pathwayCommons/';
+import {PathwayCommonsService} from './services/';
 
 
 class PageNotFound extends React.Component {

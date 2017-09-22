@@ -2,10 +2,10 @@ import React from 'react';
 import classNames from 'classnames';
 import {saveAs} from 'file-saver';
 
-import {DownloadCard} from './DownloadCard.jsx';
+import {DownloadCard} from './download-card';
 
 import {Spinner} from '../../../common-components/';
-import PathwayCommonsService from '../../../services/pathwayCommons/';
+import {PathwayCommonsService} from '../../../services/';
 
 // Downloads
 // Prop Dependencies ::

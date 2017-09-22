@@ -3,8 +3,8 @@ import React from 'react';
 import queryString from 'query-string';
 import extend from 'extend';
 
-import {SearchHeader} from './components/SearchHeader.jsx';
-import {SearchList} from './components/SearchList.jsx';
+import {SearchHeader, SearchList} from './components/';
+
 
 // Search
 // Prop Dependencies ::

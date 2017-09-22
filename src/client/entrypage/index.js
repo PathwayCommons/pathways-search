@@ -1,6 +1,6 @@
 import React from 'react';
-import {SearchHeader} from './components/SearchHeader.jsx';
-import {Splash} from './components/Splash.jsx';
+
+import {Splash, SearchHeader} from './components/';
 
 // landing page for the search app
 // props::

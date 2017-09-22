@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {HashRouter, Route} from 'react-router-dom';
 
 import {App} from './App';
-import PathwayCommonsService from './services/pathwayCommons/';
+import {PathwayCommonsService} from './services/';
 
 /* eslint-disable */
 // styles need to be imported even though they may not be used in this file

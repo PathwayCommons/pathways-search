@@ -11,7 +11,7 @@ import {
 
 import {SearchBar, SearchFaq} from '../../common-components/';
 
-import {SearchOptions} from './SearchOptions.jsx';
+import {SearchOptions} from './search-options';
 
 // SearchHeader
 // Prop Dependencies ::

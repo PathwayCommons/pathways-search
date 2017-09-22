@@ -3,13 +3,12 @@ import {Col, Glyphicon, Navbar, Nav, NavItem, OverlayTrigger, Popover} from 'rea
 import {saveAs} from 'file-saver';
 import queryString from 'query-string';
 
-import {Graph} from './components/graph/Graph.jsx';
-import {ModalFramework} from './components/menu/ModalFramework.jsx';
+import {Graph, ModalFramework} from './components/';
 
 import cyInit from './cy/init';
 
 import {ErrorMessage} from '../common-components/';
-import PathwayCommonsService from '../services/pathwayCommons/';
+import {PathwayCommonsService} from '../services/';
 
 // View
 // Prop Dependencies ::
