@@ -4,7 +4,7 @@ import {Button, Glyphicon, Grid, OverlayTrigger, Popover} from 'react-bootstrap'
 import {SearchItem} from './search-item';
 
 import {ErrorMessage, Spinner} from '../../common-components/';
-import {PathwayCommonsService} from '../../services/';
+import {PathwayCommonsService} from '../../../services/';
 
 
 // SearchList

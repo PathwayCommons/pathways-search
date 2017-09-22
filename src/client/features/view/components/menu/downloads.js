@@ -5,7 +5,7 @@ import {saveAs} from 'file-saver';
 import {DownloadCard} from './download-card';
 
 import {Spinner} from '../../../common-components/';
-import {PathwayCommonsService} from '../../../services/';
+import {PathwayCommonsService} from '../../../../services/';
 
 // Downloads
 // Prop Dependencies ::

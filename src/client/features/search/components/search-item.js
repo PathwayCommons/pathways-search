@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import isEqual from 'lodash.isequal';
 import queryString from 'query-string';
 
-import {PathwayCommonsService} from '../../services/';
+import {PathwayCommonsService} from '../../../services/';
 
 // SearchItem
 // This component is only meant to be called by SearchList

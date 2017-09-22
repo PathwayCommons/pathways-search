@@ -8,7 +8,7 @@ import {Graph, ModalFramework} from './components/';
 import make_cytoscape from './cy/';
 
 import {ErrorMessage} from '../common-components/';
-import {PathwayCommonsService} from '../services/';
+import {PathwayCommonsService} from '../../services/';
 
 // View
 // Prop Dependencies ::

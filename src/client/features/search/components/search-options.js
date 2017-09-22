@@ -4,7 +4,7 @@ import {Typeahead} from 'react-bootstrap-typeahead';
 
 import isEmpty from 'lodash.isempty';
 
-import {PathwayCommonsService} from '../../services/';
+import {PathwayCommonsService} from '../../../services/';
 
 // SearchOptions
 // Prop Dependencies ::

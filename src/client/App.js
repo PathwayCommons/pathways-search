@@ -5,10 +5,7 @@ import queryString from 'query-string';
 import {Alert} from 'react-bootstrap';
 import ReactGA from 'react-ga';
 
-import {EntryPage} from './entrypage/';
-import {Search} from './search/';
-import {View} from './view/';
-import {Paint} from './paint/';
+import {EntryPage, Search, View, Paint} from './features';
 
 import {PathwayCommonsService} from './services/';
 
