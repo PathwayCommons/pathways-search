@@ -9,6 +9,9 @@ import {Downloads} from './downloads';
 // Prop Dependencies ::
 // - query
 // - cy
+// - active
+// - onHide
+
 export class ModalFramework extends React.Component {
   render() {
     var active = this.props.active || '';

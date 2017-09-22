@@ -14,7 +14,7 @@ export class EntryPage extends React.Component {
   render() {
     return (
       <div className='Search'>
-        <SearchHeader {...this.props} />
+        <SearchHeader history={this.props.history} embed={this.props.embed} />
         <Splash/>
       </div>
     );

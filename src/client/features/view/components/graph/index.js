@@ -17,7 +17,7 @@ export class Graph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      graphId: this.props.id || Math.floor(Math.random() * Math.pow(10, 8)) + 1,
+      graphId: Math.floor(Math.random() * Math.pow(10, 8)) + 1,
       graphRendered: false,
       graphEmpty: false,
       width: '100vw',
@@ -89,9 +89,7 @@ export class Graph extends React.Component {
 
     if (!this.state.graphEmpty) {
       return (
-        <div className={classNames('Graph', this.props.hidden
-          ? 'visibilityHidden'
-          : '')}>
+        <div className='Graph'>
           <Row>
             <Col xsOffset={1} xs={9} smOffset={2} sm={2}>
               <DropdownButton id="layout" bsStyle="default" pullRight={true} bsSize="large" block title={`Layout | ${this.state.layout}`}>
@@ -111,7 +109,7 @@ export class Graph extends React.Component {
     }
     else {
       return (
-        <ErrorMessage className={classNames('Graph', this.props.hidden ? 'visibilityHidden' : '')}>
+        <ErrorMessage className='Graph'>
           No Paths Found
         </ErrorMessage>
       );
