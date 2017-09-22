@@ -149,7 +149,7 @@ export class View extends React.Component {
           }
           <Graph cy={this.state.cy} sbgnText={this.state.sbgnText}/>
           {/* Menu Modal */}
-          <ModalFramework cy={this.state.cy} onHide={() => this.setState({active: ''})} active={this.state.active} name={this.state.name}/>
+          <ModalFramework cy={this.state.cy} query={this.state.query} onHide={() => this.setState({active: ''})} active={this.state.active} name={this.state.name}/>
         </div>
       );
     }
