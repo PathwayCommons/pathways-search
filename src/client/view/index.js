@@ -5,7 +5,7 @@ import queryString from 'query-string';
 
 import {Graph, ModalFramework} from './components/';
 
-import cyInit from './cy/init';
+import make_cytoscape from './cy/';
 
 import {ErrorMessage} from '../common-components/';
 import {PathwayCommonsService} from '../services/';
@@ -23,7 +23,7 @@ export class View extends React.Component {
     const query = queryString.parse(props.location.search);
     this.state = {
       query: query,
-      cy: cyInit({ headless: true }), // cytoscape mounted after Graph component has mounted
+      cy: make_cytoscape({ headless: true }), // cytoscape mounted after Graph component has mounted
       sbgnText: {},
       name: '',
       datasource: ''
