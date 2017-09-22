@@ -5,18 +5,29 @@ import queryString from 'query-string';
 import {Alert} from 'react-bootstrap';
 import ReactGA from 'react-ga';
 
-import {EntryPage} from './entrypage/EntryPage.jsx';
-import {Search} from './search/Search.jsx';
-import {View} from './view/View.jsx';
-import {PageNotFound} from './PageNotFound.jsx';
+import {EntryPage} from './entrypage/';
+import {Search} from './search/';
+import {View} from './view/';
 
 import PathwayCommonsService from './services/pathwayCommons/';
+
+
+class PageNotFound extends React.Component {
+  render() {
+    return(
+      <div className="PageNotFound">
+        <h1>Page Not Found</h1>
+        <p>Sorry, but the page you were trying to view does not exist.</p>
+      </div>
+    );
+  }
+}
 
 // Index
 // Prop Dependencies ::
 // - location
 // - match
-export class Index extends React.Component {
+export class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

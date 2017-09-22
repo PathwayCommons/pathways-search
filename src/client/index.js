@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {HashRouter, Route} from 'react-router-dom';
 
-import {Index} from './Index.jsx';
+import {App} from './App';
 import PathwayCommonsService from './services/pathwayCommons/';
 
 /* eslint-disable */
@@ -15,14 +15,7 @@ PathwayCommonsService.registerUser('pathways-search');
 
 const mountElement = document.getElementById('container');
 
-class App extends React.Component {
-  render() {
-    return (
-      <HashRouter className="App">
-        <Route path="/:selector?/:modifier?" component={Index}/>
-      </HashRouter>
-    );
-  }
-}
-
-ReactDOM.render(<App/>, mountElement);
+ReactDOM.render(
+  <HashRouter className="App">
+    <Route path='/:selector?/:modifier?' component={App}/>
+  </HashRouter>, mountElement);
