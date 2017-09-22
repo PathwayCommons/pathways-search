@@ -1,0 +1,44 @@
+.Paint {
+}
+
+.EnrichmentGraph {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+
+}
+.Paint-cy {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+}
+
+.Paint-intro {
+  font-size: large;
+}
+
+.Paint-searchmenu {
+  z-index: 1;
+  position: fixed !important;
+  top: 20px;
+  left: 15px;
+  display: 'inline-block';
+
+}
+.Paint-searchbox {
+}
+
+.Paint-logo {
+  height: 80px;
+  width: 80px;
+}
+
+.Paint-outputmenu {
+
+}
+
+.Paint-fileupload {
+}
+

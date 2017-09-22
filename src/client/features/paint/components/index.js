@@ -1,4 +1,3 @@
-import {Graph} from './graph/';
-import {ModalFramework} from './menu';
+import {EnrichmentGraph} from './enrichment-graph/';
 
-export {Graph, ModalFramework};
+export {EnrichmentGraph};

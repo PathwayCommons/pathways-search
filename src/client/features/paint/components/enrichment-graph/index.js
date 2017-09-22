@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import isEmpty from 'lodash.isempty';
 
 import {Col, Row, DropdownButton, MenuItem} from 'react-bootstrap';
@@ -13,7 +12,7 @@ import {Spinner, ErrorMessage} from '../../../common-components';
 // Prop Dependencies ::
 // - sbgnText
 // - cytoscape
-export class Graph extends React.Component {
+export class EnrichmentGraph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +20,7 @@ export class Graph extends React.Component {
       graphRendered: false,
       graphEmpty: false,
       width: '100vw',
-      height: '85vh',
+      height: '100vh',
       layout: defaultLayout,
       availableLayouts: []
     };
@@ -89,9 +88,12 @@ export class Graph extends React.Component {
 
     if (!this.state.graphEmpty) {
       return (
-        <div className={classNames('Graph', this.props.hidden
-          ? 'visibilityHidden'
-          : '')}>
+        <div className='EnrichmentGraph'>
+          <Spinner hidden={this.state.graphRendered}/>
+          <div id={this.state.graphId} style={{
+            width: this.state.width,
+            height: this.state.height
+          }}/>
           <Row>
             <Col xsOffset={1} xs={9} smOffset={2} sm={2}>
               <DropdownButton id="layout" bsStyle="default" pullRight={true} bsSize="large" block title={`Layout | ${this.state.layout}`}>
@@ -99,19 +101,12 @@ export class Graph extends React.Component {
               </DropdownButton>
             </Col>
           </Row>
-          <div className="SpinnerContainer">
-            <Spinner hidden={this.state.graphRendered}/>
-          </div>
-          <div id={this.state.graphId} style={{
-            width: this.state.width,
-            height: this.state.height
-          }}/>
         </div>
       );
     }
     else {
       return (
-        <ErrorMessage className={classNames('Graph', this.props.hidden ? 'visibilityHidden' : '')}>
+        <ErrorMessage className='EnrichmentGraph'>
           No Paths Found
         </ErrorMessage>
       );

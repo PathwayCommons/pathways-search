@@ -33,6 +33,7 @@
     "lodash.isempty": "^4.4.0",
     "lodash.isequal": "^4.5.0",
     "lodash.map": "^4.6.0",
+    "material-ui": "^1.0.0-beta.11",
     "pathway-commons": "^1.5.4",
     "query-string": "^4.3.2",
     "react": "^15.6.1",
