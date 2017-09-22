@@ -1,21 +1,34 @@
 require('babel-polyfill');
 
-let debug = require('./debug');
+// const debug = require('./debug');
 
-if( debug.enabled() ){
-  debug.init();
-}
+// if( debug.enabled() ){
+//   // debug.init();
+// }
 
 // TODO client
 // react example
 
-let React = require('react');
-let ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {HashRouter, Route} from 'react-router-dom';
 
-let div = document.createElement('div');
-document.body.appendChild( div );
+import {Index} from './Index.jsx';
+import PathwayCommonsService from './services/pathwayCommons/';
 
-ReactDOM.render(
-  <h1>Hello, world!</h1>,
-  div
-);
+// Set user in pathway-commons
+PathwayCommonsService.registerUser('pathways-search');
+
+const mountElement = document.getElementById('container');
+
+class App extends React.Component {
+  render() {
+    return (
+      <HashRouter className="App">
+        <Route path="/:selector?/:modifier?" component={Index}/>
+      </HashRouter>
+    );
+  }
+}
+
+ReactDOM.render(<App/>, mountElement);

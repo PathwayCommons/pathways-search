@@ -17,8 +17,6 @@ if (debug.enabled()) {
 // TODO client
 // react example
 
-console.log('blah');
-
 var React = __webpack_require__(411);
 var ReactDOM = __webpack_require__(427);
 

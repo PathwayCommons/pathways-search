@@ -1,5 +1,5 @@
 let domReady = require('fready');
-let sync = require('./sync');
+// let sync = require('./sync');
 
 let debug = window.dbg = {
   enabled: function( on ){
@@ -15,6 +15,7 @@ let debug = window.dbg = {
   },
 
   init: function(){
+    console.log(domReady);
     domReady( sync );
   }
 };

@@ -1,0 +1,49 @@
+.SearchItem {
+	padding: 15px 5px;
+	overflow: hidden;
+
+	& .src-thumbnail-container {
+		display: table;
+		height: 100px;
+
+		& .src-thumbnail {
+			display: table-cell;
+			vertical-align: top;
+			text-align: center;
+			padding-top: 5px;
+		}
+
+		& img {
+			max-height: 80px;
+		}
+	}
+
+	& .metadata-wrapper {
+
+		& .title {
+			font-size: 1.5em;
+		}
+
+		& .subtext {
+			& .source {
+				font-size: 1.2em;
+			}
+			& .participants {
+				font-size: 1.1em;
+				color: var(--asbestos);
+			}
+		}
+	}
+
+	& .glyph-tip {
+		font-size: 2em;
+	}
+}
+
+@media (--screen-xxs) {
+	.SearchItem {
+		& .glyph-tip {
+			font-size: 1.9em;
+		}
+	}
+}
