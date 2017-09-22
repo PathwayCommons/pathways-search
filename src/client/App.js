@@ -8,6 +8,7 @@ import ReactGA from 'react-ga';
 import {EntryPage} from './entrypage/';
 import {Search} from './search/';
 import {View} from './view/';
+import {Paint} from './paint/';
 
 import {PathwayCommonsService} from './services/';
 
@@ -86,6 +87,7 @@ export class App extends React.Component {
             <Route exact path="/" render={props => <EntryPage {...props} logEvent={ this.logEvent} logPageView={ this.logPageView} />}/>
             <Route path="/search" render={props => <Search {...props} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
             <Route path="/view" render={props => <View {...props} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
+            <Route path="/paint" render={props => <Paint {...props} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
             <Route path="*" render={props => <PageNotFound {...props}/>}/>
           </Switch>
         </div>
