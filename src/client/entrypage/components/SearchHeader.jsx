@@ -9,8 +9,7 @@ import {
 } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
-import {SearchFaq} from '../../components/SearchFaq.jsx';
-import {SearchBar} from '../../components/SearchBar.jsx';
+import {SearchBar, SearchFaq} from '../../common-components/';
 
 // SearchHeader
 // Prop Dependencies ::

@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import {saveAs} from 'file-saver';
 
 import {DownloadCard} from './DownloadCard.jsx';
-import {Spinner} from '../../../components/Spinner.jsx';
 
+import {Spinner} from '../../../common-components/';
 import PathwayCommonsService from '../../../services/pathwayCommons/';
 
 // Downloads

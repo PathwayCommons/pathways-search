@@ -7,8 +7,7 @@ import {Col, Row, DropdownButton, MenuItem} from 'react-bootstrap';
 import convertSbgn from 'sbgnml-to-cytoscape';
 
 import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout/';
-import {Spinner} from '../../../components/Spinner.jsx';
-import {ErrorMessage} from '../../../components/ErrorMessage.jsx';
+import {Spinner, ErrorMessage} from '../../../common-components';
 
 // Graph
 // Prop Dependencies ::

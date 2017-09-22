@@ -3,10 +3,9 @@ import {Button, Glyphicon, Grid, OverlayTrigger, Popover} from 'react-bootstrap'
 
 import {SearchItem} from './SearchItem.jsx';
 
-import {ErrorMessage} from '../../components/ErrorMessage.jsx';
-import {Spinner} from '../../components/Spinner.jsx';
-
+import {ErrorMessage, Spinner} from '../../common-components/';
 import PathwayCommonsService from '../../services/pathwayCommons/';
+
 
 // SearchList
 // Prop Dependencies ::
