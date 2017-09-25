@@ -1,5 +1,6 @@
 import React from 'react';
 import queryString from 'query-string';
+import {Switch, Route} from 'react-router-dom';
 
 import {EnrichmentGraph} from './components/';
 import make_cytoscape from './cy/';
@@ -7,7 +8,7 @@ import make_cytoscape from './cy/';
 import {ErrorMessage} from '../common-components/';
 import {PathwayCommonsService} from '../../services/';
 
-// View
+// Paint
 // Prop Dependencies ::
 // - query
 // - history
@@ -49,8 +50,8 @@ export class Paint extends React.Component {
 
     props.logPageView( props.history.location );
     props.logEvent({
-      category: 'View',
-      action: 'view',
+      category: 'Paint',
+      action: 'paint',
       label: query.uri
     });
   }
@@ -59,8 +60,8 @@ export class Paint extends React.Component {
     const locationChanged = nextProps.location !== this.props.location;
     if( locationChanged ){
       this.props.logEvent({
-        category: 'View',
-        action: 'view',
+        category: 'Paint',
+        action: 'paint',
         label: this.state.query.uri
       });
     }
@@ -70,7 +71,7 @@ export class Paint extends React.Component {
     if(this.state.sbgnText) {
       return(
         <div className='Paint'>
-          <EnrichmentGraph cy={this.state.cy} sbgnText={this.state.sbgnText} {...this.props}/>
+          <EnrichmentGraph cy={this.state.cy} sbgnText={this.state.sbgnText} />
         </div>
       );
     } else  {

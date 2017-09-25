@@ -16,7 +16,7 @@ export class EnrichmentGraph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      graphId: this.props.id || Math.floor(Math.random() * Math.pow(10, 8)) + 1,
+      graphId: Math.floor(Math.random() * Math.pow(10, 8)) + 1,
       graphRendered: false,
       graphEmpty: false,
       width: '100vw',

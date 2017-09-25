@@ -17,8 +17,7 @@ import bindEvents from './events';
 cytoscape.use( cola );
 cytoscape.use( coseBilkent );
 cytoscape.use( dagre );
-cytoscape.use( klay, klayjs ); // cytoscape 3.x extension register
-cytoscape.use( fisheye );
+cytoscape.use( klay, klayjs );
 cytoscape.use( compoundCollapse );
 
 // set the sbgn style sheet
