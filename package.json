@@ -19,7 +19,7 @@
     "cytoscape": "git+https://github.com/d2fong/cytoscape.js#mount",
     "cytoscape-cola": "^2.0.0",
     "cytoscape-compound-collapse": "git+https://github.com/d2fong/cytoscape.js-compound-collapse.git",
-    "cytoscape-cose-bilkent": "^2.1.0",
+    "cytoscape-cose-bilkent": "git+https://github.com/d2fong/cytoscape.js-cose-bilkent.git#simple-label-dimensions",
     "cytoscape-dagre": "2.0.0",
     "cytoscape-fisheye": "git+https://github.com/d2fong/cytoscape.js-fisheye.git",
     "cytoscape-klay": "^3.0.0",
