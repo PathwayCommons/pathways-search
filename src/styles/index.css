@@ -11,6 +11,7 @@
 @import 'react-bootstrap-typeahead/css/Loader.css';
 
 /* Load variables */
+@import './css/deps.css';
 @import './css/variables.css';
 @import './css/general.css';
 
