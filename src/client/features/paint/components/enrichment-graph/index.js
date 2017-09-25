@@ -89,11 +89,6 @@ export class EnrichmentGraph extends React.Component {
     if (!this.state.graphEmpty) {
       return (
         <div className='EnrichmentGraph'>
-          <Spinner hidden={this.state.graphRendered}/>
-          <div id={this.state.graphId} style={{
-            width: this.state.width,
-            height: this.state.height
-          }}/>
           <Row>
             <Col xsOffset={1} xs={9} smOffset={2} sm={2}>
               <DropdownButton id="layout" bsStyle="default" pullRight={true} bsSize="large" block title={`Layout | ${this.state.layout}`}>
@@ -101,6 +96,11 @@ export class EnrichmentGraph extends React.Component {
               </DropdownButton>
             </Col>
           </Row>
+          <div id={this.state.graphId} style={{
+            width: this.state.width,
+            height: this.state.height
+          }}/>
+          <Spinner hidden={this.state.graphRendered}/>
         </div>
       );
     }
