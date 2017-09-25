@@ -34,6 +34,7 @@ export class SearchItem extends React.Component {
     const props = this.props;
     const state = this.state;
     const data = props.data;
+    const searchUri = queryString.stringify({uri: data.uri});
 
     return (
       <div className="SearchItem clearfix">
@@ -44,15 +45,19 @@ export class SearchItem extends React.Component {
         </Col>
         <Col className="metadata-wrapper" xs={12} sm={8}>
           <div className="header">
-              <Link to={{pathname: '/view', search: queryString.stringify({uri: data.uri})}} target="_blank">
+              <Link to={{pathname: '/view', search: searchUri}} target="_blank">
                 <span className="title">{data.name}</span>
               </Link>
               { props.extras }
           </div>
           <div className="subtext">
-              <span className="source">{data.sourceInfo.name}</span>
-              <br/>
-              <span className="participants">{(data.numParticipants || '0') + ' Participants'} </span>
+            <span className="source">{data.sourceInfo.name}</span>
+            <br/>
+            <span className="participants">{(data.numParticipants || '0') + ' Participants'} </span>
+            <br/>
+            <Link to={{pathname: '/paint', search: searchUri}} target="_blank">
+              <span className="paint-link">paint</span>
+            </Link>
           </div>
         </Col>
       </div>
