@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import {App} from './App';
 import {PathwayCommonsService} from './services/';
+import RegisterCyExtensions from './cytoscape-extensions';
 
 /* eslint-disable */
 // styles need to be imported even though they may not be used in this file
@@ -11,6 +12,7 @@ import styles from '!style-loader!css-loader!postcss-loader!../styles/index.css'
 
 // Set user in pathway-commons
 PathwayCommonsService.registerUser('pathways-search');
+RegisterCyExtensions();
 
 const mountElement = document.getElementById('container');
 
