@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {HashRouter, Route} from 'react-router-dom';
 
 import {App} from './App';
 import {PathwayCommonsService} from './services/';
@@ -15,7 +14,4 @@ PathwayCommonsService.registerUser('pathways-search');
 
 const mountElement = document.getElementById('container');
 
-ReactDOM.render(
-  <HashRouter className="App">
-    <Route path='/:selector?/:modifier?' component={App}/>
-  </HashRouter>, mountElement);
+ReactDOM.render(<App/>, mountElement);

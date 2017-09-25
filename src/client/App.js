@@ -1,7 +1,6 @@
 import React from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom';
+import {HashRouter, Route, Switch} from 'react-router-dom';
 import classNames from 'classnames';
-import queryString from 'query-string';
 import {Alert} from 'react-bootstrap';
 import ReactGA from 'react-ga';
 
@@ -29,8 +28,7 @@ export class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pcOnline: true,
-      ...this.handlePropUpdates(this.props)
+      pcOnline: true
     };
     ReactGA.initialize('UA-43341809-7');
     this.pcLiveCheck();
@@ -40,7 +38,6 @@ export class App extends React.Component {
   // If location.search is changed then re-render
   componentWillReceiveProps(nextProps) {
     if (this.props !== nextProps) {
-      this.setState(this.handlePropUpdates(nextProps));
       this.pcLiveCheck();
     }
   }
@@ -61,34 +58,28 @@ export class App extends React.Component {
       });
   }
 
-  handlePropUpdates(props) {
-    return {
-      embed: props.match && props.match.params.modifier === 'embed',
-      query: queryString.parse(props.location.search)
-    };
-  }
-
-
   render() {
     return (
-      <div className={classNames('Index', this.state.embed ? 'iframe' : '', this.props.className)}>
-        <div className={this.state.embed ? '' : 'Content'}>
-          {
-            this.state.pcOnline ? null : (
-              <Alert bsStyle="warning">
-                <strong>Unable to connect within { this.checkDelay / 1000 } seconds</strong> - continuing to try
-              </Alert>
-            )
-          }
-          <Switch>
-            <Route exact path="/" render={props => <EntryPage {...props} logEvent={ this.logEvent} logPageView={ this.logPageView} />}/>
-            <Route path="/search" render={props => <Search {...props} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
-            <Route path="/view" render={props => <View {...props} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
-            <Route path="/paint" render={props => <Paint {...props} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
-            <Route path="*" render={props => <PageNotFound {...props}/>}/>
-          </Switch>
+      <HashRouter className='App'>
+        <div className={classNames('Index', this.state.embed ? 'iframe' : '', this.props.className)}>
+          <div className={this.state.embed ? '' : 'Content'}>
+            {
+              this.state.pcOnline ? null : (
+                <Alert bsStyle="warning">
+                  <strong>Unable to connect within { this.checkDelay / 1000 } seconds</strong> - continuing to try
+                </Alert>
+              )
+            }
+            <Switch>
+              <Route exact path="/" render={props => <EntryPage {...props} logEvent={ this.logEvent} logPageView={ this.logPageView} />}/>
+              <Route exact path="/search" render={props => <Search {...props} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
+              <Route path="/view" render={props => <View {...props} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
+              <Route path="/paint" render={props => <Paint {...props} logEvent={ this.logEvent } logPageView={ this.logPageView } />}/>
+              <Route path="*" render={props => <PageNotFound {...props}/>}/>
+            </Switch>
+          </div>
         </div>
-      </div>
+      </HashRouter>
     );
   }
 }
