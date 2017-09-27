@@ -1,7 +1,7 @@
 import React from 'react';
 import queryString from 'query-string';
 import {Switch, Route} from 'react-router-dom';
-
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {EnrichmentGraph} from './components/';
 import make_cytoscape from './cy/';
 
@@ -70,9 +70,12 @@ export class Paint extends React.Component {
   render() {
     if(this.state.sbgnText) {
       return(
+        <MuiThemeProvider>
+
         <div className='Paint'>
           <EnrichmentGraph cy={this.state.cy} sbgnText={this.state.sbgnText} name={this.state.name} datasource={this.state.datasource} />
         </div>
+        </MuiThemeProvider>
       );
     } else  {
       return (

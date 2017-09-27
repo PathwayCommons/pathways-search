@@ -3,6 +3,13 @@ import isEmpty from 'lodash.isempty';
 import {saveAs} from 'file-saver';
 
 import SideNav, { Nav, NavIcon, NavText } from 'react-sidenav';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
+
+
 import convertSbgn from 'sbgnml-to-cytoscape';
 
 import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout/';
@@ -22,8 +29,8 @@ export class EnrichmentGraph extends React.Component {
       width: '100vw',
       height: '100vh',
       layout: defaultLayout,
-      drawerOpen: false,
-      availableLayouts: []
+      availableLayouts: [],
+      enrichmentMapEntires: []
     };
   }
 
@@ -91,13 +98,27 @@ export class EnrichmentGraph extends React.Component {
     saveAs(imgBlob, this.props.name  + '.png');
   }
 
-  handleDrawerToggle() {
-    this.setState({
-      drawerOpen: !this.state.drawerOpen
-    });
-  }
-
   render() {
+
+    const enrichmentMapEntires = Object.entries(
+      this.state.enrichmentMapEntires
+    ).map((k, v) => {
+      return (
+        <TableRow>
+          <TableRowColumn>
+            {k[0]}
+          </TableRowColumn>
+          <TableRowColumn>
+            {k[1]}
+          </TableRowColumn>
+          <TableRowColumn>class2 value...</TableRowColumn>
+          <TableRowColumn>class3 value...</TableRowColumn>
+          <TableRowColumn>...</TableRowColumn>
+        </TableRow>
+      );
+    });
+
+
     if (!this.state.graphEmpty) {
       return (
         <div className='EnrichmentGraph'>
@@ -117,6 +138,31 @@ export class EnrichmentGraph extends React.Component {
               </Nav>
             </SideNav>
           </div>
+          <Drawer open={true} openSecondary={true} width={'80%'} >
+           <Table>
+             <TableHeader>
+               <TableRow>
+                 <TableHeaderColumn>Gene</TableHeaderColumn>
+                 <TableHeaderColumn>class 1 value</TableHeaderColumn>
+                 <TableHeaderColumn>class 2 value</TableHeaderColumn>
+                 <TableHeaderColumn>class 3 value</TableHeaderColumn>
+                 <TableHeaderColumn>class 4 value</TableHeaderColumn>
+               </TableRow>
+             </TableHeader>
+             <TableBody>
+               {enrichmentMapEntires}
+             </TableBody>
+           </Table>
+           <MenuItem>
+             <TextField hintText="search" />
+             <FlatButton label="sort by" primary={true} />
+             {/* <FlatButton
+               label="close"
+               secondary={true}
+               onTouchTap={this.handleDrawerToggle.bind(this)}
+             /> */}
+           </MenuItem>
+          </Drawer>
           <div id={this.state.graphId} style={{width: this.state.width, height: this.state.height}}/>
 
           <Spinner hidden={this.state.graphRendered}/>
