@@ -1,8 +1,8 @@
 import React from 'react';
 import isEmpty from 'lodash.isempty';
+import {saveAs} from 'file-saver';
 
-import {Col, Row, DropdownButton, MenuItem} from 'react-bootstrap';
-
+import SideNav, { Nav, NavIcon, NavText } from 'react-sidenav';
 import convertSbgn from 'sbgnml-to-cytoscape';
 
 import {defaultLayout, getDefaultLayout, layoutNames, layoutMap} from './layout/';
@@ -22,6 +22,7 @@ export class EnrichmentGraph extends React.Component {
       width: '100vw',
       height: '100vh',
       layout: defaultLayout,
+      drawerOpen: false,
       availableLayouts: []
     };
   }
@@ -79,27 +80,45 @@ export class EnrichmentGraph extends React.Component {
     cy.layout(layoutMap.get(layoutName)).run();
   }
 
-  render() {
-    const layoutDropdownItems = this.state.availableLayouts.map((layoutName) =>
-      <MenuItem key={layoutName} onClick={() => this.setState({layout: layoutName})}>
-        {layoutName}
-      </MenuItem>
-    );
+  handleMenuSelect(id, parent) {
+    if (id == 'Paint-save') {
+      this.exportImage();
+    }
+  }
 
+  exportImage() {
+    const imgBlob = this.props.cy.png({output: 'blob', scale: 3, bg: 'white',full: true});
+    saveAs(imgBlob, this.props.name  + '.png');
+  }
+
+  handleDrawerToggle() {
+    this.setState({
+      drawerOpen: !this.state.drawerOpen
+    });
+  }
+
+  render() {
     if (!this.state.graphEmpty) {
       return (
         <div className='EnrichmentGraph'>
-          <Row>
-            <Col xsOffset={1} xs={9} smOffset={2} sm={2}>
-              <DropdownButton id="layout" bsStyle="default" pullRight={true} bsSize="large" block title={`Layout | ${this.state.layout}`}>
-                {layoutDropdownItems}
-              </DropdownButton>
-            </Col>
-          </Row>
-          <div id={this.state.graphId} style={{
-            width: this.state.width,
-            height: this.state.height
-          }}/>
+          <div className='Paint-sidenav'>
+            <SideNav highlightColor='#ECF0F1' highlightBgColor='#2C3E50' onItemSelection={(id, parent) => this.handleMenuSelect(id, parent)}>
+              <a href="http://pathwaycommons.org/">
+                <img src='img/pc_logo_dark.svg' className="Painter-logo" alt="logo" />
+              </a>
+              <h2>Paint</h2>
+              <h4>Pathway</h4> <h6> {this.props.name ? this.props.name : ''}</h6>
+              <h4>Datasource </h4> <h6>{this.props.datasource}</h6>
+              <Nav id='Paint-save' onClick={() => this.exportImage()}>
+                  <NavText> Save as image </NavText>
+              </Nav>
+              <Nav id='Paint-enrichment-data'>
+                  <NavText> Enrichment data </NavText>
+              </Nav>
+            </SideNav>
+          </div>
+          <div id={this.state.graphId} style={{width: this.state.width, height: this.state.height}}/>
+
           <Spinner hidden={this.state.graphRendered}/>
         </div>
       );

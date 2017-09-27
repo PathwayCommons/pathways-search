@@ -71,7 +71,7 @@ export class Paint extends React.Component {
     if(this.state.sbgnText) {
       return(
         <div className='Paint'>
-          <EnrichmentGraph cy={this.state.cy} sbgnText={this.state.sbgnText} />
+          <EnrichmentGraph cy={this.state.cy} sbgnText={this.state.sbgnText} name={this.state.name} datasource={this.state.datasource} />
         </div>
       );
     } else  {
