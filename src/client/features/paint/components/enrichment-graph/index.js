@@ -2,7 +2,7 @@ import React from 'react';
 import isEmpty from 'lodash.isempty';
 import {saveAs} from 'file-saver';
 
-import SideNav, { Nav, NavIcon, NavText } from 'react-sidenav';
+import {Card, CardActions, CardTitle} from 'material-ui/Card';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
@@ -30,7 +30,8 @@ export class EnrichmentGraph extends React.Component {
       height: '100vh',
       layout: defaultLayout,
       availableLayouts: [],
-      enrichmentMapEntires: []
+      enrichmentMapEntires: [],
+      drawerOpen: false
     };
   }
 
@@ -98,6 +99,12 @@ export class EnrichmentGraph extends React.Component {
     saveAs(imgBlob, this.props.name  + '.png');
   }
 
+  handleDrawerToggle() {
+    this.setState({
+      drawerOpen: !this.state.drawerOpen
+    });
+  }
+
   render() {
 
     const enrichmentMapEntires = Object.entries(
@@ -122,23 +129,25 @@ export class EnrichmentGraph extends React.Component {
     if (!this.state.graphEmpty) {
       return (
         <div className='EnrichmentGraph'>
-          <div className='Paint-sidenav'>
-            <SideNav highlightColor='#ECF0F1' highlightBgColor='#2C3E50' onItemSelection={(id, parent) => this.handleMenuSelect(id, parent)}>
+
+            <Card className='Paint-card'>
               <a href="http://pathwaycommons.org/">
-                <img src='img/pc_logo_dark.svg' className="Painter-logo" alt="logo" />
+                <img src='img/pc_logo_dark.svg' className="Paint-logo" alt="logo" />
               </a>
-              <h2>Paint</h2>
-              <h4>Pathway</h4> <h6> {this.props.name ? this.props.name : ''}</h6>
-              <h4>Datasource </h4> <h6>{this.props.datasource}</h6>
-              <Nav id='Paint-save' onClick={() => this.exportImage()}>
-                  <NavText> Save as image </NavText>
-              </Nav>
-              <Nav id='Paint-enrichment-data'>
-                  <NavText> Enrichment data </NavText>
-              </Nav>
-            </SideNav>
-          </div>
-          <Drawer open={true} openSecondary={true} width={'80%'} >
+              <h3 className='Paint-title'>Paint</h3>
+              <CardTitle className='Paint-pathwayname'>
+                <h4>Pathway</h4>
+                <div>{this.props.name}</div>
+                <h4>Datasource</h4>
+                <div>{this.props.datasource}</div>
+              </CardTitle>
+
+              <CardActions>
+                <FlatButton label='Save Image' onClick={() => this.exportImage()}/>
+                <FlatButton label='Enrichment Data' onClick={() => this.handleDrawerToggle()}/>
+              </CardActions>
+            </Card>
+          <Drawer open={this.state.drawerOpen} openSecondary={true} width={'80%'} >
            <Table>
              <TableHeader>
                <TableRow>
