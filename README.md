@@ -1,4 +1,5 @@
-# pathways-search
+# pathways-search 
+__This is now obsolete, ready-only repository__; the feature was improved and merged into [app-ui](/PathwayCommons/app-ui) apps.
 
 ## Setup and Installation
 
